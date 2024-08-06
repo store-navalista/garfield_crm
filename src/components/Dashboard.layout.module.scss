@@ -1,0 +1,13 @@
+@import '/styles/variables';
+
+.wrapper {
+   position: relative;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   box-sizing: border-box;
+   width: 100vw;
+   height: 100vh;
+   font-family: $font-1-regular;
+   padding: 40px;
+}

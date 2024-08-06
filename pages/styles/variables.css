@@ -1,0 +1,20 @@
+@layer variables {
+   body {
+      --backgroundPage: #f8f8f8;
+      --main-blue: #013f4e;
+      --main-red: #eb5757;
+      --second-blue: #5098c7;
+
+      --color-attantion: #eddf2f;
+      --color-apply: #399f02;
+
+      --border-button: solid 3px #fff;
+
+      --shadow-out: 0px 1px 4px rgba(174, 174, 192, 0.25), 2px 2px 3px rgba(174, 174, 192, 0.25);
+      --shadow-in: inset -1px -1px 1px rgba(255, 255, 255, 0.7), inset 1.5px 1.5px 1px rgba(174, 174, 192, 0.2);
+      --shadow-out-invalid: 0px 1px 4px #eb575754, 2px 2px 3px #eb57576d;
+      --shadow-aside: 4px 4px 6px 0 #d6d6d6;
+
+      --bg-textarea: #393939;
+   }
+}

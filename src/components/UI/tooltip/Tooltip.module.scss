@@ -1,0 +1,25 @@
+.tooltip {
+   position: absolute;
+   bottom: calc(-40px + var(--bottom));
+   left: calc(50% + var(--left));
+   transform: translateX(-50%);
+   background-color: var(--main-blue);
+   color: #fff;
+   padding: 5px 10px;
+   border-radius: 14px;
+   font-size: 12px;
+   text-wrap: nowrap;
+   font-family: var(--font-nunito-regular);
+   &::before {
+      position: absolute;
+      content: '';
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 6px solid var(--main-blue);
+   }
+}

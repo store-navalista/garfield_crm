@@ -1,0 +1,31 @@
+.wrapper {
+   box-sizing: border-box;
+   background-color: #fff;
+   width: 90vw;
+   height: 700px;
+   margin: 0 auto;
+   margin-bottom: 40px;
+   border-radius: 14px;
+   box-shadow: var(--shadow-aside);
+   overflow: hidden;
+   border: 2px solid #fff;
+   @media (max-width: 700px) {
+      height: 350px;
+   }
+}
+
+.marker {
+   border-radius: 50%;
+   width: 30px;
+   height: 30px;
+   padding: 4px;
+   backdrop-filter: blur(8px);
+   background-color: #ffffff18;
+   border: 2px solid #fff;
+   span {
+      display: block;
+      width: inherit;
+      height: inherit;
+      background-image: url(/assets/images/svg/logo-little.svg);
+   }
+}

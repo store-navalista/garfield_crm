@@ -1,0 +1,178 @@
+@import '/styles/variables';
+
+.wrapper {
+   position: relative;
+   .block {
+      position: relative;
+      display: block;
+      box-sizing: border-box;
+      overflow: hidden;
+      width: 400px;
+      aspect-ratio: 1;
+      border-radius: 10px;
+      background-color: #fcfcfc;
+      box-shadow: 5px 5px 12px #d1d1d17c, -5px -5px 12px #ffffff;
+      margin-bottom: 40px;
+      transition: box-shadow 0.3s;
+      color: #000;
+      @media (max-width: 420px) {
+         width: 320px;
+      }
+      &:hover {
+         box-shadow: 7px 7px 15px #d1d1d1, -7px -7px 15px #ffffff;
+      }
+      .textbox,
+      .membrane,
+      .frame {
+         box-sizing: border-box;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         width: 100%;
+         height: 100%;
+      }
+      .membrane {
+         z-index: 1;
+         transition: border-color 0.3s, backdrop-filter 0.3s;
+      }
+      .frame {
+         z-index: 10;
+         border-radius: 10px;
+         border: 3px solid #ffffff00;
+      }
+      .image {
+         border-radius: 7px;
+      }
+      .textbox {
+         display: flex;
+         flex-direction: column;
+         justify-content: space-between;
+         width: 100%;
+         height: 100%;
+         z-index: 2;
+         h2,
+         p {
+            text-align: center;
+            background-color: #fff;
+            opacity: 0;
+            transition: opacity 0.3s;
+         }
+         h2 {
+            text-transform: uppercase;
+            line-height: 1.2em;
+            font-size: 1rem;
+            color: #fff;
+            font-family: $font-1-bold;
+            backdrop-filter: blur(14px);
+            color: $color-first;
+            box-shadow: 0 0 7px #d1d1d1;
+            padding: 10px 20px;
+            opacity: 1;
+         }
+         span {
+            display: block;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+            background-image: url(/assets/images/svg/eye-solid.svg);
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 0.3s;
+         }
+         p {
+            box-sizing: border-box;
+            bottom: 0;
+            padding: 10px 20px;
+            line-height: 1.4em;
+         }
+      }
+   }
+
+   .submenu {
+      position: absolute;
+      right: -60px;
+      top: 20px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-left: 18px;
+      z-index: 0;
+      .works,
+      .brochure {
+         display: block;
+         border-radius: 50%;
+         background-repeat: no-repeat;
+         background-size: cover;
+         background-size: 45%;
+         background-position: center;
+         width: 35px;
+         height: 35px;
+         padding: 4px;
+         &:hover {
+            box-shadow: 0 0 6px #ddddddc9;
+         }
+      }
+      .works {
+         margin-bottom: 10px;
+         background-image: url(/assets/images/svg/submenu-work.svg);
+      }
+      .brochure {
+         background-size: 40%;
+         background-image: url(/assets/images/svg/submenu-brochure.svg);
+      }
+   }
+}
+
+.hover {
+   .block {
+      .membrane {
+         @media (min-width: 1366px) {
+            backdrop-filter: blur(4px) grayscale(0.8);
+         }
+      }
+      .frame {
+         border-color: #ffffff;
+      }
+      .textbox {
+         h2,
+         p {
+            opacity: 1;
+         }
+         span {
+            @media (min-width: 1366px) {
+               opacity: 1;
+            }
+         }
+      }
+      @media (max-width: 420px) {
+         .textbox {
+            h2 {
+               font-size: 16px;
+            }
+            p {
+               font-size: 12px;
+            }
+         }
+      }
+   }
+}
+
+.enter {
+   filter: blur(30px);
+}
+
+.enterActive {
+   filter: blur(0);
+   transition: filter 0.3s;
+}
+
+.exit {
+   filter: blur(0);
+}
+
+.exitActive {
+   filter: blur(30px);
+   transition: filter 0.3s;
+}

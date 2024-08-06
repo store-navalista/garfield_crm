@@ -1,0 +1,65 @@
+.properties {
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   margin-bottom: 50px;
+   .input {
+      position: relative;
+      font-family: var(--font-nunito-semibold);
+      p {
+         text-transform: capitalize;
+         font-size: 12px;
+         margin: 0 0 2px 6px;
+      }
+      input {
+         width: 300px;
+         height: 24px;
+         border-radius: 8px;
+         border: 2px solid #fff;
+         box-shadow: var(--shadow-out), var(--shadow-in);
+         outline-color: #fff;
+         padding: 4px 12px 2px;
+         color: #565656;
+         font-family: var(--font-nunito-semibold);
+      }
+      .eye {
+         position: absolute;
+         left: 336px;
+         top: 20px;
+         background-color: #fff;
+      }
+      .save {
+         position: absolute;
+         left: 10px;
+         top: 66px;
+         background-color: #fff;
+         background-image: url(/assets/images/svg/timereport-job-save.svg);
+         &:disabled {
+            opacity: 0.3;
+            cursor: default;
+         }
+         &::after {
+            position: absolute;
+            content: '';
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 2px dotted #ffffff00;
+            animation: spin 4s linear infinite;
+            @keyframes spin {
+               100% {
+                  -webkit-transform: translate(-50%, -50%) rotate(360deg);
+                  transform: translate(-50%, -50%) rotate(360deg);
+               }
+            }
+         }
+         &.isLoading {
+            opacity: 0.3;
+            &::after {
+               border-color: #000;
+            }
+         }
+      }
+   }
+}

@@ -1,0 +1,91 @@
+@import '/styles/variables';
+
+$color_1: $color-third;
+$color_2: $color-second;
+$color_3: #333;
+$color_4: #d3d636;
+
+.button {
+   font-family: $font-1-medium;
+   position: relative;
+   width: fit-content;
+   padding: 0 16px;
+   height: 38px;
+   background-color: $color_2;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 6px;
+   color: rgba(255, 255, 255, 0.5);
+   text-decoration: none;
+   letter-spacing: 0.2em;
+   font-size: 14px;
+   text-transform: uppercase;
+   font-weight: 500;
+   border-radius: 5px;
+   cursor: pointer;
+   &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $color_1;
+      transform: scaleX(0);
+      transition: transform 0.5s ease-in-out;
+      transform-origin: right;
+      border-radius: 5px;
+   }
+   & > span {
+      display: inline-block;
+      margin-top: 2px;
+      z-index: 2;
+      transition: 0.5s ease-in-out;
+      color: $color_3;
+      letter-spacing: 1px;
+   }
+   & > i {
+      position: relative;
+      display: inline-block;
+      width: 2px;
+      height: 20px;
+      background-color: $color_4;
+      transition: 0.2s, width 0.2s;
+      &::after {
+         content: '>';
+         position: absolute;
+         top: 3px;
+         right: -6px;
+         background-color: transparent;
+         color: $color_4;
+         font-weight: 800;
+         transform-origin: right;
+         opacity: 0;
+      }
+   }
+   @media (min-width: '870px') {
+      &:hover {
+         &::before {
+            transform: scaleX(1);
+            transform-origin: left;
+         }
+         span {
+            color: #fff;
+         }
+         i {
+            width: 14px;
+            height: 2px;
+            background-color: $color_4;
+            transition-delay: 0s, 0.2s, 0.4s;
+            &::after {
+               top: -6px;
+               right: -4px;
+               opacity: 1;
+               transition: opacity 1s;
+               transition-delay: 0.2s;
+            }
+         }
+      }
+   }
+}

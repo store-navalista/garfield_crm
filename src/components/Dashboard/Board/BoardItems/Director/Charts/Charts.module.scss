@@ -1,0 +1,19 @@
+.wrapper {
+   width: 100%;
+   .month {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-left: 180px;
+      button {
+         cursor: pointer;
+         background-color: #fff;
+         border: none;
+         box-shadow: var(--shadow-out);
+         width: 24px;
+         aspect-ratio: 1;
+         padding: 0;
+         border-radius: 4px;
+      }
+   }
+}

@@ -1,0 +1,49 @@
+@import '/styles/variables';
+
+.wrapper {
+   position: relative;
+   box-sizing: border-box;
+   width: 97vw;
+   height: calc(100vh - 140px);
+   margin: 0 auto;
+   border-radius: 14px;
+   background-color: #fff;
+   box-shadow: var(--shadow-aside);
+   margin-top: 10px;
+   min-height: 870px;
+   @media (max-width: $mobile) {
+      height: calc(100vh - 265px);
+      min-height: 790px;
+   }
+   .heading {
+      position: absolute;
+      top: calc(-165.1px + 225.1 * (100vw / 2560));
+      top: 50px;
+      left: 50%;
+      z-index: 2;
+      transform: translateX(-50%) scale(0.5);
+      padding: 4px 10px;
+      & > span {
+         position: absolute;
+         right: 6px;
+         bottom: -30px;
+         font-size: 24px;
+         @media (max-width: 980px) {
+            display: none;
+         }
+      }
+   }
+   .services {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 940px;
+      @media (max-width: 980px) {
+         width: 100%;
+      }
+   }
+}

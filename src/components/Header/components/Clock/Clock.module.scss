@@ -1,0 +1,27 @@
+div.clock {
+   display: flex;
+   background-color: #fff;
+   padding: 2px;
+   border-radius: 4px;
+   box-shadow: var(--shadow-out);
+   cursor: default;
+   span {
+      color: var(--main-blue);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-nunito-semibold);
+      &:nth-child(1),
+      &:nth-child(3) {
+         width: 30px;
+         height: 30px;
+         border-radius: 4px;
+         background-color: #fff;
+         box-shadow: var(--shadow-in);
+      }
+      &:nth-child(2) {
+         margin: 3px;
+      }
+   }
+}

@@ -1,0 +1,25 @@
+.wrapper {
+   width: 90vw;
+   padding: 16px;
+   margin: 0 auto;
+   .pdf_viewer {
+      overflow: auto;
+      border-radius: 16px;
+      width: 100%;
+      height: calc(100vh - 130px);
+   }
+}
+.failed {
+   height: 90lvh;
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   p {
+      font-size: 24px;
+      width: 800px;
+      padding: 10px;
+      text-align: center;
+      line-height: 1.3;
+   }
+}

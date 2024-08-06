@@ -1,0 +1,11 @@
+@import './styles/mixins';
+
+.loader {
+   @include center;
+   position: absolute;
+   width: var(--width);
+   aspect-ratio: 2;
+   z-index: 10;
+   background-image: url(/assets/images/svg/image-loader.svg);
+   background-repeat: no-repeat;
+}

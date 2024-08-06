@@ -1,0 +1,10 @@
+@layer fonts {
+   body {
+      --font-nunito-light: 'Nunito-Light', sans-serif;
+      --font-nunito-regular: 'Nunito-Regular', sans-serif;
+      --font-nunito-semibold: 'Nunito-SemiBold', sans-serif;
+      --font-nunito-bold: 'Nunito-Bold', sans-serif;
+      --font-inter-bold: 'Inter-Bold', sans-serif;
+      --font-inter-regular: 'Inter-Regular', sans-serif;
+   }
+}

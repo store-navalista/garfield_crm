@@ -1,0 +1,29 @@
+.panel {
+   align-items: center;
+   display: flex;
+   .zoom_button {
+      padding: 0px 2px;
+      button {
+         padding: 0;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         border: none;
+         background-color: var(--color-second-blue);
+         color: #fff;
+         font-size: 21px;
+         border-radius: 50%;
+         width: 30px;
+         height: 30px;
+         cursor: pointer;
+      }
+   }
+}
+
+.water_marks {
+   color: #0474295b;
+   font-weight: bold;
+   text-transform: uppercase;
+   transform: rotate(-45deg);
+   user-select: none;
+}

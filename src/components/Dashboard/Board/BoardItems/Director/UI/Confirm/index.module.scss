@@ -1,0 +1,55 @@
+.prompt {
+   box-sizing: border-box;
+   max-width: 300px;
+   box-shadow: var(--shadow-aside);
+   border: 1px solid var(--color-attantion);
+   border-radius: 24px;
+   padding: 20px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   font-family: var(--font-nunito-semibold);
+   gap: 10px;
+   background-color: #fff;
+   p {
+      text-align: center;
+      font-size: 18px;
+      line-height: 1.2;
+   }
+   .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      button {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         cursor: pointer;
+         padding: 0;
+         width: 85px;
+         height: 30px;
+         border: none;
+         font-family: var(--font-nunito-regular);
+         background-color: transparent;
+         font-size: 16px;
+         border-radius: 4px;
+         &:not(:disabled):active {
+            transform: scale(0.98);
+         }
+         &:first-child {
+            color: var(--color-apply);
+            &:hover {
+               color: #fff;
+               background-color: var(--color-apply);
+            }
+         }
+         &:last-child {
+            color: var(--main-red);
+            &:hover {
+               color: #fff;
+               background-color: var(--main-red);
+            }
+         }
+      }
+   }
+}

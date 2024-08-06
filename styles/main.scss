@@ -1,0 +1,24 @@
+@import 'null';
+@import 'variables';
+@import 'mixins';
+@import 'fonts';
+@import 'global';
+
+::-webkit-scrollbar {
+   width: 2px;
+   border-left: 1px solid rgb(224, 224, 224);
+}
+::-webkit-scrollbar-thumb {
+   background-color: $color-first;
+   border-radius: 20px;
+   border: 4px solid #fff;
+   padding: 2px;
+}
+::-webkit-scrollbar-track {
+   background: transparent;
+   border-radius: 20px;
+}
+
+html {
+   overflow-x: hidden;
+}

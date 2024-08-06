@@ -1,0 +1,37 @@
+@import '/styles/variables';
+
+.wrapper {
+   position: relative;
+   width: 100%;
+   padding-top: 200px;
+   @media (max-width: $medium) {
+      padding-top: 155px;
+   }
+   @media (max-width: $mobile) {
+      padding-top: 120px;
+   }
+   & > h2 {
+      position: absolute;
+      left: 50%;
+      top: 100px;
+      transform: translate(-50%, -50%);
+      font-family: $font-1-semi-bold;
+      font-size: 40px;
+      color: $color-first;
+      text-transform: uppercase;
+      @media (max-width: $mobile) {
+         font-size: 30px;
+         top: 74px;
+      }
+   }
+   section {
+      max-width: 1440px;
+      margin: 0 auto;
+      @media (max-width: $medium) {
+         max-width: 837px;
+      }
+      @media (max-width: 915px) {
+         max-width: 400px;
+      }
+   }
+}

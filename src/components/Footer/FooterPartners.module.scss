@@ -1,0 +1,122 @@
+@import 'styles/variables';
+
+.wrapper {
+   position: relative;
+   box-sizing: border-box;
+   width: 100%;
+   height: $footer-height;
+   background-color: $color-second;
+   margin-bottom: 25px;
+   border-top: 2px solid $color-first;
+   .block {
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+      button {
+         display: flex;
+         align-items: center;
+         background-color: $color-second;
+         border: 1px solid #ffffff3d;
+         color: #fff;
+         padding: 5px 10px;
+         border-radius: 4px;
+         cursor: pointer;
+         transition: border-color 0.3s;
+         & > span {
+            display: block;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-position: center;
+            background-repeat: no-repeat;
+         }
+         &:hover {
+            border-color: #fff;
+         }
+      }
+      .active {
+         transition: background-color 0.3s;
+         background-color: $color-first;
+         border-color: #fff;
+      }
+      .powered {
+         & > span {
+            margin-left: 10px;
+            background-image: url(/assets/images/svg/footer-handshake-solid.svg);
+         }
+      }
+      .certified {
+         & > span {
+            margin-right: 8px;
+            background-size: 80%;
+            background-image: url(/assets/images/svg/footer-certificate-solid.svg);
+         }
+      }
+      .menu {
+         position: absolute;
+         left: 50%;
+         transform: translateX(-50%);
+         display: flex;
+         gap: 25px;
+         bottom: 6px;
+         @media (max-width: 500px) {
+            gap: 20px;
+         }
+         & ~ .certified {
+            bottom: 50px;
+         }
+         & > a {
+            display: block;
+            width: 60px;
+            height: 60px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 90%;
+            cursor: pointer;
+            @media (max-width: 650px) {
+               width: 40px;
+            }
+            &[title='Rina'] {
+               width: 70px;
+               @media (max-width: 650px) {
+                  width: 50px;
+               }
+            }
+            &[title='Mediterranean Shipping Register'] {
+               width: 120px;
+               @media (max-width: 650px) {
+                  width: 80px;
+               }
+            }
+         }
+      }
+      .powered {
+         bottom: 85px;
+         & > a {
+            width: 45px;
+            @media (max-width: 650px) {
+               width: 30px;
+            }
+            &[title='NDAR'] {
+               width: 40px;
+               @media (max-width: 650px) {
+                  width: 30px;
+               }
+            }
+            &[title='Ship Constructor'] {
+               width: 180px;
+               @media (max-width: 650px) {
+                  width: 140px;
+               }
+            }
+         }
+      }
+   }
+   @media (max-width: $laptop) {
+      margin-bottom: 0;
+   }
+}

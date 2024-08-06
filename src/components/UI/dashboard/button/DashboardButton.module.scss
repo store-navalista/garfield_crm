@@ -1,0 +1,46 @@
+.wrapper {
+   .icon_btn {
+      position: relative;
+      box-sizing: border-box;
+      width: 30px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 2px solid #fff;
+      box-shadow: var(--shadow-out);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 50%;
+      cursor: pointer;
+      &:hover {
+         border-color: #e0e0e0;
+         span {
+            display: block;
+         }
+      }
+      &:disabled {
+         cursor: default;
+         filter: grayscale(1) opacity(0.5);
+      }
+      &:hover:disabled {
+         background-color: #fff;
+         span {
+            display: none;
+         }
+      }
+      span {
+         font-size: 12px;
+         display: none;
+         position: absolute;
+         left: var(--left);
+         top: var(--top);
+         transform: translateX(-50%);
+         white-space: nowrap;
+      }
+   }
+   input.file {
+      position: absolute;
+      z-index: -1;
+      visibility: hidden;
+   }
+}

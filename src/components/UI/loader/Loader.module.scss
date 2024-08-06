@@ -1,0 +1,60 @@
+@import '/styles/variables';
+
+$color: #eaeef0;
+$scale: 0.3;
+
+.wrapper {
+   position: relative;
+   width: 100%;
+   height: calc(100vh - $header-height - 100px);
+   background-color: var(--backgroundColor);
+   .box {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale($scale);
+      .loader {
+         position: relative;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         & > span {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            background-color: $color;
+            border: 6px solid $color;
+            overflow: hidden;
+            border-radius: 50%;
+            &::before {
+               content: '';
+               position: absolute;
+               inset: 40px;
+               background: $color;
+               border-radius: 50%;
+               box-shadow: -8px -8px 25px rgba(255, 255, 255, 1), 8px 8px 25px rgba(0, 0, 0, 0.25),
+                  inset 3px 3px 10px rgba(0, 0, 0, 0.1), inset -1px -1px 15px rgba(255, 255, 255, 1);
+               border: 2px solid $color;
+               z-index: 1;
+            }
+            & > i {
+               position: absolute;
+               inset: 0;
+               background: linear-gradient($color-first, $color-third, $color-second);
+               border-radius: 50%;
+               filter: blur(5px);
+               animation: rotate 0.5s linear infinite;
+            }
+         }
+      }
+   }
+}
+
+@keyframes rotate {
+   0% {
+      transform: rotate(0deg);
+   }
+   100% {
+      transform: rotate(360deg);
+   }
+}

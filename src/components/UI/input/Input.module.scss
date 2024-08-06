@@ -1,0 +1,30 @@
+input.input {
+   --input-color: #000;
+   box-sizing: border-box;
+   border: 2px solid #ffffff00;
+   box-shadow: var(--shadow-out);
+   height: var(--day-icon-size);
+   border-radius: 18px;
+   margin-right: var(--gap);
+   font-size: 12px;
+   padding: 15px 12px 13px;
+   width: 350px;
+   color: var(--input-color);
+   outline-color: var(--second-blue);
+   &::placeholder {
+      color: #aaaaaa;
+   }
+   &:focus::placeholder {
+      color: #fff;
+   }
+   &[data-type='s'] {
+      width: 250px;
+      padding: 12px;
+      border-radius: 8px;
+   }
+   &:disabled {
+      background-color: #fff;
+      color: #5d5d5d;
+      border: 2px solid var(--second-blue);
+   }
+}

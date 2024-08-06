@@ -1,0 +1,77 @@
+.field {
+   display: flex;
+   gap: 8px;
+   .input {
+      position: relative;
+      display: flex;
+      box-shadow: var(--shadow-out);
+      border-radius: 16px;
+      align-items: center;
+      label {
+         display: flex;
+         font-size: 12px;
+         background-color: #393939;
+         color: #fff;
+         padding: 8px 4px 8px 8px;
+         width: 12px;
+         border-radius: 16px 0 0 16px;
+         &[data-label='labeled'] {
+            width: auto;
+         }
+         img {
+            filter: invert(1);
+         }
+      }
+      input {
+         box-sizing: border-box;
+         outline: none;
+         border: none;
+         width: 180px;
+         border-radius: 0 16px 16px 0;
+         padding-left: 6px;
+         font-family: var(--font-nunito-semibold);
+         &::placeholder {
+            font-size: 12px;
+            color: #c2c2c2;
+         }
+      }
+      .show {
+         position: absolute;
+         right: 4px;
+         top: 50%;
+         transform: translateY(-50%);
+         width: 25px;
+         height: 25px;
+         border: none;
+         border-radius: 50%;
+         background-repeat: no-repeat;
+         background-position: center;
+         background-size: 70%;
+         background-color: transparent;
+         cursor: pointer;
+      }
+      span {
+         display: block;
+         width: 25px;
+         height: 25px;
+         border-radius: 50%;
+         position: absolute;
+         right: 3px;
+         background-image: url(/assets/images/svg/input-locked.svg);
+         background-repeat: no-repeat;
+         background-position: center;
+         background-size: 40%;
+         opacity: 0.6;
+      }
+   }
+   .input_invalid {
+      box-shadow: var(--shadow-out-invalid);
+   }
+   [data-type='id'] {
+      padding-top: 1px;
+      input {
+         color: #cdcdcd;
+         width: 90px;
+      }
+   }
+}

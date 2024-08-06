@@ -1,0 +1,15 @@
+.progressBar {
+   width: 120px;
+   height: 4px;
+   display: flex;
+   border-radius: 8px;
+   background-color: #fff;
+   border: var(--border-button);
+   box-shadow: var(--shadow-out), var(--shadow-in);
+   span {
+      background-color: var(--main-red);
+      height: 100%;
+      width: var(--progress);
+      border-radius: 6px;
+   }
+}

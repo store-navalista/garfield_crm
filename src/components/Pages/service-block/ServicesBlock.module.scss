@@ -1,0 +1,24 @@
+@import '/styles/variables';
+
+.wrapper {
+   width: 100%;
+   h3 {
+      font-size: 18px;
+      padding: 7px;
+      text-align: center;
+      margin-bottom: 40px;
+      font-family: $font-1-semi-bold;
+      text-transform: uppercase;
+      box-shadow: 5px 5px 10px #d1d1d1;
+      background-color: $color-second;
+      color: #fff;
+   }
+   .block {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      @media (max-width: 420px) {
+         justify-content: center;
+      }
+   }
+}

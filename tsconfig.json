@@ -1,0 +1,25 @@
+{
+   "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+         "@/*": ["./src/*"],
+         "@/img/*": ["/assets/images"]
+      },
+      "target": "es5",
+      "lib": ["dom", "dom.iterable", "esnext"],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "strict": false,
+      "forceConsistentCasingInFileNames": true,
+      "noEmit": true,
+      "incremental": true,
+      "esModuleInterop": true,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "jsx": "preserve"
+   },
+   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "additional.d.ts", "pages/global-error.js"],
+   "exclude": ["node_modules", "next.config.js", "environment.d.ts", ".next"]
+}

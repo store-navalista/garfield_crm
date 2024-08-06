@@ -1,0 +1,70 @@
+@import '/styles/variables';
+
+$color: #eaeef0;
+$scale: 0.5;
+
+.wrapper {
+   align-self: center;
+   .box {
+      transform: scale($scale);
+      .loader {
+         position: relative;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         & > span {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            background-color: $color;
+            border: 6px solid $color;
+            box-shadow: -8px -8px 15px rgba(255, 255, 255, 1), 8px 8px 25px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            border-radius: 50%;
+            &::before {
+               content: '';
+               position: absolute;
+               inset: 18px;
+               background: $color;
+               border-radius: 50%;
+               box-shadow: -8px -8px 25px rgba(255, 255, 255, 1), 8px 8px 25px rgba(0, 0, 0, 0.25),
+                  inset 3px 3px 10px rgba(0, 0, 0, 0.1), inset -1px -1px 15px rgba(255, 255, 255, 1);
+               border: 2px solid $color;
+               z-index: 1;
+            }
+            & > i {
+               position: absolute;
+               inset: 0;
+               background: linear-gradient($color-first, $color-third, $color-second);
+               border-radius: 50%;
+               filter: blur(5px);
+               animation: rotate 0.5s linear infinite;
+            }
+            .icon {
+               position: absolute;
+               left: 50%;
+               top: 50%;
+               z-index: 2;
+               transform: translate(-50%, -50%);
+               width: 120px;
+               height: 120px;
+               padding: 20px;
+               background-size: 60%;
+               background-repeat: no-repeat;
+               background-position: center;
+               border-radius: 50%;
+               transition: box-shadow 0.3s, transform 0.3s;
+            }
+         }
+      }
+   }
+}
+
+@keyframes rotate {
+   0% {
+      transform: rotate(0deg);
+   }
+   100% {
+      transform: rotate(360deg);
+   }
+}

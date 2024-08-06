@@ -1,0 +1,16 @@
+button.play_button {
+   cursor: pointer;
+   width: 30px;
+   height: 30px;
+   border-radius: 50%;
+   border: 2px solid #fff;
+   box-shadow: var(--shadow-out), var(--shadow-in);
+   background-color: #fff;
+   background-size: 50%;
+   background-repeat: no-repeat;
+   background-position: center;
+   transition: box-shadow 0.3s;
+   &[data-enable='true'] {
+      box-shadow: var(--shadow-out);
+   }
+}
