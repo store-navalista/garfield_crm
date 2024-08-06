@@ -1,4 +1,5 @@
 module.exports = {
+   distDir: 'build',
    webpack(config, { defaultLoaders }) {
       config.module.rules.push({
          test: /\.md$/,

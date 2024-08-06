@@ -1,7 +1,7 @@
 module.exports = {
   apps: [{
     name: "crm_frontend",
-    script: "./dist/main.js",
+    script: "./build/main.js",
     cwd: "/var/apps/garfield_crm",
     watch: false,
     env: {
