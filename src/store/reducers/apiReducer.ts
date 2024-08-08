@@ -25,7 +25,7 @@ interface UpdateJobsData {
 
 export const api = createApi({
    baseQuery: graphqlRequestBaseQuery({
-      url: process.env.NEXT_PUBLIC_API,
+      url: '/graphql',
       prepareHeaders: (headers) => {
          const token = Cookies.get('token')
 
