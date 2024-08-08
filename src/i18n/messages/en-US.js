@@ -144,6 +144,7 @@ export default {
 
       'unexpected_error': 'Unexpected error',
       'i18n_error': 'i18n error',
-      'network_request_failed': 'Network error'
+      'network_request_failed': 'Network error',
+      'not-desktop': 'At the moment the application is only available in the desktop version. Namely, the screen width should be at least 1440px!'
    }
 }
