@@ -55,6 +55,7 @@ export default {
       'dashboard.nav-ctoProperty': 'CTO данные',
       'dashboard.nav-return': 'Вернуться на сайт',
       'dashboard.nav-greating': 'Меню',
+      'dashboard.nav-video': 'Видео',
       'dashboard.nav-charts': 'Графики',
       'dashboard.nav-holidayCalendar': 'Календарь',
 

@@ -1,6 +1,6 @@
 import { useAppSelector } from '@/hooks/redux'
 import useUserByID from '@/hooks/useUserByID'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import css from './Board.module.scss'
 import Account from './BoardItems/Account'
 import CTOProperty from './BoardItems/CTOProperty/CTOProperty'
@@ -15,6 +15,7 @@ import Time from './BoardItems/Time/Time'
 import { useGetUsersQuery } from '@/store/reducers/apiReducer'
 import { IUser } from '@/constants/users'
 import PDF from './BoardItems/PDF/PDF'
+import Video from './BoardItems/Video/Video'
 
 const BoardList: FC<{ isOpen: boolean }> = ({ isOpen }) => {
    const type = useAppSelector((state) => state.reducer.dashboard.dashboardItems)
@@ -44,6 +45,7 @@ const BoardList: FC<{ isOpen: boolean }> = ({ isOpen }) => {
          {type.charts ? <Charts /> : null}
          {type.holidayCalendar ? <HolidayCalendar /> : null}
          {type.pdf ? <PDF /> : null}
+         {type.video ? <Video /> : null}
       </div>
    )
 }

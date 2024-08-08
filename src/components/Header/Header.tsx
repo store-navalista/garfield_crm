@@ -7,7 +7,6 @@ import Cabinet from './components/Cabinet/Cabinet'
 import Logout from './components/Cabinet/Logout'
 import Clock from './components/Clock/Clock'
 import Logo from './components/Logo/Logo'
-import MenuMobile from './components/MenuMobile/MenuMobile'
 import ProgressBar from './components/ProgressBar/ProgressBar'
 import QuickPanel from './components/QuickPanel/QuickPanel'
 
@@ -30,8 +29,6 @@ const Header: FC<ILayoutComponentProps> = () => {
    return (
       <header className={css.wrapper}>
          <div className={css.leftBlock}>
-            <MenuMobile />
-            {/* <Logo type='decor' /> */}
             <Clock />
             <div className={css.auth}>
                <Cabinet />

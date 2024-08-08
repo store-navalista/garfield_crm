@@ -16,7 +16,7 @@ const HolidayCalendar: FC = () => {
    const days = timeService.getDaysOfMonth(currentDate)
    const week_days_i18n = useMemo(() => week_days[i18n], [i18n])
    const currentMonthNumber = `${(currentDate.getMonth() + 1).toString().padStart(2, '0')}`
-   const { data: users, isLoading, isError } = useGetUsersQuery()
+   const { data: users, isLoading } = useGetUsersQuery()
    const [desc, setDesc] = useState('')
 
    const formatted_days = useMemo(() => {
@@ -28,7 +28,7 @@ const HolidayCalendar: FC = () => {
       return new_arr
    }, [currentDate])
 
-   if (isLoading || isError) return <></>
+   if (isLoading || !users) return <></>
 
    const changeMonth = (func: 'getPreviousMonth' | 'getNextMonth') => {
       setCurrentDate((prevDate) => timeService[func](prevDate))

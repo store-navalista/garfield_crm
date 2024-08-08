@@ -55,6 +55,7 @@ export default {
       'dashboard.nav-ctoProperty': 'Property CTO',
       'dashboard.nav-return': 'Return to site',
       'dashboard.nav-greating': 'Dashboard',
+      'dashboard.nav-video': 'Video',
       'dashboard.nav-charts': 'Charts',
       'dashboard.nav-holidayCalendar': 'Calendar',
 

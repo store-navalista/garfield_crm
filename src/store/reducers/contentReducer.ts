@@ -1,14 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import axios from 'axios'
-
-// const fetchItem = async () => {
-// 	const fetched = await axios.get('/api/cookies');
-// 	return fetched;
-// };
-
-// export const getCookies = createAsyncThunk('cookies', async () =>
-// 	fetchItem(),
-// );
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface IMediaQuery {
    isLaptop: boolean | undefined

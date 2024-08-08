@@ -29,10 +29,6 @@ export const api = createApi({
       prepareHeaders: (headers) => {
          const token = Cookies.get('token')
 
-         // headers.set('Content-Type', 'application/json')
-         // headers.set('Accept', 'application/json')
-         // headers.set('access-control-request-headers', 'authorization,content-type')
-
          if (token) {
             headers.set('authorization', `Bearer ${token}`)
          }

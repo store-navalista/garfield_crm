@@ -9,10 +9,10 @@ export type TID =
    | 'timing'
    | 'CTO'
    | 'logout'
-   | 'return'
    | 'charts'
    | 'holidayCalendar'
    | 'pdf'
+   | 'video'
 
 export type TBoardItem = {
    id: TID
@@ -29,9 +29,9 @@ const nav: TBoardItems = [
       title: 'dashboard.nav-greating'
    },
    {
-      id: 'return',
-      icon: 'dashboard-nav-return.svg',
-      title: 'dashboard.nav-return'
+      id: 'video',
+      icon: 'dashboard-nav-video.svg',
+      title: 'dashboard.nav-video'
    },
    {
       id: 'ctoProperty',
@@ -91,22 +91,11 @@ const nav: TBoardItems = [
 ]
 
 const items = {
-   CTO: [
-      'greating',
-      'account',
-      'employees',
-      'timing',
-      'qr',
-      'pdf',
-      'radio',
-      'charts',
-      'return',
-      'holidayCalendar',
-      'logout'
-   ],
-   Employee: ['greating', 'account', 'time', 'qr', 'pdf', 'radio', 'return', 'holidayCalendar', 'logout'],
+   CTO: ['greating', 'video', 'account', 'employees', 'timing', 'qr', 'radio', 'charts', 'holidayCalendar', 'logout'],
+   Employee: ['greating', 'video', 'account', 'time', 'qr', 'radio', 'holidayCalendar', 'logout'],
    Moderator: [
       'greating',
+      'video',
       'ctoProperty',
       'CTO',
       'employees',
@@ -116,7 +105,6 @@ const items = {
       'pdf',
       'radio',
       'charts',
-      'return',
       'holidayCalendar',
       'logout'
    ]

@@ -21,11 +21,15 @@
       border-radius: 36px;
       box-shadow: var(--shadow-out);
       max-width: 250px;
+      border: 2px solid #fff;
       & > div {
          display: flex;
          background-color: #fff;
          border-radius: 18px;
          overflow: hidden;
+         &:first-child {
+            border: 2px solid #fff;
+         }
       }
       .describe {
          display: flex;

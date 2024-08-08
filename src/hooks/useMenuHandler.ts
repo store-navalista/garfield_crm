@@ -1,14 +1,12 @@
 import { TID } from '@/constants/dashboard'
 import { useAppDispatch, useAppSelector } from '@/hooks/redux'
 import { DashboardActions } from '@/store/reducers/dashboardReducer'
-import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
 
 export const useMenuHandler = (id: TID) => {
    const dispatch = useAppDispatch()
    const dashboarItems = useAppSelector((state) => state.reducer.dashboard.dashboardItems)
    const [, , removeCookie] = useCookies()
-   const router = useRouter()
 
    const setItem = () => {
       const items = { ...dashboarItems }
@@ -35,10 +33,6 @@ export const useMenuHandler = (id: TID) => {
             }
 
             dispatch(DashboardActions.setDahsboardItems(items))
-            break
-         }
-         case 'return': {
-            router.push({ pathname: '/' })
             break
          }
          default:

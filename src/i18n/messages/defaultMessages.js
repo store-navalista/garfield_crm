@@ -52,6 +52,7 @@ export default {
    'dashboard.nav-ctoProperty': { defaultMessage: 'Property CTO' },
    'dashboard.nav-return': { defaultMessage: 'Return to site' },
    'dashboard.nav-greating': { defaultMessage: 'Dashboard' },
+   'dashboard.nav-video': { defaultMessage: 'Video' },
    'dashboard.nav-charts': { defaultMessage: 'Charts' },
    'dashboard.nav-holidayCalendar': { defaultMessage: 'Calendar' },
 

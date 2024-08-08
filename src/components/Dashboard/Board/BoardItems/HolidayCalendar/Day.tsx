@@ -1,9 +1,9 @@
-import { useAppSelector } from '@/hooks/redux'
-import React, { FC, useEffect, useMemo, useRef, useState } from 'react'
-import css from './HolidayCalendar.module.scss'
-import useHover from '@/hooks/useHover'
-import { DayType } from '../Time/services'
 import { IUser } from '@/constants/users'
+import { useAppSelector } from '@/hooks/redux'
+import useHover from '@/hooks/useHover'
+import React, { FC, useEffect, useRef } from 'react'
+import { DayType } from '../Time/services'
+import css from './HolidayCalendar.module.scss'
 
 const translate = {
    en: ['Day:', 'Name:', 'How old are you turning?:'],
