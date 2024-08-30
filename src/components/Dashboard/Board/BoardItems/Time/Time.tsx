@@ -1,5 +1,5 @@
 import Loader from '@/components/UI/loader/Loader'
-import { COMMON_CELL } from '@/constants/dashboard'
+import { COMMON_CELL, NARROW_CELL } from '@/constants/dashboard'
 import { IJob } from '@/constants/jobs'
 import { useAppSelector } from '@/hooks/redux'
 import useUserByID from '@/hooks/useUserByID'
@@ -26,6 +26,7 @@ interface IJobDataAction {
       | 'reset'
       | 'reload'
       | 'add_common'
+      | 'add_narrow_profile'
    payload: { val: any; index: number } | number | string | ''
 }
 
@@ -98,6 +99,9 @@ const Time: FC = () => {
          }
          case 'add_common': {
             return [{ ...empty_job, project_number: COMMON_CELL, order: -1 }, ...state]
+         }
+         case 'add_narrow_profile': {
+            return [{ ...empty_job, project_number: NARROW_CELL, order: -1 }, ...state]
          }
          case 'remove': {
             if (state[action.payload as number].project_number === COMMON_CELL) {

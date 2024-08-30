@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC, useEffect } from 'react'
 import css from '../Timing.module.scss'
 import { JobProps } from '../Timing'
-import { COMMON_CELL } from '@/constants/dashboard'
+import { COMMON_CELL, NARROW_CELL } from '@/constants/dashboard'
 import Services from '../../../Time/TimeJob/services'
 
 const Job: FC<JobProps> = ({ currentJob, days }) => {
@@ -20,14 +20,24 @@ const Job: FC<JobProps> = ({ currentJob, days }) => {
       }
    }
 
+   const getProjectNumber = (() => {
+      switch (project_number) {
+         case COMMON_CELL:
+            return ['Common', '', '']
+         case NARROW_CELL:
+            return ['Other', '', job_description]
+         default:
+            return [project_number, ship_name, job_description]
+      }
+   })()
+
    const sum = hours_worked.reduce((acc, current) => (current > 0 ? acc + current : acc), 0)
-   const info = project_number !== COMMON_CELL ? [project_number, ship_name, job_description] : ['Common', '', '']
    const comments = new Services({ job_description }).unpackComments()
 
    return (
       <div className={css.row}>
          <p></p>
-         {info.map((p, i) => (
+         {getProjectNumber.map((p, i) => (
             <p key={p + i}>{p}</p>
          ))}
          <div className={css.days}>

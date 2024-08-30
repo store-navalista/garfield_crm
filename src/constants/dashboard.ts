@@ -121,3 +121,4 @@ export const week_days = {
 }
 
 export const COMMON_CELL = '_common_tasks'
+export const NARROW_CELL = '_narrow_profile_tasks'

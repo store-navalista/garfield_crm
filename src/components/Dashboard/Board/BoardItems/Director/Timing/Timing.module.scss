@@ -8,6 +8,13 @@
       font-size: 20px;
       font-family: var(--font-nunito-semibold);
    }
+   button.download_qreport {
+      width: 30px;
+      height: 30px;
+      border-radius: 12px;
+      border: none;
+      background-color: green;
+   }
    .timing {
       position: relative;
       --first-cell: rgb(250, 250, 250);

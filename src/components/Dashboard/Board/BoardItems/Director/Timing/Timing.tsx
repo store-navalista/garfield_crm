@@ -11,6 +11,7 @@ import Job from './Components/Job'
 import Person from './Components/Person'
 import css from './Timing.module.scss'
 import { COMMON_CELL } from '@/constants/dashboard'
+import { ExportExcel } from './ExportExcel'
 
 type Days = { days: ReturnType<TimeService['getDaysOfMonth']> }
 
@@ -114,6 +115,7 @@ const Timing: FC = () => {
                )
             })}
          </div>
+         {/* <ExportExcel users={users} currentDate={currentDate} fileName='dfgdfgfdg' /> */}
       </div>
    )
 }

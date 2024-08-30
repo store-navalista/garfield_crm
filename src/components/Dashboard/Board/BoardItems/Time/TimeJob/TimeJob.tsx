@@ -1,5 +1,5 @@
 import { Input } from '@/components/UI/input/Input'
-import { COMMON_CELL } from '@/constants/dashboard'
+import { COMMON_CELL, NARROW_CELL } from '@/constants/dashboard'
 import { IJob } from '@/constants/jobs'
 import useHover from '@/hooks/useHover'
 import translate from '@/i18n/translate'
@@ -46,31 +46,21 @@ const TimeJob: FC<ITimeJob> = ({ j, days, index, updateJobs, isCommonTasks }) =>
    const margin = index === 0 ? '25px' : index === 0 || (index === 1 && isCommonTasks) ? '30px' : '20px'
    const comments = isCommonJob ? new Services({ job_description: j.job_description }).unpackComments() : null
 
-   return (
-      <div className={css.job} style={{ marginTop: margin }}>
-         <div className={css.desc}>
-            <button ref={ref} className={css.remove} onClick={() => updateJobs({ type: 'remove', payload: index })} />
-            {j.project_number !== COMMON_CELL ? (
-               fields.map((f) => {
-                  const { field, styles, options } = f
-
-                  return (
-                     <div className={css.inputs} key={field}>
-                        {index === 0 || (index === 1 && isCommonTasks) ? (
-                           <span>{translate(`dashboard.timereport-job-${field}`)}</span>
-                        ) : null}
-                        <Input
-                           type='l'
-                           className={css.job_name}
-                           style={styles as CSSProperties}
-                           value={j[field]}
-                           placeholder={options.ph}
-                           onChange={(e) => updateJobs({ type: field, payload: { val: e.target.value, index } })}
-                        />
-                     </div>
-                  )
-               })
-            ) : (
+   const currentField = (project_number: string) => {
+      switch (project_number) {
+         case NARROW_CELL:
+            return (
+               <div className={css.inputs + ' ' + css.fill}>
+                  <Input
+                     type='l'
+                     className={css.job_name}
+                     value={j.job_description}
+                     onChange={(e) => updateJobs({ type: 'job_description', payload: { val: e.target.value, index } })}
+                  />
+               </div>
+            )
+         case COMMON_CELL:
+            return (
                <div className={css.inputs + ' ' + css.fill}>
                   <span>{translate('dashboard.timereport-job-common-tasks')}</span>
                   <Input
@@ -80,7 +70,35 @@ const TimeJob: FC<ITimeJob> = ({ j, days, index, updateJobs, isCommonTasks }) =>
                      disabled
                   />
                </div>
-            )}
+            )
+         default:
+            return fields.map((f) => {
+               const { field, styles, options } = f
+
+               return (
+                  <div className={css.inputs} key={field}>
+                     {index === 0 || (index === 1 && isCommonTasks) ? (
+                        <span>{translate(`dashboard.timereport-job-${field}`)}</span>
+                     ) : null}
+                     <Input
+                        type='l'
+                        className={css.job_name}
+                        style={styles as CSSProperties}
+                        value={j[field]}
+                        placeholder={options.ph}
+                        onChange={(e) => updateJobs({ type: field, payload: { val: e.target.value, index } })}
+                     />
+                  </div>
+               )
+            })
+      }
+   }
+
+   return (
+      <div className={css.job} style={{ marginTop: margin }}>
+         <div className={css.desc}>
+            <button ref={ref} className={css.remove} onClick={() => updateJobs({ type: 'remove', payload: index })} />
+            {currentField(j.project_number)}
             <p>{sum}</p>
          </div>
          <ul style={{ opacity: isHover ? 0.3 : 1 }}>

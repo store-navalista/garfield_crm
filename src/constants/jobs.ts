@@ -17,6 +17,7 @@ export const JC: IJS = {
    NAV: [
       { name: 'add', type: 'icon-btn' },
       { name: 'add_common', type: 'icon-btn' },
+      { name: 'add_narrow_profile', type: 'icon-btn' },
       // { name: 'save', type: 'icon-btn' },
       // { name: 'download', type: 'file-btn' },
       // { name: 'upload', type: 'icon-btn' },

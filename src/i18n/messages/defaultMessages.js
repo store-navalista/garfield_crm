@@ -66,6 +66,7 @@ export default {
    'dashboard.timereport-title': { defaultMessage: 'Time Report' },
    'dashboard.timereport-job-add': { defaultMessage: 'Add job' },
    'dashboard.timereport-job-add_common': { defaultMessage: 'Add common tasks' },
+   'dashboard.timereport-job-add_narrow_profile': { defaultMessage: 'Add narrow-profile task' },
    'dashboard.timereport-job-save': { defaultMessage: 'Save report locally' },
    'dashboard.timereport-job-download': { defaultMessage: 'Download the report file' },
    'dashboard.timereport-job-upload': { defaultMessage: 'Save report to file' },

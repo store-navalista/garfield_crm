@@ -69,6 +69,7 @@ export default {
       'dashboard.timereport-title': 'Отчеты времени',
       'dashboard.timereport-job-add': 'Добавить работу',
       'dashboard.timereport-job-add_common': 'Добавить общие задачи',
+      'dashboard.timereport-job-add_narrow_profile': 'Добавить специфическую задачу',
       'dashboard.timereport-job-save': 'Сохранить отчет локально',
       'dashboard.timereport-job-download': 'Загрузить отчет',
       'dashboard.timereport-job-upload': 'Сохранить отчет в файл',

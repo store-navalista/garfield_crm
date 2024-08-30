@@ -21,6 +21,8 @@ const TimeNavigate: FC<ITimeNavigate> = ({ updateJobs, isCommonTasks }) => {
             return () => updateJobs({ type: 'add', payload: '' })
          case 'add_common':
             return () => updateJobs({ type: 'add_common', payload: '' })
+         case 'add_narrow_profile':
+            return () => updateJobs({ type: 'add_narrow_profile', payload: '' })
          case 'reset':
             return () => {
                const result = confirm('Are you sure?')
@@ -48,6 +50,17 @@ const TimeNavigate: FC<ITimeNavigate> = ({ updateJobs, isCommonTasks }) => {
       //    }
    }
 
+   const getOptions = (type: string): { scale: string } => {
+      switch (type) {
+         case 'add_common':
+            return { scale: '65%' }
+         case 'add_narrow_profile':
+            return { scale: '65%' }
+         default:
+            return { scale: '50%' }
+      }
+   }
+
    return (
       <div className={css.wrapper}>
          <nav className={css.nav}>
@@ -59,7 +72,7 @@ const TimeNavigate: FC<ITimeNavigate> = ({ updateJobs, isCommonTasks }) => {
                   <Buttons.DashboardButton
                      style={{
                         backgroundImage: `url(/assets/images/svg/timereport-job-${name}.svg)`,
-                        backgroundSize: name === 'add_common' ? '65%' : '50%'
+                        backgroundSize: getOptions(name).scale
                      }}
                      key={name}
                      disabled={name === 'add_common' && isCommonTasks}
