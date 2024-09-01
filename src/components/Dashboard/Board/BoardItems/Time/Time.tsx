@@ -7,7 +7,7 @@ import translate from '@/i18n/translate'
 import { useGetJobsByUserIdAndPeriodQuery, useUpdateJobsByUserIdAndPeriodMutation } from '@/store/reducers/apiReducer'
 import _ from 'lodash'
 import Image from 'next/image'
-import React, { CSSProperties, FC, Fragment, useEffect, useMemo, useReducer, useState } from 'react'
+import React, { CSSProperties, FC, Fragment, useEffect, useLayoutEffect, useMemo, useReducer, useState } from 'react'
 import css from '../Boards.module.scss'
 import TimeHeader from './TimeHeader/TimeHeader'
 import TimeJob from './TimeJob/TimeJob'
@@ -114,7 +114,9 @@ const Time: FC = () => {
             }
 
             const filtered = [...state].filter((j) => j.project_number !== COMMON_CELL)
-            return filtered.length <= 1 ? state : [...state].filter((_, i) => i !== action.payload)
+            return filtered.length <= 1
+               ? state
+               : [...state].filter((_, i) => i !== action.payload).map((j, i) => ({ ...j, order: i + 1 }))
          }
          case 'reload':
             return [...sortedData]
@@ -158,11 +160,11 @@ const Time: FC = () => {
       findCommonTasks()
    }, [currentDate, jobs])
 
-   useEffect(() => {
+   useLayoutEffect(() => {
       if (jobs?.length) {
          updateJobs({ type: 'sort', payload: '' })
       }
-   }, [jobs.length])
+   }, [jobs?.length])
 
    const timeServiceProps = {
       timeService,
