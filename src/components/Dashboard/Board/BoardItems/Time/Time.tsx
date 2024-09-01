@@ -13,6 +13,7 @@ import TimeHeader from './TimeHeader/TimeHeader'
 import TimeJob from './TimeJob/TimeJob'
 import TimeNavigate from './TimeNavigate/TimeNavigate'
 import TimeService from './services'
+import { clearJobs } from './TimeNavigate/job-services'
 
 interface IJobDataAction {
    type:
@@ -27,6 +28,7 @@ interface IJobDataAction {
       | 'reload'
       | 'add_common'
       | 'add_narrow_profile'
+      | 'sort'
    payload: { val: any; index: number } | number | string | ''
 }
 
@@ -93,15 +95,17 @@ const Time: FC = () => {
             return updateProperty('order')
          }
          case 'add': {
-            return !state
-               ? [{ ...empty_job, order: 0 }]
-               : [...state, { ...empty_job, order: state[state.length - 1]?.order + 1 }]
+            return !state ? [{ ...empty_job, order: 0 }] : [...state, { ...empty_job, order: state.length + 1 }]
          }
          case 'add_common': {
             return [{ ...empty_job, project_number: COMMON_CELL, order: -1 }, ...state]
          }
          case 'add_narrow_profile': {
-            return [{ ...empty_job, project_number: NARROW_CELL, order: -1 }, ...state]
+            return [{ ...empty_job, project_number: NARROW_CELL, order: state.length + 1 }, ...state]
+         }
+         case 'sort': {
+            const sorted = state.sort((a, b) => a.order - b.order)
+            return [...sorted]
          }
          case 'remove': {
             if (state[action.payload as number].project_number === COMMON_CELL) {
@@ -154,6 +158,12 @@ const Time: FC = () => {
       findCommonTasks()
    }, [currentDate, jobs])
 
+   useEffect(() => {
+      if (jobs?.length) {
+         updateJobs({ type: 'sort', payload: '' })
+      }
+   }, [jobs.length])
+
    const timeServiceProps = {
       timeService,
       currentDate,
@@ -167,7 +177,8 @@ const Time: FC = () => {
    }
 
    const sendReport = async () => {
-      const updateJobsData = { userId: user?.id, period, jobs }
+      const cleaned_from_empty = clearJobs(jobs)
+      const updateJobsData = { userId: user?.id, period, jobs: cleaned_from_empty }
       const result = await sendData(updateJobsData)
 
       if ('error' in result) return
