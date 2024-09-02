@@ -9,7 +9,7 @@ const BoardViewport: FC<{ isOpen: boolean }> = ({ isOpen }) => {
       if (isOpen) {
          setWidthStyle({ '--width': 'calc(100% - 300px)' } as CSSProperties)
       } else {
-         setWidthStyle({ '--width': 'calc(100% - 40px' } as CSSProperties)
+         setWidthStyle({ '--width': 'calc(100% - 40px)' } as CSSProperties)
       }
    }, [isOpen])
 

@@ -27,7 +27,6 @@ const Video: FC = () => {
       <div className={css.video}>
          {videos.map((v) => {
             const { path, name } = v
-            console.log(path)
 
             return (
                <div key={v.name} className={css.block}>

@@ -52,6 +52,9 @@ button.login {
       margin: auto 0;
       padding: 0 60px;
       box-shadow: 0 0 4px 4px #efefef;
+      @media (max-width: 1200px) {
+         padding: 0 20px;
+      }
       .logo {
          width: 30px;
          height: 36px;

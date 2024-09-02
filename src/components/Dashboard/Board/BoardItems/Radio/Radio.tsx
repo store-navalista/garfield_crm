@@ -4,12 +4,14 @@ import { RadioActions } from '@/store/reducers/radioReducer'
 import React, { FC, Fragment, useCallback, useEffect } from 'react'
 import css from '../Boards.module.scss'
 import Station from './Station'
+import { useMediaQuery } from 'react-responsive'
 
 const Radio: FC = () => {
    const radioData = useAppSelector((state) => state.reducer.radio)
    const dispatch = useAppDispatch()
    const currentStation = STATIONS.filter((s) => s.id === radioData.current.id)[0]
    const aside_station = currentStation?.meta_type && radioData.description[0]
+   const W1200 = useMediaQuery({ query: '(max-width: 1200px)' })
 
    let metadata = radioData.description
 
@@ -37,9 +39,11 @@ const Radio: FC = () => {
 
    const fetchData = useCallback(async () => {
       try {
-         const response = await fetch(radioData.current.meta)
-         const result = await response.json()
-         if (result) dispatch(RadioActions.setDescription(result))
+         if (radioData.current.meta) {
+            const response = await fetch(radioData.current.meta)
+            const result = await response.json()
+            if (result) dispatch(RadioActions.setDescription(result))
+         }
       } catch (error) {
          dispatch(RadioActions.setDescription({ title: 'Unknown', artist: 'Unknown' }))
          console.error('Error fetching data:', error)
@@ -65,11 +69,13 @@ const Radio: FC = () => {
                )
             })}
          </div>
-         <div className={css.description}>
-            <h2>{currentStation?.title ?? 'Station'}</h2>
-            <h3>{artist}</h3>
-            <p>{title}</p>
-         </div>
+         {!W1200 ? (
+            <div className={css.description}>
+               <h2>{currentStation?.title ?? 'Station'}</h2>
+               <h3>{artist}</h3>
+               <p>{title}</p>
+            </div>
+         ) : null}
       </div>
    )
 }

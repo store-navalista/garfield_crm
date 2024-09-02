@@ -25,6 +25,16 @@
    &:hover {
       box-shadow: var(--shadow-out), var(--shadow-in);
    }
+   @media (max-width: 700px) {
+      position: fixed;
+      width: 54px;
+      top: 40px;
+      left: 0;
+      border-radius: 0 8px 8px 0;
+      padding-left: 10px;
+      transform: translateX(-4px);
+      box-shadow: var(--shadow-out), var(--shadow-in);
+   }
    & > div {
       position: relative;
       width: 100%;

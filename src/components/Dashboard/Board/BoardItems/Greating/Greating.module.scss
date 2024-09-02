@@ -8,6 +8,12 @@
    & > div {
       position: relative;
       transform: translateY(27px);
+      @media (max-width: 700px) {
+         transform: none;
+         display: flex;
+         flex-direction: column;
+         gap: 24px;
+      }
       .image {
          border-radius: 25px;
          outline: 4px solid #fff;
@@ -37,6 +43,11 @@
          transition: box-shadow 0.3s;
          border: 2px solid #fff;
          box-shadow: var(--shadow-aside), var(--shadow-in);
+         @media (max-width: 700px) {
+            position: static;
+            transform: none;
+            width: 70px;
+         }
          &:hover {
             box-shadow: var(--shadow-out), var(--shadow-in);
          }

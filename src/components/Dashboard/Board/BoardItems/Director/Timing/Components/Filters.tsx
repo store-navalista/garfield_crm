@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useMemo, useRef } from 'react'
+import React, { FC, useMemo, useRef } from 'react'
 import css from '../Timing.module.scss'
 import translate from '@/i18n/translate'
-import { COMMON_CELL } from '@/constants/dashboard'
+import { COMMON_CELL, NARROW_CELL } from '@/constants/dashboard'
 
 type FiltersType = 'project_number' | 'ship_name' | 'job_description'
 
@@ -16,6 +16,7 @@ const cells: FiltersType[] = ['project_number', 'ship_name', 'job_description']
 const Filters: FC<IFiltersProps> = ({ filters, activeFilter, setActiveFilter }) => {
    const selectsRef = useRef(null)
    const isCommonFilter = useMemo(() => activeFilter?.project_number === COMMON_CELL, [activeFilter])
+   const isNarrowFilter = useMemo(() => activeFilter?.project_number === NARROW_CELL, [activeFilter])
 
    const filterHandler = (e: any, c: FiltersType) => {
       setActiveFilter(null)
@@ -59,6 +60,7 @@ const Filters: FC<IFiltersProps> = ({ filters, activeFilter, setActiveFilter }) 
                   <select onChange={(e) => filterHandler(e, c)}>
                      <option>{translate('dashboard.timereport-director-timing-filterall')}</option>
                      {filter.map((f, i) => (
+                        // log
                         <option key={i}>{f}</option>
                      ))}
                   </select>

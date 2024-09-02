@@ -10,4 +10,7 @@
    height: 100vh;
    font-family: $font-1-regular;
    padding: 40px;
+   @media (max-width: 700px) {
+      padding: 0;
+   }
 }

@@ -143,6 +143,9 @@
    background-repeat: no-repeat;
    background-size: contain;
    background-position: center;
+   @media (max-width: 1200px) {
+      display: flex;
+   }
    .description {
       box-sizing: border-box;
       width: var(--desc_width);
@@ -196,6 +199,9 @@
       flex-wrap: wrap;
       gap: 16px;
       height: fit-content;
+      @media (max-width: 1200px) {
+         justify-content: space-evenly;
+      }
       .station {
          display: flex;
          position: relative;
@@ -226,6 +232,9 @@
                transition: opacity 0.3s;
                width: 35px;
                height: 35px;
+               @media (max-width: 1200px) {
+                  opacity: 1;
+               }
             }
          }
          &:hover .buttons button {
