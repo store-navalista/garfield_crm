@@ -31,6 +31,19 @@ const Filters: FC<IFiltersProps> = ({ filters, activeFilter, setActiveFilter }) 
 
          return
       }
+
+      if (e === NARROW_CELL) {
+         setActiveFilter((prevFilters) => {
+            if (activeFilter?.project_number === NARROW_CELL) {
+               return null
+            }
+
+            return { [c]: e } as typeof prevFilters
+         })
+
+         return
+      }
+
       setActiveFilter((prevFilters) => {
          const newFilter: { [key in FiltersType]: string } = {
             ...prevFilters,
@@ -45,10 +58,6 @@ const Filters: FC<IFiltersProps> = ({ filters, activeFilter, setActiveFilter }) 
       })
    }
 
-   // useEffect(()=> {
-
-   // },[])
-
    return (
       <div ref={selectsRef} className={css.filter}>
          {cells.map((c, i) => {
@@ -60,7 +69,6 @@ const Filters: FC<IFiltersProps> = ({ filters, activeFilter, setActiveFilter }) 
                   <select onChange={(e) => filterHandler(e, c)}>
                      <option>{translate('dashboard.timereport-director-timing-filterall')}</option>
                      {filter.map((f, i) => (
-                        // log
                         <option key={i}>{f}</option>
                      ))}
                   </select>
@@ -74,6 +82,15 @@ const Filters: FC<IFiltersProps> = ({ filters, activeFilter, setActiveFilter }) 
                className={css.common_filter + `${isCommonFilter ? ' ' + css.turned_on : ''}`}
             >
                {translate(`dashboard.timereport-workedtime-tooltip-common-turn-${isCommonFilter ? 'off' : 'on'}`)}
+            </button>
+         </div>
+         <div>
+            <span>{translate('dashboard.timereport-job-narrow-tasks')}</span>
+            <button
+               onClick={() => filterHandler(NARROW_CELL, 'project_number')}
+               className={css.common_filter + `${isNarrowFilter ? ' ' + css.turned_on : ''}`}
+            >
+               {translate(`dashboard.timereport-workedtime-tooltip-common-turn-${isNarrowFilter ? 'off' : 'on'}`)}
             </button>
          </div>
       </div>

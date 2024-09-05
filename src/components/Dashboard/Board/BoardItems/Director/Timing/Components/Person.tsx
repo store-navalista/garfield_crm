@@ -1,8 +1,17 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useMemo } from 'react'
 import { PersonProps } from '../Timing'
 import css from '../Timing.module.scss'
 
-const Person: FC<PersonProps> = ({ user, days, isReportExist, filteredJobs, setOpenedJobs, openedJobs }) => {
+const Person: FC<PersonProps> = ({
+   user,
+   days,
+   isReportExist,
+   filteredJobs,
+   setOpenedJobs,
+   openedJobs,
+   setFilter,
+   filter
+}) => {
    const { id, describe_name } = user
    const summedHours = filteredJobs.reduce((accumulator, currentValue) => {
       currentValue.hours_worked.forEach((value, index) => {
@@ -29,9 +38,19 @@ const Person: FC<PersonProps> = ({ user, days, isReportExist, filteredJobs, setO
    }
 
    const sum = summedHours.reduce((acc, current) => (current > 0 ? acc + current : acc), 0)
+   const isChecked = useMemo(() => filter.find((obj) => Object.hasOwn(obj, describe_name)), [filter])
+
+   const check = () => {
+      const newFilter = filter.some((obj) => Object.hasOwn(obj, describe_name))
+         ? filter.map((obj) => (Object.hasOwn(obj, describe_name) ? { [describe_name]: !obj[describe_name] } : obj))
+         : [...filter, { [describe_name]: true }]
+
+      setFilter(newFilter)
+   }
 
    return (
       <div className={css.row}>
+         <input className={css.check} type='checkbox' checked={isChecked?.[describe_name]} onChange={check} />
          <p style={{ paddingLeft: isReportExist && filteredJobs.length ? '22px' : '5px' }}>
             {describe_name}
             {isReportExist && filteredJobs.length ? (

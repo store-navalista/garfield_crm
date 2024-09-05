@@ -83,6 +83,7 @@ export default {
    'dashboard.timereport-job-ship_name': { defaultMessage: 'Ship Name' },
    'dashboard.timereport-job-job_description': { defaultMessage: 'Job Description' },
    'dashboard.timereport-job-common-tasks': { defaultMessage: 'Common tasks' },
+   'dashboard.timereport-job-narrow-tasks': { defaultMessage: 'Narrow tasks' },
    'dashboard.timereport-workedtime-tooltip-dayof': { defaultMessage: 'Day of' },
    'dashboard.timereport-workedtime-tooltip-sick': { defaultMessage: 'Sick leave' },
    'dashboard.timereport-workedtime-tooltip-vacation': { defaultMessage: 'Vacation' },
@@ -142,5 +143,5 @@ export default {
    'unexpected_error': { defaultMessage: 'Unexpected error' },
    'i18n_error': { defaultMessage: 'i18n error' },
    'network_request_failed': { defaultMessage: 'Network error' },
-   'not-desktop': { defaultMessage: 'At the moment the application is only available in the desktop version. Namely, the screen width should be at least 1440px!' }
+   'not-desktop': { defaultMessage: 'At the moment the application is only available in the desktop version. Namely, the screen width should be at least 800px!' }
 }

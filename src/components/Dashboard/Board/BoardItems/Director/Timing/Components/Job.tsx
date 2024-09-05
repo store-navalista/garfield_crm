@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useEffect } from 'react'
+import React, { CSSProperties, FC } from 'react'
 import css from '../Timing.module.scss'
 import { JobProps } from '../Timing'
 import { COMMON_CELL, NARROW_CELL } from '@/constants/dashboard'

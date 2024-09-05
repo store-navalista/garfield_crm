@@ -86,6 +86,7 @@ export default {
       'dashboard.timereport-job-ship_name': 'Судно',
       'dashboard.timereport-job-job_description': 'Описание',
       'dashboard.timereport-job-common-tasks': 'Общие задачи',
+      'dashboard.timereport-job-narrow-tasks': 'Другие задачи',
       'dashboard.timereport-workedtime-tooltip-dayof': 'Выходной',
       'dashboard.timereport-workedtime-tooltip-sick': 'Больничный',
       'dashboard.timereport-workedtime-tooltip-vacation': 'Отпуск',
@@ -146,7 +147,7 @@ export default {
       'unexpected_error': 'Не предвиденная ошибка',
       'i18n_error': 'Ошибка перевода',
       'network_request_failed': 'Ошибка сети',
-      'not-desktop': 'На данный момент приложение доступно только в десктопной версии. А именно ширина экрана должна быть минимум 1440px!'
+      'not-desktop': 'На данный момент приложение доступно только в десктопной версии. А именно ширина экрана должна быть минимум 800px!'
    }
 }
 

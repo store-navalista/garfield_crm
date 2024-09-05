@@ -1,12 +1,10 @@
 import DashboardLayout from '@/components/Dashboard.layout'
-import NotDesktop from '@/components/NotDesktop/NotDesktop'
 import { I18nProvider } from '@/i18n'
 import store from '@/store/store'
 import { AppProps } from 'next/app'
 import React from 'react'
 import { CookiesProvider } from 'react-cookie'
 import { Provider } from 'react-redux'
-import { useMediaQuery } from 'react-responsive'
 import '../styles/main.scss'
 import './styles/index.css'
 

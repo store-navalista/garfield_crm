@@ -1,90 +1,56 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useMemo } from 'react'
 import { saveAs } from 'file-saver'
 import XLSX from 'sheetjs-style'
 import css from './Timing.module.scss'
 import { IUser } from '@/constants/users'
+import { CalculateServ } from './services'
+import { FilterType } from './Timing'
+import { excel_styles } from './excel_styles'
 
 interface ExportExcelProps {
    fileName: string
    users: IUser[]
    currentDate: Date
+   filter: FilterType
 }
 
-export const ExportExcel: FC<ExportExcelProps> = ({ fileName, users, currentDate }) => {
+export const ExportExcel: FC<ExportExcelProps> = ({ fileName, users, currentDate, filter }) => {
    const period = currentDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })
 
    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
    const fileExtention = '.xlsx'
 
-   // only third party work
-   const monthReports = users.map((u) => ({
-      name: u.describe_name,
-      jobs: u.jobs
-         .filter((j) => j.report_period === period && j.ship_name)
-         .map((u) => ({
-            ...u,
-            hours_worked: u.hours_worked
-               .filter((number) => number > 0)
-               .reduce((accumulator, current) => accumulator + current, 0)
-         }))
-   }))
+   const name_filter = filter.filter((em) => Object.values(em)[0]).map((obj) => Object.keys(obj)[0])
 
-   const allJobs = monthReports.map((r) => r.jobs.map((j) => `${j.ship_name}-${j.job_description}`)).flat(1)
+   const calculate = useMemo(() => {
+      return new CalculateServ(users, period, name_filter)
+   }, [users, period, name_filter])
 
-   const row = new Set(allJobs)
-   // console.log(allJobs)
-   console.log(row.keys())
+   const allJobs = calculate.getAllRegularJobs()
 
-   // console.log(monthReports.map((r) => ({ [r.name]: 'sds' })))
-   // console.log(monthReports.map((r) => r.jobs.map((j) => `${j.project_number}-${j.ship_name}-${j.job_description}`)))
+   const exportToExcel = () => {
+      if (!allJobs.find((j) => j[0] === 'ИТОГО')) allJobs.push(['ИТОГО', '', ''])
+      const all_work_time = calculate.getAllHoursByWork()
 
-   // console.log({
-   //    '№': 'сторонний',
-   //    '№ РАБОТЫ': null,
-   //    Объект: 'Общие вопросы',
-   //    'Название работы': null,
-   //    ...{ sdfsdfs: '22' },
-   //    Name1: '16',
-   //    Name2: '16'
-   // })
+      const ExcelData = allJobs.map((job: [string, string, string], i: number) => {
+         const hours_work = job[0] === 'ИТОГО' ? calculate.getAllHoursByEmployee() : calculate.participation(job)
 
-   const ExcelData = [
-      {
-         '№': 'сторонний',
-         '№ РАБОТЫ': null,
-         Объект: 'Общие вопросы',
-         'Название работы': null,
-         ...{ sdfsdfs: '22' },
-         Name1: '16',
-         Name2: '16'
-      },
-      {
-         '№': 'A01',
-         '№ РАБОТЫ': 2233445,
-         Объект: 'SERAPHIM SAROVSKIY',
-         'Название работы': 'DG Installation design',
-         Name: '2'
-      }
-   ]
-   // const employees = allJobs.map((e) => e.name)
+         return {
+            '№': job[0] === 'ИТОГО' ? '' : 'сторонний',
+            '№ РАБОТЫ': job[0],
+            Объект: job[1],
+            'Название работы': job[2],
+            ...hours_work,
+            ...all_work_time[i]
+         }
+      })
 
-   // const e = monthReports.map((j) => ({
-   //    '№': 'сторонний',
-   //    '№ РАБОТЫ': null,
-   //    Объект: 'Общие вопросы',
-   //    'Название работы': null,
-   //    Name: '16'
-   // }))
-
-   // console.log(monthReports)
-
-   const exportToExcel = async () => {
       const ws = {}
 
       ws['!rows'] = []
       ws['!rows'][1] = { hpx: 44, s: { font: { bold: true } } }
 
-      ws['!cols'] = [{ wch: 11 }, { wch: 11 }, { wch: 20 }, { wch: 20 }]
+      ws['!cols'] = [{ wch: 11 }, { wch: 11 }, { wch: 20 }, { wch: 40 }]
 
       ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }]
 
@@ -95,30 +61,61 @@ export const ExportExcel: FC<ExportExcelProps> = ({ fileName, users, currentDate
 
       XLSX.utils.sheet_add_json(ws, ExcelData, { origin: 'A2' })
 
-      const commonCells = ['E'.charCodeAt(0), 'Z'.charCodeAt(0)]
+      for (const cell in ws) {
+         if (ws[cell] && typeof ws[cell] === 'object') {
+            ws[cell].s = ws[cell].s || {}
+            ws[cell].s.font = ws[cell].s.font || { sz: 11 }
+            ws[cell].s.border = excel_styles.border
+         }
+      }
 
-      for (let i = commonCells[0]; i <= commonCells[1]; i++) {
-         const cellAddress = String.fromCharCode(i) + 3
+      for (let i = ['A'.charCodeAt(0), 'Z'.charCodeAt(0)][0]; i <= ['A'.charCodeAt(0), 'Z'.charCodeAt(0)][1]; i++) {
+         const cellAddress = String.fromCharCode(i) + 2
 
-         ws[cellAddress] = {
-            v: '',
-            s: {
-               font: { bold: true, sz: 12, color: { rgb: '000000' } },
-               alignment: { horizontal: 'center' },
-               fill: { fgColor: { rgb: '1F497D' } },
-               border: {}
+         if (!ws[cellAddress]) {
+            ws[cellAddress] = { v: '' }
+         }
+
+         ws[cellAddress].s = {
+            ...ws[cellAddress].s,
+            font: { sz: 11, bold: true },
+            alignment: excel_styles.alignment
+         }
+      }
+
+      for (let i = ['E'.charCodeAt(0), 'Z'.charCodeAt(0)][0]; i <= ['A'.charCodeAt(0), 'Z'.charCodeAt(0)][1]; i++) {
+         const cellAddress = String.fromCharCode(i) + 2
+
+         if (!ws[cellAddress]) {
+            ws[cellAddress] = { v: '' }
+         }
+
+         ws[cellAddress].s = {
+            ...ws[cellAddress].s,
+            fill: { fgColor: { rgb: 'DCE6F1' } }
+         }
+
+         for (let j = 3; j <= 100; j++) {
+            const cellAddress = String.fromCharCode(i) + j
+
+            if (!ws[cellAddress]) {
+               ws[cellAddress] = { v: '' }
+            }
+
+            if (ws[cellAddress].v || ws[cellAddress].v === 0) {
+               ws[cellAddress].s = {
+                  ...ws[cellAddress].s,
+                  font: { sz: 11, bold: true },
+                  fill: { fgColor: { rgb: 'F5F5F5' } },
+                  alignment: excel_styles.alignment
+               }
             }
          }
       }
-      console.log(ws)
 
-      for (const cell in ws) {
-         if (ws[cell] && typeof ws[cell] === 'object' && ws[cell].s === undefined) {
-            ws[cell].s = { font: { sz: 11 } }
-         }
-      }
+      const sheet_name = period.split(' ')[0].toUpperCase()
 
-      const wb = { Sheets: { data: ws }, SheetNames: ['data'] }
+      const wb = { Sheets: { [sheet_name]: ws }, SheetNames: [sheet_name] }
       const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' })
       const data = new Blob([excelBuffer], { type: fileType })
       saveAs(data, fileName + fileExtention)

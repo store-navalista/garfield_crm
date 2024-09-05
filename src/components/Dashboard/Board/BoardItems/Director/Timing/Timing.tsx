@@ -10,7 +10,7 @@ import Header from './Components/Header'
 import Job from './Components/Job'
 import Person from './Components/Person'
 import css from './Timing.module.scss'
-import { COMMON_CELL } from '@/constants/dashboard'
+import { COMMON_CELL, NARROW_CELL } from '@/constants/dashboard'
 import { ExportExcel } from './ExportExcel'
 
 type Days = { days: ReturnType<TimeService['getDaysOfMonth']> }
@@ -31,10 +31,14 @@ export interface HeaderProps extends Props {
    setCurrentDate: React.Dispatch<React.SetStateAction<Date>>
 }
 
+export type FilterType = Record<string, boolean>[] | []
+
 export interface PersonProps extends Props {
    user: IUser
    isReportExist: boolean
    filteredJobs: IJob[]
+   filter: FilterType
+   setFilter: React.Dispatch<React.SetStateAction<FilterType>>
 }
 
 export interface JobProps extends Props {
@@ -50,6 +54,8 @@ const Timing: FC = () => {
    const i18n = useAppSelector((state) => state.reducer.content.i18n)
    const timeService = new TimeService(i18n)
    const days = timeService.getDaysOfMonth(currentDate)
+   const [filter, setFilter] = useState<FilterType>([])
+   const file_name = period.split(' ')
 
    const filters = useMemo(() => [new Set(), new Set(), new Set()] as Set<string>[], [currentDate])
 
@@ -63,12 +69,15 @@ const Timing: FC = () => {
 
          users.forEach((user) => {
             user.jobs.forEach((j) => {
-               if (j.report_period !== period || j.project_number === COMMON_CELL) return
+               if (j.report_period !== period || j.project_number === COMMON_CELL || j.project_number === NARROW_CELL)
+                  return
                if (j.project_number) filters[0].add(j.project_number)
                if (j.ship_name) filters[1].add(j.ship_name)
                if (j.job_description) filters[2].add(j.job_description)
             })
          })
+
+         setFilter(users.map((u) => ({ [u.describe_name]: true })))
       }
    }, [users, currentDate])
 
@@ -103,7 +112,9 @@ const Timing: FC = () => {
 
                return (
                   <Fragment key={id}>
-                     <Person {...{ user, days, isReportExist, filteredJobs, setOpenedJobs, openedJobs }} />
+                     <Person
+                        {...{ user, days, isReportExist, filteredJobs, setOpenedJobs, openedJobs, setFilter, filter }}
+                     />
                      {isOpen
                         ? filteredJobs.map((currentJob, i) => (
                              <Fragment key={i}>
@@ -115,7 +126,12 @@ const Timing: FC = () => {
                )
             })}
          </div>
-         {/* <ExportExcel users={users} currentDate={currentDate} fileName='dfgdfgfdg' /> */}
+         <ExportExcel
+            users={users}
+            currentDate={currentDate}
+            filter={filter}
+            fileName={`00_ПРОДАЖИ_ВРЕМЕНИ_${file_name[0]}_${file_name[1]}_NAVALISTA`}
+         />
       </div>
    )
 }

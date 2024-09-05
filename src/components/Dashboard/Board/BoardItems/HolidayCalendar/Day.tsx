@@ -28,13 +28,9 @@ const Day: FC<{ d: DayType; birthday: IUser[]; setDesc: any }> = ({ d, birthday,
          let data = ''
          birthday.forEach((u) => {
             const age = currentYear - Number(u.describe_date.split('.')[2])
-            data +=
-               translate[i18n][0] +
-               ` ${d.formatDay}\n` +
-               translate[i18n][1] +
-               ` ${u.describe_name}\n` +
-               translate[i18n][2] +
-               ` ${age} y.o.\n\n`
+            data += translate[i18n][0] + ` ${d.formatDay}\n` + translate[i18n][1] + ` ${u.describe_name}\n`
+            // translate[i18n][2] +
+            // ` ${age} y.o.\n\n`
             setDesc(data)
          })
       } else {
