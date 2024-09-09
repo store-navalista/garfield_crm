@@ -95,6 +95,13 @@ export default {
       'dashboard.timereport-workedtime-tooltip-common-turn-on': 'Filter',
       'dashboard.timereport-workedtime-tooltip-common-turn-off': 'Cancel',
 
+      'dashboard.timereport-radio_title': 'Period',
+      'dashboard.timereport-radio_monthly': 'Monthly',
+      'dashboard.timereport-radio_first_quarter': 'First quarter',
+      'dashboard.timereport-radio_second_quarter': 'Second quarter',
+      'dashboard.timereport-radio_third_quarter': 'Third quarter',
+      'dashboard.timereport-radio_fourth_quarter': 'Fourth quarter',
+
       'dashboard.timereport-job-person': 'Person',
       'dashboard.timereport-job-total': 'Total',
       'dashboard.timereport-director-timing-title': 'Time table',

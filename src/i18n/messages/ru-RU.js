@@ -95,6 +95,13 @@ export default {
       'dashboard.timereport-workedtime-tooltip-common-turn-on': 'Фильтровать',
       'dashboard.timereport-workedtime-tooltip-common-turn-off': 'Отменить',
 
+      'dashboard.timereport-radio_title': 'Период',
+      'dashboard.timereport-radio_monthly': 'Месяц',
+      'dashboard.timereport-radio_first_quarter': 'Первый квартал',
+      'dashboard.timereport-radio_second_quarter': 'Второй квартал',
+      'dashboard.timereport-radio_third_quarter': 'Третий квартал',
+      'dashboard.timereport-radio_fourth_quarter': 'Четвертый квартал',
+
       'dashboard.timereport-job-person': 'Сотрудник',
       'dashboard.timereport-job-total': 'Всего',
       'dashboard.timereport-director-timing-title': 'Таблица учета времени',

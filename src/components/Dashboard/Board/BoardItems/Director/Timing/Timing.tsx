@@ -1,3 +1,4 @@
+import { COMMON_CELL, NARROW_CELL } from '@/constants/dashboard'
 import { IJob } from '@/constants/jobs'
 import { IUser } from '@/constants/users'
 import { useAppSelector } from '@/hooks/redux'
@@ -9,9 +10,8 @@ import Filters from './Components/Filters'
 import Header from './Components/Header'
 import Job from './Components/Job'
 import Person from './Components/Person'
-import css from './Timing.module.scss'
-import { COMMON_CELL, NARROW_CELL } from '@/constants/dashboard'
 import { ExportExcel } from './ExportExcel'
+import css from './Timing.module.scss'
 
 type Days = { days: ReturnType<TimeService['getDaysOfMonth']> }
 
@@ -55,7 +55,6 @@ const Timing: FC = () => {
    const timeService = new TimeService(i18n)
    const days = timeService.getDaysOfMonth(currentDate)
    const [filter, setFilter] = useState<FilterType>([])
-   const file_name = period.split(' ')
 
    const filters = useMemo(() => [new Set(), new Set(), new Set()] as Set<string>[], [currentDate])
 
@@ -126,12 +125,7 @@ const Timing: FC = () => {
                )
             })}
          </div>
-         <ExportExcel
-            users={users}
-            currentDate={currentDate}
-            filter={filter}
-            fileName={`00_ПРОДАЖИ_ВРЕМЕНИ_${file_name[0]}_${file_name[1]}_NAVALISTA`}
-         />
+         <ExportExcel users={users} currentDate={currentDate} filter={filter} />
       </div>
    )
 }

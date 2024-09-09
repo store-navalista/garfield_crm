@@ -92,6 +92,13 @@ export default {
    'dashboard.timereport-workedtime-tooltip-common-turn-on': { defaultMessage: 'Filter' },
    'dashboard.timereport-workedtime-tooltip-common-turn-off': { defaultMessage: 'Cancel' },
 
+   'dashboard.timereport-radio_title': { defaultMessage: 'Period' },
+   'dashboard.timereport-radio_monthly': { defaultMessage: 'Monthly' },
+   'dashboard.timereport-radio_first_quarter': { defaultMessage: 'First quarter' },
+   'dashboard.timereport-radio_second_quarter': { defaultMessage: 'Second quarter' },
+   'dashboard.timereport-radio_third_quarter': { defaultMessage: 'Third quarter' },
+   'dashboard.timereport-radio_fourth_quarter': { defaultMessage: 'Fourth quarter' },
+
    'dashboard.timereport-job-person': { defaultMessage: 'Person' },
    'dashboard.timereport-job-total': { defaultMessage: 'Total' },
    'dashboard.timereport-director-timing-title': { defaultMessage: 'Time table' },

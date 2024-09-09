@@ -2,21 +2,21 @@ import { IUser } from '@/constants/users'
 
 export class CalculateServ {
    private users: IUser[]
-   private period: string
+   private period: string[]
    private name_filter: string[] = []
 
-   constructor(users: IUser[], period: string, name_filter: string[] = []) {
+   constructor(users: IUser[], period: string[], name_filter: string[] = []) {
       this.users = users
       this.period = period
       this.name_filter = name_filter
    }
 
-   getMonthlyReports() {
+   private getReportsByPeriod() {
       return this.users
          .map((u) => ({
             name: u.describe_name,
             jobs: u.jobs
-               .filter((j) => j.report_period === this.period && j.ship_name)
+               .filter((j) => this.period.includes(j.report_period) && j.ship_name)
                .map((u) => ({
                   ...u,
                   hours_worked: u.hours_worked
@@ -28,7 +28,7 @@ export class CalculateServ {
    }
 
    getAllRegularJobs() {
-      const allJobs = this.getMonthlyReports()
+      const allJobs = this.getReportsByPeriod()
          .map((r) => r.jobs.map((j) => [j.project_number, j.ship_name, j.job_description]))
          .flat(1)
          .sort((a, b) => a[1].localeCompare(b[1]))
@@ -37,7 +37,7 @@ export class CalculateServ {
    }
 
    getAllHoursByEmployee() {
-      const mr = this.getMonthlyReports()
+      const mr = this.getReportsByPeriod()
 
       return mr
          .map((em) => em.name)
@@ -54,7 +54,7 @@ export class CalculateServ {
    }
 
    getAllHoursByWork() {
-      const allJob = this.getMonthlyReports()
+      const allJob = this.getReportsByPeriod()
          .map((r) => r.jobs)
          .flat(1)
 
@@ -71,7 +71,7 @@ export class CalculateServ {
    }
 
    participation(currentJob: [string, string, string]) {
-      const mr = this.getMonthlyReports()
+      const mr = this.getReportsByPeriod()
 
       return mr
          .map((em) => em.name)
