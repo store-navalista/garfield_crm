@@ -154,7 +154,7 @@ export const exportToExcel = (calculate, period) => {
    const allOtherTasks = calculate.getAllOtherJobs()
 
    if (!allJobs.find((j) => j[0] === 'ИТОГО')) allJobs.push(['ИТОГО', '', ''])
-   if (!allOtherTasks.includes('ИТОГО')) allOtherTasks.push('ИТОГО')
+   if (!allOtherTasks.includes('ИТОГО') && allOtherTasks?.length) allOtherTasks.push('ИТОГО')
 
    const all_work_time = calculate.getAllHoursByWork()
    const all_other_work_time = calculate.getAllHoursByOtherWork()
@@ -172,6 +172,8 @@ export const exportToExcel = (calculate, period) => {
       }
    })
 
+   const isOtherTasksExist = allOtherTasks.length
+
    const OtherExcelData = allOtherTasks.map((job: string, i: number) => {
       const hours_work =
          job === 'ИТОГО' ? calculate.getAllHoursByEmployeeOtherWork() : calculate.participation_other(job)
@@ -188,8 +190,11 @@ export const exportToExcel = (calculate, period) => {
 
    const sheet_name = period.label
    const fileName = `00_ПРОДАЖИ_ВРЕМЕНИ_${period.label}_NAVALISTA`
-
-   const wb = { Sheets: { [sheet_name]: ws_regular, Другое: ws_other }, SheetNames: [sheet_name, 'Другое'] }
+   return
+   const wb = {
+      Sheets: { [sheet_name]: ws_regular, Другое: isOtherTasksExist ? ws_other : null },
+      SheetNames: isOtherTasksExist ? [sheet_name, 'Другое'] : [sheet_name]
+   }
    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' })
    const data = new Blob([excelBuffer], { type: fileType })
    saveAs(data, fileName + fileExtention)

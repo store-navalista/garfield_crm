@@ -86,7 +86,8 @@ export class CalculateServ {
    getAllOtherJobs() {
       const allJobs = this.getOtherTasksReport()
          .map((r) => r.jobs.map((j) => j.job_description))
-         .sort((a, b) => a[1].localeCompare(b[1]))
+         .flat(1)
+         .sort((a, b) => a.localeCompare(b))
 
       return Array.from(new Set(allJobs.map((item) => JSON.stringify(item))))
          .map((item) => JSON.parse(item))
