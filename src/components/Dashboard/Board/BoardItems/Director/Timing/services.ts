@@ -1,3 +1,4 @@
+import { COMMON_CELL, NARROW_CELL } from '@/constants/dashboard'
 import { IUser } from '@/constants/users'
 
 export class CalculateServ {
@@ -11,8 +12,39 @@ export class CalculateServ {
       this.name_filter = name_filter
    }
 
-   private getReportsByPeriod() {
+   private getCommonTasks() {
+      return this.users.map((u) => ({
+         name: u.describe_name,
+         common_tasks: u.jobs
+            .filter((j) => this.period.includes(j.report_period) && j.project_number === COMMON_CELL)
+            .map((u) => ({
+               hours_worked: u.hours_worked
+                  .filter((number) => number > 0)
+                  .reduce((accumulator, current) => accumulator + current, 0)
+            }))[0]?.hours_worked
+      }))
+   }
+
+   private getOtherTasksReport() {
       return this.users
+         .map((u) => ({
+            name: u.describe_name,
+            jobs: u.jobs.filter((j) => this.period.includes(j.report_period) && j.project_number === NARROW_CELL)
+         }))
+         .filter((j) => j.jobs.length)
+         .map((j) => ({
+            ...j,
+            jobs: j.jobs.map((u) => ({
+               job_description: u.job_description,
+               hours_worked: u.hours_worked
+                  .filter((number) => number > 0)
+                  .reduce((accumulator, current) => accumulator + current, 0)
+            }))
+         }))
+   }
+
+   private getReportsByPeriod() {
+      const regular_tasks = this.users
          .map((u) => ({
             name: u.describe_name,
             jobs: u.jobs
@@ -25,6 +57,21 @@ export class CalculateServ {
                }))
          }))
          .filter((r) => this.name_filter.includes(r.name))
+
+      const modify = regular_tasks.map((t) => {
+         const commmon_tasks_hours = this.getCommonTasks().find((j) => j.name === t.name).common_tasks
+         if (commmon_tasks_hours) {
+            const distributed_hours = (commmon_tasks_hours / t.jobs.length).toFixed(1)
+
+            return {
+               ...t,
+               jobs: t.jobs.map((j) => ({ ...j, hours_worked: j.hours_worked + Number(distributed_hours) }))
+            }
+         }
+         return t
+      })
+
+      return modify
    }
 
    getAllRegularJobs() {
@@ -36,8 +83,35 @@ export class CalculateServ {
       return Array.from(new Set(allJobs.map((item) => JSON.stringify(item)))).map((item) => JSON.parse(item))
    }
 
+   getAllOtherJobs() {
+      const allJobs = this.getOtherTasksReport()
+         .map((r) => r.jobs.map((j) => j.job_description))
+         .sort((a, b) => a[1].localeCompare(b[1]))
+
+      return Array.from(new Set(allJobs.map((item) => JSON.stringify(item))))
+         .map((item) => JSON.parse(item))
+         .flat(1)
+   }
+
    getAllHoursByEmployee() {
       const mr = this.getReportsByPeriod()
+
+      return mr
+         .map((em) => em.name)
+         .sort((a, b) => a.localeCompare(b))
+         .map((em) => {
+            const jobs = mr.find((r) => r.name === em).jobs
+            const hours_worked = jobs.reduce((acc, j) => acc + j.hours_worked, 0)
+
+            return { [em]: hours_worked ? (hours_worked !== 0 ? hours_worked : 0) : 0 }
+         })
+         .reduce((acc, obj) => {
+            return { ...acc, ...obj }
+         }, {})
+   }
+
+   getAllHoursByEmployeeOtherWork() {
+      const mr = this.getOtherTasksReport()
 
       return mr
          .map((em) => em.name)
@@ -70,6 +144,23 @@ export class CalculateServ {
       })
    }
 
+   getAllHoursByOtherWork() {
+      const allJob = this.getOtherTasksReport()
+         .map((r) => r.jobs)
+         .flat(1)
+
+      const allJobTypes = this.getAllOtherJobs()
+
+      return allJobTypes.map((t) => {
+         const all_work_time = allJob
+            .filter((j) => j.job_description === t)
+            .reduce((acc, value) => acc + value.hours_worked, 0)
+         return {
+            ИТОГО: all_work_time
+         }
+      })
+   }
+
    participation(currentJob: [string, string, string]) {
       const mr = this.getReportsByPeriod()
 
@@ -83,6 +174,21 @@ export class CalculateServ {
             )[0]?.hours_worked
 
             return { [em]: hours_worked ? (hours_worked !== 0 ? hours_worked : '') : '' }
+         })
+         .reduce((acc, obj) => {
+            return { ...acc, ...obj }
+         }, {})
+   }
+
+   participation_other(currentJob: string) {
+      const other_jobs = this.getOtherTasksReport()
+
+      return other_jobs
+         .map((em) => em.name)
+         .sort((a, b) => a.localeCompare(b))
+         .map((em) => {
+            const jobs = other_jobs.find((r) => r.name === em).jobs
+            return { [em]: jobs.filter((j) => j.job_description === currentJob)[0]?.hours_worked }
          })
          .reduce((acc, obj) => {
             return { ...acc, ...obj }

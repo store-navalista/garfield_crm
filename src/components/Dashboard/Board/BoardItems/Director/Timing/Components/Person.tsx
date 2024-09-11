@@ -1,6 +1,17 @@
-import React, { FC, useEffect, useMemo } from 'react'
+import React, { FC, useMemo } from 'react'
 import { PersonProps } from '../Timing'
 import css from '../Timing.module.scss'
+import { Checkbox } from '@mui/material'
+
+const sx = {
+   '&.MuiCheckbox-colorPrimary': {
+      color: 'var(--main-blue)'
+   },
+   '.MuiSvgIcon-fontSizeSmall': {
+      width: '16px',
+      height: '16px'
+   }
+}
 
 const Person: FC<PersonProps> = ({
    user,
@@ -50,7 +61,14 @@ const Person: FC<PersonProps> = ({
 
    return (
       <div className={css.row}>
-         <input className={css.check} type='checkbox' checked={isChecked?.[describe_name]} onChange={check} />
+         <Checkbox
+            checked={isChecked?.[describe_name]}
+            onChange={check}
+            className={css.checkbox}
+            sx={sx}
+            size='small'
+            defaultChecked
+         />
          <p style={{ paddingLeft: isReportExist && filteredJobs.length ? '22px' : '5px' }}>
             {describe_name}
             {isReportExist && filteredJobs.length ? (
