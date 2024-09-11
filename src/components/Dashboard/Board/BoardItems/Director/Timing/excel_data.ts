@@ -190,7 +190,6 @@ export const exportToExcel = (calculate, period) => {
 
    const sheet_name = period.label
    const fileName = `00_ПРОДАЖИ_ВРЕМЕНИ_${period.label}_NAVALISTA`
-   return
    const wb = {
       Sheets: { [sheet_name]: ws_regular, Другое: isOtherTasksExist ? ws_other : null },
       SheetNames: isOtherTasksExist ? [sheet_name, 'Другое'] : [sheet_name]
