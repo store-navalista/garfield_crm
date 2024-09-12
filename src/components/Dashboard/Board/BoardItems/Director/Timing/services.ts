@@ -80,7 +80,19 @@ export class CalculateServ {
          .flat(1)
          .sort((a, b) => a[1].localeCompare(b[1]))
 
-      return Array.from(new Set(allJobs.map((item) => JSON.stringify(item)))).map((item) => JSON.parse(item))
+      const jobs_set = Array.from(new Set(allJobs.map((item) => JSON.stringify(item)))).map((item) => JSON.parse(item))
+
+      const modified_jobs_set = []
+      jobs_set.forEach((job) => {
+         const exist_index = modified_jobs_set.findIndex((j) => j[0] === job[0])
+         if (exist_index === -1) {
+            modified_jobs_set.push(job)
+         } else {
+            modified_jobs_set[exist_index][2] += ` ✦ ${job[2]}`
+         }
+      })
+
+      return modified_jobs_set
    }
 
    getAllOtherJobs() {
@@ -134,15 +146,19 @@ export class CalculateServ {
          .flat(1)
 
       const allJobTypes = this.getAllRegularJobs()
-
-      return allJobTypes.map((t) => {
+      const count_list = allJobTypes.map((t) => {
          const all_work_time = allJob
-            .filter((j) => `${j.project_number},${j.ship_name},${j.job_description}` === t.join())
+            .filter((j) => j.project_number === t[0])
             .reduce((acc, value) => acc + value.hours_worked, 0)
          return {
             ИТОГО: all_work_time
          }
       })
+
+      const count_all = count_list.reduce((acc, value) => acc + value.ИТОГО, 0)
+      count_list.push({ ИТОГО: count_all })
+
+      return count_list
    }
 
    getAllHoursByOtherWork() {
@@ -151,8 +167,7 @@ export class CalculateServ {
          .flat(1)
 
       const allJobTypes = this.getAllOtherJobs()
-
-      return allJobTypes.map((t) => {
+      const count_list = allJobTypes.map((t) => {
          const all_work_time = allJob
             .filter((j) => j.job_description === t)
             .reduce((acc, value) => acc + value.hours_worked, 0)
@@ -160,6 +175,11 @@ export class CalculateServ {
             ИТОГО: all_work_time
          }
       })
+
+      const count_all = count_list.reduce((acc, value) => acc + value.ИТОГО, 0)
+      count_list.push({ ИТОГО: count_all })
+
+      return count_list
    }
 
    participation(currentJob: [string, string, string]) {
@@ -170,9 +190,7 @@ export class CalculateServ {
          .sort((a, b) => a.localeCompare(b))
          .map((em) => {
             const jobs = mr.find((r) => r.name === em).jobs
-            const hours_worked = jobs.filter(
-               (j) => `${j.project_number},${j.ship_name},${j.job_description}` === currentJob.join()
-            )[0]?.hours_worked
+            const hours_worked = jobs.filter((j) => j.project_number === currentJob[0])[0]?.hours_worked
 
             return { [em]: hours_worked ? (hours_worked !== 0 ? hours_worked : '') : '' }
          })
@@ -189,7 +207,7 @@ export class CalculateServ {
          .sort((a, b) => a.localeCompare(b))
          .map((em) => {
             const jobs = other_jobs.find((r) => r.name === em).jobs
-            return { [em]: jobs.filter((j) => j.job_description === currentJob)[0]?.hours_worked }
+            return { [em]: jobs.filter((j) => j.job_description === currentJob)[0]?.hours_worked || '' }
          })
          .reduce((acc, obj) => {
             return { ...acc, ...obj }

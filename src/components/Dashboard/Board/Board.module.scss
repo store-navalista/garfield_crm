@@ -17,5 +17,12 @@
          margin: auto 0;
          height: calc(100% - 40px);
       }
+      .version {
+         position: fixed;
+         right: 78px;
+         top: 22px;
+         font-size: 12px;
+         color: #555555;
+      }
    }
 }
