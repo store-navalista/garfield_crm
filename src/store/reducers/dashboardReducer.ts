@@ -7,11 +7,11 @@ interface DashboardState {
 
 const initialState: DashboardState = {
    dashboardItems: {
-      greating: false,
+      greating: true,
       ctoProperty: false,
       CTO: false,
       account: false,
-      time: true,
+      time: false,
       qr: false,
       radio: false,
       employees: false,
