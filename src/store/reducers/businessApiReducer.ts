@@ -36,8 +36,8 @@ actual_working_hours
 export const businessApi = createApi({
    reducerPath: 'businessApi',
    baseQuery: graphqlRequestBaseQuery({
-      // url: '/graphql',
-      url: 'http://localhost:8877/graphql',
+      url: '/graphql',
+      // url: 'http://localhost:8877/graphql',
       prepareHeaders: (headers) => {
          const token = Cookies.get('token')
 
