@@ -97,6 +97,42 @@
                display: flex;
                flex-direction: column;
                gap: 12px;
+               .role_choose {
+                  position: relative;
+                  width: 180px;
+                  .roles {
+                     display: none;
+                     position: absolute;
+                     top: 50%;
+                     left: 59px;
+                     transform: translateY(-50%);
+                     z-index: 10;
+                     flex-direction: column;
+                     align-items: center;
+                     gap: 6px;
+                     padding: 6px 0;
+                     border-radius: 8px;
+                     box-shadow: var(--shadow-out);
+                     background-color: #fff;
+                     border: 2px solid var(--bg-textarea);
+                     button {
+                        width: 100%;
+                        padding: 8px 12px;
+                        aspect-ratio: 0;
+                        border-radius: 0;
+                        box-shadow: none;
+                        border: none;
+                        background-color: #ffffff;
+                        &:hover {
+                           color: #fff;
+                           background-color: var(--bg-textarea);
+                        }
+                     }
+                  }
+                  &:hover .roles {
+                     display: flex;
+                  }
+               }
             }
          }
          .buttons {

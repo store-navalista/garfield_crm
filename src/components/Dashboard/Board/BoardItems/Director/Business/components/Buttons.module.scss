@@ -1,0 +1,91 @@
+.rate,
+.save,
+.delete {
+   button {
+      background-repeat: no-repeat;
+      width: 22px;
+      aspect-ratio: 1;
+   }
+}
+
+.delete {
+   position: absolute;
+   left: 13px;
+   top: 6px;
+   opacity: 0.4;
+   transition: opacity 0.3s;
+   button {
+      width: 22px;
+      aspect-ratio: 1;
+      cursor: pointer;
+      background-color: #fff;
+      border: none;
+      border-radius: 4px;
+      background-size: 50%;
+      background-position: center;
+   }
+   &:hover {
+      opacity: 1;
+   }
+}
+
+.rate {
+   position: absolute;
+   top: 50%;
+   transform: translateY(-50%);
+   left: 4px;
+   z-index: 1;
+   display: flex;
+   align-items: center;
+   button {
+      cursor: pointer;
+      background-color: #fff;
+      border: none;
+      box-shadow: var(--shadow-out);
+      border-radius: 4px;
+      background-size: 70%;
+      background-position: 62% 62%;
+      &:hover + span {
+         display: block;
+      }
+   }
+}
+.save {
+   button {
+      border: none;
+      display: flex;
+      background-position: 55% 60%;
+      background-size: 60%;
+      background-color: transparent;
+      cursor: pointer;
+      box-shadow: var(--shadow-out);
+      border-radius: 4px;
+      &:disabled {
+         opacity: 0.1;
+         box-shadow: none;
+         cursor: default;
+      }
+   }
+}
+.add_btn {
+   position: absolute;
+   left: 12px;
+   top: 40px;
+   z-index: 1;
+   button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 100px;
+      border: 1px solid #fff;
+      background-color: #f7f7f7;
+      box-shadow: var(--shadow-out), var(--shadow-in);
+      border-radius: 6px;
+      cursor: pointer;
+      span {
+         display: block;
+         transform: translateX(1px);
+      }
+   }
+}

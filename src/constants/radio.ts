@@ -12,13 +12,14 @@ const META_URL = 'https://meta.pcradio.ru/'
 export const STATIONS: IStation[] = [
    {
       id: 'bassdrive-med',
-      stream: STATION_URL + 'bassdrive-med',
+      stream: 'https://bassdrive.radioca.st/stream?time=1732213255194',
       title: 'Bassdrive',
-      meta: META_URL + 'bassdrive_current.json'
+      meta: 'https://www.bassdrive.com/pop-up/now-playing.php'
    },
    {
       id: 'one_amsterdam-med',
-      stream: STATION_URL + 'one_amsterdam-med',
+      stream:
+         'https://strm112.1.fm/atr_mobile_mp3?aw_0_req.gdpr=true&listenerid=6dca15f97c6df83c3fd44fbcc76f2de9&awparams=companionAds%3Atrue',
       title: '1.FM Amsterdam Trance',
       meta: META_URL + 'one_amsterdam_current.json'
    },

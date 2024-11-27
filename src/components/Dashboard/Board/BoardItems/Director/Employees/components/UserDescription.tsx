@@ -7,13 +7,14 @@ import css from '../Employees.module.scss'
 import { LogType } from './Logs'
 import user_log from './logs-messages'
 
-type FieldsType = 'describe_name' | 'describe_date' | 'describe_specialization' | 'describe_position'
+type FieldsType = 'describe_name' | 'describe_date' | 'describe_specialization' | 'describe_position' | 'describe_role'
 
 interface UpdateUserData {
    describe_name: string
    describe_date: string
    describe_specialization: string
    describe_position: string
+   describe_role: string
 }
 
 interface ChangeUserAction {
@@ -32,6 +33,7 @@ const UserDescription: FC<UserDescriptionProps> = ({
    describe_date,
    describe_specialization,
    describe_position,
+   describe_role,
    setLog
 }) => {
    const staticTranslate = (id: string) => useIntl().formatMessage({ id: id, defaultMessage: id })
@@ -39,7 +41,7 @@ const UserDescription: FC<UserDescriptionProps> = ({
    const [updateUser, { isLoading }] = useUpdateUserMutation()
    const { data: users } = useGetUsersQuery()
    const { refetch } = useGetUsersQuery()
-   const data = { describe_name, describe_date, describe_specialization, describe_position }
+   const data = { describe_name, describe_date, describe_specialization, describe_position, describe_role }
    const [canSave, setCanSave] = useState(false)
    const [isModal, setisModal] = useState(false)
    const [updateUserData, setUpdateUserData] = useReducer((state: UpdateUserData, action: ChangeUserAction) => {
@@ -52,6 +54,8 @@ const UserDescription: FC<UserDescriptionProps> = ({
             return { ...state, describe_specialization: action.payload }
          case 'describe_position':
             return { ...state, describe_position: action.payload }
+         case 'describe_role':
+            return { ...state, describe_role: action.payload }
          case 'RESET':
             return { ...state, ...data }
          default:
@@ -109,12 +113,28 @@ const UserDescription: FC<UserDescriptionProps> = ({
                      />
                   )
                })}
+               <div className={css.role_choose}>
+                  <UI.Input
+                     defaultValue={data['describe_role']}
+                     value={updateUserData['describe_role']}
+                     label={staticTranslate('dashboard.users-describe_role')}
+                     disabled
+                  />
+                  <div className={css.roles}>
+                     {['DeputyCTO', 'Employee'].map((r) => (
+                        <button key={r} onClick={() => setUpdateUserData({ type: 'describe_role', payload: r })}>
+                           {r}
+                        </button>
+                     ))}
+                  </div>
+               </div>
             </div>
             <div className={css.col}>
                {['describe_specialization', 'describe_position'].map((input: FieldsType) => {
                   return (
                      <UI.Input
                         key={input}
+                        style={{ backgroundColor: '#fff' }}
                         defaultValue={data[input]}
                         value={updateUserData[input]}
                         onChange={(e) => setUpdateUserData({ type: input, payload: e.target.value })}

@@ -1,9 +1,9 @@
 @import '/styles/variables';
 
 $color: #eaeef0;
-$scale: 0.3;
 
 .wrapper {
+   --scale: 0.3;
    position: relative;
    width: 100%;
    height: calc(100vh - $header-height - 100px);
@@ -12,7 +12,7 @@ $scale: 0.3;
       position: absolute;
       left: 50%;
       top: 50%;
-      transform: translate(-50%, -50%) scale($scale);
+      transform: translate(-50%, -50%) scale(var(--scale));
       .loader {
          position: relative;
          display: flex;

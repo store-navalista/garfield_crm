@@ -13,6 +13,7 @@ export type TID =
    | 'holidayCalendar'
    | 'pdf'
    | 'video'
+   | 'business'
 
 export type TBoardItem = {
    id: TID
@@ -69,6 +70,11 @@ const nav: TBoardItems = [
       title: 'dashboard.nav-timing'
    },
    {
+      id: 'business',
+      icon: 'dashboard-nav-business.svg',
+      title: 'dashboard.nav-business'
+   },
+   {
       id: 'charts',
       icon: 'dashboard-nav-charts.svg',
       title: 'dashboard.nav-charts'
@@ -91,7 +97,19 @@ const nav: TBoardItems = [
 ]
 
 const items = {
-   CTO: ['greating', 'video', 'account', 'employees', 'timing', 'qr', 'radio', 'charts', 'holidayCalendar', 'logout'],
+   CTO: [
+      'greating',
+      'video',
+      'account',
+      'employees',
+      'timing',
+      'business',
+      'qr',
+      'radio',
+      'charts',
+      'holidayCalendar',
+      'logout'
+   ],
    Employee: ['greating', 'video', 'account', 'time', 'qr', 'radio', 'holidayCalendar', 'logout'],
    Moderator: [
       'greating',
@@ -100,6 +118,7 @@ const items = {
       'CTO',
       'employees',
       'timing',
+      'business',
       'time',
       'qr',
       'pdf',

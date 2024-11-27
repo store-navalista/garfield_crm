@@ -87,6 +87,7 @@ const TimeJob: FC<ITimeJob> = ({ j, days, index, updateJobs, isCommonTasks }) =>
                         value={j[field]}
                         placeholder={options.ph}
                         onChange={(e) => updateJobs({ type: field, payload: { val: e.target.value, index } })}
+                        disabled={j.notes === 'CALC_JOB'}
                      />
                   </div>
                )

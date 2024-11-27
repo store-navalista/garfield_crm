@@ -58,6 +58,7 @@ export default {
       'dashboard.nav-video': 'Видео',
       'dashboard.nav-charts': 'Графики',
       'dashboard.nav-holidayCalendar': 'Календарь',
+      'dashboard.nav-business': 'Бизнес',
 
       'dashboard.nav-author': 'Автор: Сергей Отинов',
 
@@ -68,6 +69,7 @@ export default {
       'dashboard.account-describe_role': 'Роль:',
       'dashboard.timereport-title': 'Отчеты времени',
       'dashboard.timereport-job-add': 'Добавить работу',
+      'dashboard.timereport-job-add_calculated': 'Добавить шаблон работы',
       'dashboard.timereport-job-add_common': 'Добавить общие задачи',
       'dashboard.timereport-job-add_narrow_profile': 'Добавить специфическую задачу',
       'dashboard.timereport-job-save': 'Сохранить отчет локально',
@@ -81,6 +83,10 @@ export default {
       'dashboard.timereport-job-errors-empty': 'Это поле не должно быть пустым',
       'dashboard.timereport-job-current-task': 'Отправляет текущую задачу. Можно отправлять не ограниченное количсетво раз.',
       'dashboard.timereport-job-warning-unsafe': 'Вы можете потерять все несохраненные данные за текущий месяц при смене периода, если не сохранить их!',
+      'dashboard.timereport-job-work_calc_add_title': 'Найти задачу',
+      'dashboard.timereport-job-work_not_exist': 'Работы с таким номером не существует в текущей базе!',
+      'dashboard.timereport-job-work_already_exist': 'Работа с этим номером уже есть в отчете!',
+      'dashboard.timereport-job-work_not_in_progress': 'Эта работа еще не в разработке или уже окончена!',
 
       'dashboard.timereport-job-project_number': 'Номер',
       'dashboard.timereport-job-ship_name': 'Судно',
@@ -154,7 +160,24 @@ export default {
       'unexpected_error': 'Не предвиденная ошибка',
       'i18n_error': 'Ошибка перевода',
       'network_request_failed': 'Ошибка сети',
-      'not-desktop': 'На данный момент приложение доступно только в десктопной версии. А именно ширина экрана должна быть минимум 800px!'
+      'not-desktop': 'На данный момент приложение доступно только в десктопной версии. А именно ширина экрана должна быть минимум 800px!',
+
+      'business.tooltip-lock': 'Зафиксировать курс доллара',
+
+      'business.messages-011': 'Судно успешно создано!',
+      'business.messages-012': 'При создании судна возникли проблемы, возможно сервер недоступен!',
+      'business.messages-013': 'Судна успешно созданы!',
+      'business.messages-014': 'При обновлении суден возникли проблемы, возможно сервер недоступен!',
+      'business.messages-015': 'Судно успешно удалено!',
+      'business.messages-016': 'При удалении судна возникли проблемы, возможно сервер недоступен!',
+
+      'business.messages-001': 'Работа с таким же номером уже существует!',
+      'business.messages-002': 'Работы успешно сохранены!',
+      'business.messages-003': 'При сохранении работ возникли проблемы, возможно сервер недоступен!',
+      'business.messages-004': 'Работа успешно создана!',
+      'business.messages-005': 'При создании работы возникли проблемы, возможно сервер недоступен!',
+      'business.messages-006': 'Работа успешно удалена!',
+      'business.messages-007': 'При удалении работы возникли проблемы, возможно сервер недоступен!',
    }
 }
 

@@ -12,3 +12,38 @@
    top: 0;
    z-index: 99999;
 }
+
+.react-datepicker-wrapper {
+   width: 100%;
+   .react-datepicker__input-container {
+      width: 100%;
+      border-radius: 6px;
+      .react-datepicker-ignore-onclickoutside,
+      input {
+         box-sizing: border-box;
+         border: none;
+         background-color: rgba(245, 245, 245, 0.5);
+         padding: 7px 8px 6px;
+         border-radius: inherit;
+         margin: 2px 0;
+         outline-color: #ffffff00;
+         text-align: center;
+         width: 100%;
+         border: 1px solid #4f4f4f;
+         transition: box-shadow 0.2s;
+         outline-offset: 2px;
+         font-family: var(--font-nunito-semibold);
+         height: 100%;
+         &:focus-visible {
+            &::placeholder {
+               color: rgb(255, 255, 255);
+            }
+            outline-color: var(--second-blue);
+            border-color: #fff;
+         }
+         &:focus-visible ~ .colors {
+            visibility: visible;
+         }
+      }
+   }
+}

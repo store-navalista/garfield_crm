@@ -5,20 +5,26 @@ import { JC } from '@/constants/jobs'
 import React, { FC, useState } from 'react'
 import { useIntl } from 'react-intl'
 import css from './TimeNavigate.module.scss'
+import { CalcModal } from './CalcModal'
+import { IJobDataAction } from '../Time'
 
 interface ITimeNavigate {
-   updateJobs: any
+   updateJobs: React.Dispatch<IJobDataAction>
    isCommonTasks: boolean
+   work_numbers: string[]
 }
 
-const TimeNavigate: FC<ITimeNavigate> = ({ updateJobs, isCommonTasks }) => {
+const TimeNavigate: FC<ITimeNavigate> = ({ updateJobs, isCommonTasks, work_numbers }) => {
    const [currentTask, setCurrentTask] = useState({ value: '', time: '' })
+   const [isCalcModal, setisCalcModal] = useState(false)
    const staticTranslate = (id: string) => useIntl().formatMessage({ id: id, defaultMessage: id })
 
    const actions = (type: string) => {
       switch (type) {
          case 'add':
             return () => updateJobs({ type: 'add', payload: '' })
+         case 'add_calculated':
+            return () => setisCalcModal(true)
          case 'add_common':
             return () => updateJobs({ type: 'add_common', payload: '' })
          case 'add_narrow_profile':
@@ -69,18 +75,22 @@ const TimeNavigate: FC<ITimeNavigate> = ({ updateJobs, isCommonTasks }) => {
                const handler = actions(name)
 
                return (
-                  <Buttons.DashboardButton
-                     style={{
-                        backgroundImage: `url(/assets/images/svg/timereport-job-${name}.svg)`,
-                        backgroundSize: getOptions(name).scale
-                     }}
-                     key={name}
-                     disabled={name === 'add_common' && isCommonTasks}
-                     btn_type={type}
-                     tooltip={{ message: staticTranslate(`dashboard.timereport-job-${name}`) }}
-                     onClick={handler as () => void}
-                     onChange={handler as () => void}
-                  />
+                  <div key={name} style={{ position: 'relative' }}>
+                     <Buttons.DashboardButton
+                        style={{
+                           backgroundImage: `url(/assets/images/svg/timereport-job-${name}.svg)`,
+                           backgroundSize: getOptions(name).scale
+                        }}
+                        disabled={name === 'add_common' && isCommonTasks}
+                        btn_type={type}
+                        tooltip={{ message: staticTranslate(`dashboard.timereport-job-${name}`) }}
+                        onClick={handler as () => void}
+                        onChange={handler as () => void}
+                     />
+                     {name === 'add_calculated' && isCalcModal ? (
+                        <CalcModal {...{ setisCalcModal, updateJobs, work_numbers }} />
+                     ) : null}
+                  </div>
                )
             })}
          </nav>

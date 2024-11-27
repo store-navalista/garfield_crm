@@ -1,6 +1,6 @@
 import { useAppSelector } from '@/hooks/redux'
 import useUserByID from '@/hooks/useUserByID'
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useMemo, useState } from 'react'
 import css from './Board.module.scss'
 import Account from './BoardItems/Account'
 import CTOProperty from './BoardItems/CTOProperty/CTOProperty'
@@ -18,6 +18,7 @@ import PDF from './BoardItems/PDF/PDF'
 import Video from './BoardItems/Video/Video'
 import { useMediaQuery } from 'react-responsive'
 import NotDesktop from '@/components/NotDesktop/NotDesktop'
+import Business from './BoardItems/Director/Business/Business'
 
 export interface BoardTabProps {
    isMobileVersion: boolean
@@ -53,6 +54,7 @@ const BoardList: FC<{ isOpen: boolean }> = ({ isOpen }) => {
          {type.holidayCalendar ? !W800 ? <HolidayCalendar /> : <NotDesktop /> : null}
          {type.pdf ? !W800 ? <PDF /> : <NotDesktop /> : null}
          {type.video ? <Video /> : null}
+         {type.business ? <Business /> : null}
       </div>
    )
 }

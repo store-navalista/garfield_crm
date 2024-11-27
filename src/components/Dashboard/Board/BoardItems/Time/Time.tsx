@@ -15,7 +15,7 @@ import TimeNavigate from './TimeNavigate/TimeNavigate'
 import TimeService from './services'
 import { clearJobs } from './TimeNavigate/job-services'
 
-interface IJobDataAction {
+export interface IJobDataAction {
    type:
       | 'ship_name'
       | 'project_number'
@@ -27,9 +27,10 @@ interface IJobDataAction {
       | 'reset'
       | 'reload'
       | 'add_common'
+      | 'add_calculated'
       | 'add_narrow_profile'
       | 'sort'
-   payload: { val: any; index: number } | number | string | ''
+   payload: any
 }
 
 const Time: FC = () => {
@@ -61,7 +62,8 @@ const Time: FC = () => {
       job_description: '',
       project_number: '',
       hours_worked: new_hours_worked,
-      report_period: period
+      report_period: period,
+      notes: ''
    }
 
    const [jobs, updateJobs] = useReducer((state: IJob[], action: IJobDataAction): IJob[] => {
@@ -97,6 +99,23 @@ const Time: FC = () => {
          case 'add': {
             return !state ? [{ ...empty_job, order: 0 }] : [...state, { ...empty_job, order: state.length + 1 }]
          }
+         case 'add_calculated': {
+            if (action.payload) {
+               const { project_number, ship_name, job_description } = action.payload
+               return [
+                  {
+                     ...empty_job,
+                     project_number,
+                     ship_name,
+                     job_description,
+                     notes: 'CALC_JOB',
+                     order: state.length + 1
+                  },
+                  ...state
+               ]
+            }
+            return
+         }
          case 'add_common': {
             return [{ ...empty_job, project_number: COMMON_CELL, order: -1 }, ...state]
          }
@@ -127,6 +146,8 @@ const Time: FC = () => {
             return state
       }
    }, sortedData)
+
+   const work_numbers = useMemo(() => jobs?.map((w) => w?.project_number), [jobs])
 
    const snapshot = useMemo(() => {
       if (sortedData?.at(0)) {
@@ -211,7 +232,7 @@ const Time: FC = () => {
                   </Fragment>
                )
             })}
-            <TimeNavigate updateJobs={updateJobs} isCommonTasks={isCommonTasks} />
+            <TimeNavigate {...{ updateJobs, isCommonTasks, work_numbers }} />
             <button onClick={sendReport} className={css.send} disabled={updateLoading}>
                {updateLoading ? null : translate('dashboard.timereport-send')}
                <Image

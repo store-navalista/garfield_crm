@@ -1,0 +1,174 @@
+.input {
+   position: relative;
+   width: 100%;
+   height: fit-content;
+   border-radius: 6px;
+   .colors {
+      display: none;
+      display: flex;
+      visibility: hidden;
+      --background-color: #979797;
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      & > div {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         gap: 4px;
+         button {
+            padding: 0;
+            box-sizing: border-box;
+            cursor: pointer;
+            background-color: var(--background-color);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: none;
+            border: 1px solid #c2c2c2;
+            &:hover {
+               transform: scale(1.1);
+            }
+         }
+      }
+   }
+   input {
+      box-sizing: border-box;
+      border: none;
+      background-color: rgba(245, 245, 245, 0.5);
+      padding: 7px 8px 6px;
+      border-radius: inherit;
+      margin: 2px 0;
+      outline-color: #ffffff00;
+      text-align: center;
+      width: 100%;
+      border: 1px solid #4f4f4f;
+      transition: box-shadow 0.2s;
+      outline-offset: 2px;
+      font-family: var(--font-nunito-semibold);
+      &[data-error='true'] {
+         border-color: red;
+      }
+      &:focus-visible {
+         &::placeholder {
+            color: rgb(255, 255, 255);
+         }
+         outline-color: var(--second-blue);
+         border-color: #fff;
+      }
+      &:focus-visible ~ .colors {
+         visibility: visible;
+      }
+      &:read-only {
+         color: #696969;
+         border-color: #c9c9c9;
+         outline-color: #fff;
+      }
+   }
+}
+p.heading {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   overflow: hidden;
+   box-sizing: border-box;
+   background-color: #f7f7f7;
+   width: 100%;
+   padding: 10px 8px 6px 8px;
+   border-radius: 8px;
+   border: 1px solid #fff;
+   outline-color: #ffffff00;
+   text-align: center;
+   box-shadow: var(--shadow-in), var(--shadow-out);
+   line-height: 1.3;
+   font-size: 14px;
+   height: auto;
+   justify-content: center;
+   &[data-type='right'] {
+      width: 110px;
+      max-height: 100px;
+      flex-shrink: 0;
+   }
+}
+div.composite_heading {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   max-height: 100px;
+   gap: 4px;
+   & > div {
+      display: flex;
+      gap: 10px;
+   }
+}
+div.dropdown {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.pagination_wrapper {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 12px;
+   border-radius: 8px;
+   padding: 0 16px 0 40px;
+   .left_block {
+      display: flex;
+      border-radius: 8px;
+      box-shadow: var(--shadow-out);
+      padding: 8px;
+      .count_wrapper {
+         width: 64px;
+         margin-left: 8px;
+      }
+      .pagination {
+         display: flex;
+         align-items: center;
+         width: fit-content;
+         gap: 8px;
+         button {
+            display: flex;
+            border: none;
+            background-color: #fff;
+            padding: 0;
+            cursor: pointer;
+            padding: 4px;
+            &:disabled {
+               filter: grayscale(1);
+               opacity: 0.2;
+               cursor: default;
+            }
+         }
+         p {
+            font-size: 14px;
+            font-family: var(--font-nunito-semibold);
+         }
+      }
+   }
+}
+.filter_wrapper {
+   position: relative;
+   display: flex;
+   align-items: center;
+   border-radius: 8px;
+   box-shadow: var(--shadow-out);
+}
+
+.filter_button {
+   position: absolute;
+   width: 28px;
+   aspect-ratio: 1;
+   border: 2px solid #fff;
+   background-color: #fff;
+   box-shadow: var(--shadow-out), var(--shadow-in);
+   z-index: 4;
+   border-radius: 4px;
+   left: 174px;
+   top: 12px;
+   display: flex;
+   align-items: center;
+   cursor: pointer;
+}

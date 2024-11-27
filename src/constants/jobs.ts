@@ -10,12 +10,14 @@ export type IJob = Partial<{
    hours_worked: number[]
    report_period: string
    order: number
+   notes: string
    user_id: string
 }>
 
 export const JC: IJS = {
    NAV: [
       { name: 'add', type: 'icon-btn' },
+      { name: 'add_calculated', type: 'icon-btn' },
       { name: 'add_common', type: 'icon-btn' },
       { name: 'add_narrow_profile', type: 'icon-btn' },
       // { name: 'save', type: 'icon-btn' },

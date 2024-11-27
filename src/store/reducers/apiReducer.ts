@@ -25,8 +25,8 @@ interface UpdateJobsData {
 
 export const api = createApi({
    baseQuery: graphqlRequestBaseQuery({
-      url: '/graphql',
-      // url: 'http://localhost:8877/graphql',
+      // url: '/graphql',
+      url: 'http://localhost:8877/graphql',
       prepareHeaders: (headers) => {
          const token = Cookies.get('token')
 
@@ -59,6 +59,7 @@ export const api = createApi({
                         hours_worked
                         report_period
                         order
+                        notes
                      }
                   }
                }
@@ -88,6 +89,7 @@ export const api = createApi({
                         project_number
                         hours_worked
                         report_period
+                        notes
                      }
                   }
                }
@@ -116,6 +118,7 @@ export const api = createApi({
                         project_number
                         hours_worked
                         report_period
+                        notes
                      }
                   }
                }
@@ -135,6 +138,7 @@ export const api = createApi({
                      hours_worked
                      report_period
                      order
+                     notes
                   }
                }
             `,
@@ -155,6 +159,7 @@ export const api = createApi({
                      hours_worked
                      report_period
                      order
+                     notes
                   }
                }
             `,
@@ -278,6 +283,22 @@ export const api = createApi({
             }
          }),
          transformResponse: (response: { login: { token: string; id: string } }) => response.login
+      }),
+
+      getCurrencyRate: builder.query<Record<string, string>, { pair: [string, string] }>({
+         query: ({ pair }) => ({
+            document: gql`
+               query GetCurrency($pair: [String!]!) {
+                  getCurrency(pair: $pair) {
+                     baseCurrency
+                     quoteCurrency
+                     crossRate
+                  }
+               }
+            `,
+            variables: { pair }
+         }),
+         transformResponse: (response: { getCurrency: Record<string, string> }) => response.getCurrency
       })
    })
 })
@@ -293,5 +314,6 @@ export const {
    useUpdatePasswordMutation,
    useUpdateUserMutation,
    useLoginMutation,
-   useGetCTOQuery
+   useGetCTOQuery,
+   useGetCurrencyRateQuery
 } = api

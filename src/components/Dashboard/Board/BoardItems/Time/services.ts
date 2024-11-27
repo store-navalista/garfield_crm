@@ -4,7 +4,7 @@ class TimeService {
    formattedI18n: string
    private week_days: string[]
 
-   constructor(i18n: string) {
+   constructor(i18n?: string) {
       this.formattedI18n = i18n === 'en' ? 'en-US' : 'ru-RU'
       this.week_days = []
       this.fill_week_days()

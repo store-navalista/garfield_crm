@@ -1,0 +1,46 @@
+.wrapper {
+   position: fixed;
+   left: 38px;
+   top: 160px;
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+   background-color: #fff;
+   padding: 8px 4px 8px 8px;
+   border-radius: 8px 0 0 8px;
+   z-index: 4;
+   div {
+      position: relative;
+      button {
+         width: 30px;
+         height: 30px;
+         cursor: pointer;
+         border: none;
+         transition: box-shadow 0.3s;
+         border-radius: 4px;
+         background-image: var(--bg-image);
+         background-color: #fff;
+         background-size: 60%;
+         background-repeat: no-repeat;
+         background-position: center;
+         &:hover + span {
+            display: block;
+         }
+      }
+      span {
+         display: none;
+         position: absolute;
+         top: 50%;
+         transform: translateY(-50%);
+         left: 35px;
+         background-color: #484848;
+         color: #fff;
+         padding: 4px 6px;
+         border-radius: 4px;
+         font-size: 12px;
+         max-width: 100px;
+         white-space: nowrap;
+         line-height: 1.3;
+      }
+   }
+}

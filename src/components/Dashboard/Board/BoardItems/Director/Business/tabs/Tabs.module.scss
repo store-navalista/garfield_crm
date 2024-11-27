@@ -1,0 +1,113 @@
+.wrapper {
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+   display: flex;
+   border-radius: 32px;
+   padding-right: 10px;
+   .table_fixed {
+      position: relative;
+      width: fit-content;
+      box-shadow: 2px -3px 4px #dadadaa8;
+      .header,
+      .rows .row {
+         display: grid;
+         column-gap: 10px;
+         grid-template-columns: repeat(2, 90px 200px);
+      }
+      .header {
+         grid-template-rows: 100px;
+         padding: 40px 15px 15px 40px;
+      }
+      .rows {
+         display: flex;
+         flex-direction: column;
+         row-gap: 10px;
+         height: calc(100% - 176px);
+         overflow-x: hidden;
+         overflow-y: auto;
+         padding-top: 2px;
+         .row {
+            position: relative;
+            padding-left: 40px;
+         }
+      }
+   }
+   .table_scroll {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin: 0 24px 0 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      &::-webkit-scrollbar {
+         height: 14px;
+      }
+      &::-webkit-scrollbar-thumb {
+         background-color: var(--main-blue);
+      }
+      .header {
+         display: grid;
+         column-gap: 10px;
+         padding: 40px 15px 15px;
+         grid-template-rows: 100px;
+         height: 170px;
+         box-sizing: border-box;
+         &::-webkit-scrollbar {
+            display: none;
+         }
+      }
+      .rows {
+         display: flex;
+         flex-direction: column;
+         gap: 10px;
+         height: 100%;
+         padding-top: 2px;
+         .row {
+            position: relative;
+            display: grid;
+            column-gap: 10px;
+            padding-left: 15px;
+            width: 100%;
+            .input_wrapper {
+               position: relative;
+               display: flex;
+               width: 110px;
+               box-sizing: border-box;
+            }
+         }
+      }
+   }
+   .table_fixed,
+   .table_scroll {
+      .header {
+         background-color: #fff;
+      }
+   }
+   .top_block {
+      position: absolute;
+      left: 43px;
+      top: 6px;
+      z-index: 11;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      .navigation {
+         display: flex;
+         gap: 6px;
+         box-shadow: var(--shadow-out);
+         padding: 4px;
+         background-color: #fff;
+         border-radius: 6px;
+      }
+      .warning {
+         transform: translateY(1px);
+         display: flex;
+         align-items: center;
+         gap: 8px;
+         p {
+            font-size: 12px;
+         }
+      }
+   }
+}
