@@ -110,6 +110,19 @@ const items = {
       'holidayCalendar',
       'logout'
    ],
+   DeputyCTO: [
+      'greating',
+      'video',
+      'account',
+      'employees',
+      'timing',
+      'business',
+      'qr',
+      'radio',
+      'charts',
+      'holidayCalendar',
+      'logout'
+   ],
    Employee: ['greating', 'video', 'account', 'time', 'qr', 'radio', 'holidayCalendar', 'logout'],
    Moderator: [
       'greating',
