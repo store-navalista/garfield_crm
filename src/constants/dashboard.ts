@@ -114,7 +114,7 @@ const items = {
       'greating',
       'video',
       'account',
-      'employees',
+      'time',
       'timing',
       'business',
       'qr',
