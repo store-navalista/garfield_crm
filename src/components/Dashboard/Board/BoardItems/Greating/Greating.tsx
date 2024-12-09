@@ -8,6 +8,7 @@ import React, { FC, Fragment, useEffect, useState } from 'react'
 import css from './Greating.module.scss'
 import GreatingButton from './GreatingButton'
 import { useMediaQuery } from 'react-responsive'
+import { useBackupDBMutation } from '@/store/reducers/fileApiReducer'
 
 const Greating: FC = () => {
    const { data: user = {} as IUser } = useUserByID()
@@ -21,10 +22,17 @@ const Greating: FC = () => {
       W700 ? setMenu(mobileNav) : setMenu(nav)
    }, [W700, user])
 
+   const [backupDB, { isLoading: backUpLoading }] = useBackupDBMutation()
+
    if (!user) return <Loader />
 
    return (
       <div className={css.greating}>
+         {user.describe_role === 'Moderator' ? (
+            <button className={css.backup} onClick={async () => backupDB()} disabled={backUpLoading}>
+               {backUpLoading ? 'loading...' : 'Database backup'}
+            </button>
+         ) : null}
          <div>
             {!W700 ? (
                <>

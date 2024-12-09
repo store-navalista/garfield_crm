@@ -13,6 +13,7 @@ export const fileApi = createApi({
    reducerPath: 'fileApi',
    baseQuery: graphqlRequestBaseQuery({
       url: '/graphql',
+      // url: 'http://localhost:8877/graphql',
       prepareHeaders: (headers) => {
          const token = Cookies.get('token')
 
@@ -38,8 +39,18 @@ export const fileApi = createApi({
             variables: { fileName, filePath }
          }),
          transformResponse: (response: { getFile: FileResponse }) => response.getFile
+      }),
+      backupDB: builder.mutation<void, void>({
+         query: () => ({
+            document: gql`
+               mutation BackupDB {
+                  backupDB
+               }
+            `
+         }),
+         transformResponse: (response: { backupDB: void }) => response.backupDB
       })
    })
 })
 
-export const { useGetFileQuery } = fileApi
+export const { useGetFileQuery, useBackupDBMutation } = fileApi

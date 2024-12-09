@@ -3,10 +3,11 @@ import css from './TimeNavigate.module.scss'
 import { Box, TextField } from '@mui/material'
 import Image from 'next/image'
 import useOutsideClick from '@/hooks/useOutsideClick'
-import { useGetAllWorksQuery } from '@/store/reducers/businessApiReducer'
+import { invalidateTags, useGetAllWorksQuery } from '@/store/reducers/businessApiReducer'
 import translate from '@/i18n/translate'
 import { useIntl } from 'react-intl'
 import { IJobDataAction } from '../Time'
+import { useAppDispatch } from '@/hooks/redux'
 
 const input_sx = {
    '.MuiOutlinedInput-input': {
@@ -26,6 +27,7 @@ type CalcModalProps = {
 
 export const CalcModal: FC<CalcModalProps> = ({ setisCalcModal, updateJobs, work_numbers }) => {
    const ref = useRef(null)
+   const dispatch = useAppDispatch()
    const { data: all_types_works } = useGetAllWorksQuery()
    const [currentWorkNumber, setCurrentWorkNumber] = useState(0)
    const [error, setError] = useState('')
@@ -62,6 +64,10 @@ export const CalcModal: FC<CalcModalProps> = ({ setisCalcModal, updateJobs, work
          setisCalcModal(false)
       }
    }
+
+   useEffect(() => {
+      dispatch(invalidateTags([{ type: 'BusinessWork', id: 'ALL' }]))
+   }, [dispatch])
 
    useOutsideClick(ref, () => setisCalcModal(false))
 

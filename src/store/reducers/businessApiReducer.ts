@@ -209,7 +209,9 @@ export const businessApi = createApi({
             `
          }),
          transformResponse: (response: { getAllBusinessWorkAllTypes: ALL_WORKS_PROPS }) =>
-            response.getAllBusinessWorkAllTypes
+            response.getAllBusinessWorkAllTypes,
+         providesTags: (result) =>
+            result ? [{ type: 'BusinessWork', id: 'ALL' }] : [{ type: 'BusinessWork', id: 'ALL' }]
       })
    })
 })
