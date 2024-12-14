@@ -1,6 +1,7 @@
-type RadioType = 'monthly' | 'first_quarter' | 'second_quarter' | 'third_quarter' | 'fourth_quarter'
+type RadioType = 'monthly' | 'first_quarter' | 'second_quarter' | 'third_quarter' | 'fourth_quarter' | 'employees'
 
 export const radio_options: RadioType[] = [
+   'employees',
    'monthly',
    'first_quarter',
    'second_quarter',
@@ -38,6 +39,7 @@ export const times = (currentDate: Date) => {
    ].map((m) => `${m} ${year}`)
 
    const quarters: TimeReportType = {
+      employees: { id: 'employees', months: [`${month} ${year}`], label: `${month}_${year}` },
       monthly: { id: 'monthly', months: [`${month} ${year}`], label: `${month}_${year}` },
       first_quarter: { id: 'first_quarter', months: periods.slice(0, 3), label: `1_кв_${year}` },
       second_quarter: { id: 'second_quarter', months: periods.slice(3, 6), label: `2_кв_${year}` },

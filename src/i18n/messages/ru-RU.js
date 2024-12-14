@@ -102,6 +102,7 @@ export default {
       'dashboard.timereport-workedtime-tooltip-common-turn-off': 'Отменить',
 
       'dashboard.timereport-radio_title': 'Период',
+      'dashboard.timereport-radio_employees': 'Сотрудники',
       'dashboard.timereport-radio_monthly': 'Месяц',
       'dashboard.timereport-radio_first_quarter': 'Первый квартал',
       'dashboard.timereport-radio_second_quarter': 'Второй квартал',

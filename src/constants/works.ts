@@ -46,7 +46,7 @@ interface SCROLL_POSITION extends CALC_POSITIONS {
    date_paid: string
    actual_working_hours: number
 }
-// DESIGN_ALL_POSITION
+
 export type DESIGN_WORK_PROPS = Partial<FIXED_POSITION & SCROLL_POSITION & { id: string }>
 
 export type ALL_WORKS_PROPS = Array<DESIGN_WORK_PROPS>

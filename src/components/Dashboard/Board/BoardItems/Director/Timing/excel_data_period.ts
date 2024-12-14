@@ -2,7 +2,7 @@ import XLSX from 'sheetjs-style'
 import { excel_styles } from './excel_styles'
 import { saveAs } from 'file-saver'
 
-export const exportToExcel = (calculate, period) => {
+export const exportToExcelByPeriod = (calculate, period) => {
    const get_ws_regular = (ExcelData: Record<string, string>[]) => {
       const ws = {}
 
@@ -196,5 +196,6 @@ export const exportToExcel = (calculate, period) => {
    }
    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' })
    const data = new Blob([excelBuffer], { type: fileType })
-   saveAs(data, fileName + fileExtention)
+
+   // saveAs(data, fileName + fileExtention)
 }

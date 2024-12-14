@@ -99,6 +99,7 @@ export default {
    'dashboard.timereport-workedtime-tooltip-common-turn-off': { defaultMessage: 'Cancel' },
 
    'dashboard.timereport-radio_title': { defaultMessage: 'Period' },
+   'dashboard.timereport-radio_employees': { defaultMessage: 'Employees' },
    'dashboard.timereport-radio_monthly': { defaultMessage: 'Monthly' },
    'dashboard.timereport-radio_first_quarter': { defaultMessage: 'First quarter' },
    'dashboard.timereport-radio_second_quarter': { defaultMessage: 'Second quarter' },
