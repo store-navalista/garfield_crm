@@ -190,7 +190,10 @@ export class CalculateServ {
          .sort((a, b) => a.localeCompare(b))
          .map((em) => {
             const jobs = mr.find((r) => r.name === em).jobs
-            const hours_worked = jobs.filter((j) => j.project_number === currentJob[0])[0]?.hours_worked
+            const hours_worked = jobs
+               .filter((j) => j.project_number === currentJob[0])
+               .map((j) => j.hours_worked)
+               .reduce((a, b) => a + b, 0)
 
             return { [em]: hours_worked ? (hours_worked !== 0 ? hours_worked : '') : '' }
          })
