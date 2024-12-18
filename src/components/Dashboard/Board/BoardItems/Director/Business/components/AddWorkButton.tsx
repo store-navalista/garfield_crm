@@ -3,8 +3,9 @@ import Image from 'next/image'
 import React, { FC } from 'react'
 import css from './Buttons.module.scss'
 import { useSnackbarVariant } from '@/hooks/useSnackbarVariant'
+import { GlobalWorksTypes } from '@/constants/works'
 
-const AddWorkButton: FC = () => {
+const AddWorkButton: FC<{ type: GlobalWorksTypes }> = ({ type }) => {
    const [createWork, { isLoading, isSuccess, isError }] = useCreateBusinessWorkMutation()
 
    useSnackbarVariant({
@@ -15,7 +16,7 @@ const AddWorkButton: FC = () => {
    })
 
    const add_work = async () => {
-      await createWork('design')
+      await createWork(type)
    }
 
    return (

@@ -5,14 +5,9 @@ export type CurrencyType = 'USD' | 'UAH' | 'EUR'
 export type WorkCompanyType = 'EXTERNAL' | 'INTERNAL'
 export type CellTypes = 'dropdown' | 'input'
 
-interface FIXED_POSITION {
-   work_number: number
-   name_of_vessel: string
-   name_of_work: string
-   IMO: number | null
-}
-
 export interface CALC_POSITIONS {
+   IMO: number | null
+   // Design
    salary_currency: number
    cost_ratio_currency: number
    cost_per_hour_currency: number
@@ -22,6 +17,20 @@ export interface CALC_POSITIONS {
    profitability: number
    actual_net_cost_currency: number
    actual_profitability: string
+   // Engineering
+   total_cost_currency: number
+   total_cost_with_expenses_currency: number
+   salary_with_expenses: number
+   navalista_profit_currency: number
+   navalista_profit: number
+   // Supply
+   // UTM
+}
+
+interface FIXED_POSITION {
+   work_number: number
+   name_of_vessel: string
+   name_of_work: string
    IMO: number | null
 }
 
@@ -68,33 +77,67 @@ export const CALCVAL: Array<keyof CALC_POSITIONS> = [
    'IMO'
 ]
 
-export const SCROLL_VALUES: ColumnNamesType = [
-   'name_of_company',
-   'name_of_company_locale',
-   'agreement_currency',
-   'rate_usd_currency',
-   'coef_usd',
-   'salary_usd',
-   'salary_currency',
-   'cost_ratio_currency',
-   'cost_per_hour_currency',
-   'travelling_expenses_currency',
-   'outsourcing_approval_expenses_currency',
-   'bakshish_currency',
-   { estimated: ['estimated_working_hours', 'estimated_net_cost_currency'] },
-   'with_expenses',
-   'calculated_agreement_cost_currency',
-   'agreement_cost_currency',
-   'profitability',
-   'work_status',
-   'start_of_work',
-   'end_of_work',
-   'contractor',
-   'invoice_no',
-   'payment_sum',
-   'date_paid',
-   { actual: ['actual_working_hours', 'actual_net_cost_currency', 'actual_profitability'] }
-]
+export type GlobalWorksTypes = 'design' | 'engineering' | 'supply' | 'utm'
+
+export const SCROLL_VALUES: Record<GlobalWorksTypes, ColumnNamesType> = {
+   design: [
+      'name_of_company',
+      'name_of_company_locale',
+      'agreement_currency',
+      'rate_usd_currency',
+      'coef_usd',
+      'salary_usd',
+      'salary_currency',
+      'cost_ratio_currency',
+      'cost_per_hour_currency',
+      'travelling_expenses_currency',
+      'outsourcing_approval_expenses_currency',
+      'bakshish_currency',
+      { estimated: ['estimated_working_hours', 'estimated_net_cost_currency'] },
+      'with_expenses',
+      'calculated_agreement_cost_currency',
+      'agreement_cost_currency',
+      'profitability',
+      'work_status',
+      'start_of_work',
+      'end_of_work',
+      'contractor',
+      'invoice_no',
+      'payment_sum',
+      'date_paid',
+      { actual: ['actual_working_hours', 'actual_net_cost_currency', 'actual_profitability'] }
+   ],
+   engineering: [
+      'name_of_company',
+      'name_of_company_locale',
+      'agreement_currency',
+      'executor',
+      'rate_usd_currency',
+      'coef_usd',
+      'agreement_cost_currency',
+      'agreement_cost_of_work_day_person_currency',
+      'extra_day_cost_day_person_currency',
+      'work_status',
+      'day_started',
+      'day_finished',
+      'travelling_days_currency',
+      'accomodation_expenses_currency',
+      'other_expenses_currency',
+      'bakshish_currency',
+      'total_cost_currency',
+      'total_cost_with_expenses_currency',
+      'salary',
+      'salary_with_expenses',
+      'navalista_profit_currency',
+      'navalista_profit',
+      'contractor',
+      'invoice_no',
+      'payment_sum',
+      'date_paid'
+   ],
+   supply: [],
+   utm: []
+}
 
 export const DROPDOWN_OPTIONS = {
    work_status: ['PLANNED', 'IN PROGRESS', 'UNDER REVIEW', 'DONE', 'CANCEL'],
@@ -122,7 +165,15 @@ const OPTIONS: Record<string, FieldOptionsType> = {
    estimated_working_hours: { type: 'dot_number' },
    start_of_work: { type: 'date_picker' },
    end_of_work: { type: 'date_picker' },
-   agreement_cost_currency: { type: 'dot_number' }
+   agreement_cost_currency: { type: 'dot_number' },
+   agreement_cost_of_work_day_person_currency: { type: 'dot_number' },
+   extra_day_cost_day_person_currency: { type: 'dot_number' },
+   day_started: { type: 'date_picker' },
+   day_finished: { type: 'date_picker' },
+   travelling_days_currency: { type: 'dot_number' },
+   accomodation_expenses_currency: { type: 'dot_number' },
+   other_expenses_currency: { type: 'dot_number' },
+   salary: { type: 'dot_number' }
 }
 
 export const COLUMNS_D = { FIXED_VALUES, SCROLL_VALUES, OPTIONS }
@@ -140,8 +191,6 @@ export const COLORS = {
 export const empty_placeholders = {
    name_of_vessel: '--name of vessel--'
 }
-
-export type GlobalWorksTypes = 'design' | 'engineering' | 'supply' | 'utm'
 
 export const WorksTypes = ['design', 'engineering', 'supply', 'utm'] as const
 export const Tabs = ['vessels', 'design', 'engineering', 'supply', 'utm'] as const

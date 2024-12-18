@@ -197,5 +197,5 @@ export const exportToExcelByPeriod = (calculate, period) => {
    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' })
    const data = new Blob([excelBuffer], { type: fileType })
 
-   // saveAs(data, fileName + fileExtention)
+   saveAs(data, fileName + fileExtention)
 }

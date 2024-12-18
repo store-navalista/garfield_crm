@@ -1,13 +1,12 @@
 import { COLUMNS_D } from '@/constants/works'
+import { useGetAllBusinessWorkByTypeQuery } from '@/store/reducers/businessApiReducer'
 import React, { CSSProperties, FC, Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { Table } from '../components'
-import Rows from '../components/Rows'
-import css from './Tabs.module.scss'
 import AddWorkButton from '../components/AddWorkButton'
-import { useGetAllBusinessWorkByTypeQuery } from '@/store/reducers/businessApiReducer'
 import Navigation from '../components/Navigation'
 import Pagination from '../components/Pagination'
-import Image from 'next/image'
+import Rows from '../components/Rows'
+import css from './Tabs.module.scss'
 
 type PageSetting = {
    currentPage: number
@@ -37,13 +36,15 @@ const Design: FC = () => {
    }, [data])
 
    const scroll_row_length = useMemo(() => {
-      return COLUMNS_D.SCROLL_VALUES.map((v) => {
-         if (typeof v !== 'object') {
-            return v
-         }
-         const [values] = Object.values(v)
-         return values
-      }).flat(1).length
+      return COLUMNS_D.SCROLL_VALUES.design
+         .map((v) => {
+            if (typeof v !== 'object') {
+               return v
+            }
+            const [values] = Object.values(v)
+            return values
+         })
+         .flat(1).length
    }, [])
 
    const sorted_all_works = all_works
@@ -58,8 +59,8 @@ const Design: FC = () => {
 
    return (
       <div className={css.wrapper}>
-         <Navigation {...{ refetch, isWorksLoading }} />
-         <AddWorkButton />
+         <Navigation type='design' />
+         <AddWorkButton type='design' />
          <div className={css.table_fixed}>
             <div className={css.header}>
                {COLUMNS_D.FIXED_VALUES.map((c, i) => (
@@ -69,13 +70,21 @@ const Design: FC = () => {
                ))}
             </div>
             <div ref={fixed_rows} className={css.rows}>
-               <Rows {...{ scroll_row_length, type: 'fixed', all_works: paginated_works, isWorksLoading }} />
+               <Rows
+                  {...{
+                     scroll_row_length,
+                     type: 'fixed',
+                     all_works: paginated_works,
+                     isWorksLoading,
+                     table_type: 'design'
+                  }}
+               />
                <Pagination {...{ works_count, pageSetting, setPageSetting, setAllWorks, data }} />
             </div>
          </div>
          <div className={css.table_scroll}>
             <div className={css.header} style={{ gridTemplateColumns: `repeat(${scroll_row_length}, auto)` }}>
-               {COLUMNS_D.SCROLL_VALUES.map((c, i) => {
+               {COLUMNS_D.SCROLL_VALUES.design.map((c, i) => {
                   const options = COLUMNS_D.OPTIONS[c as string]
 
                   if (c === 'name_of_company_locale') return
@@ -88,7 +97,15 @@ const Design: FC = () => {
                })}
             </div>
             <div ref={scroll_rows} className={css.rows}>
-               <Rows {...{ scroll_row_length, type: 'scroll', all_works: paginated_works, isWorksLoading }} />
+               <Rows
+                  {...{
+                     scroll_row_length,
+                     type: 'scroll',
+                     all_works: paginated_works,
+                     isWorksLoading,
+                     table_type: 'design'
+                  }}
+               />
             </div>
          </div>
       </div>

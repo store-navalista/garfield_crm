@@ -1,3 +1,8 @@
+import {
+   getFullMultiBusinessByType,
+   getIDMultiBusinessByType,
+   getPartAMultiBusinessByType
+} from '@/constants/queryBusiness'
 import { ALL_WORKS_PROPS, DESIGN_WORK_PROPS, GlobalWorksTypes, Vessel } from '@/constants/works'
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query'
@@ -6,32 +11,6 @@ import Cookies from 'js-cookie'
 
 type FilterByProps = { type: GlobalWorksTypes; parameter: string; value: string | number }
 type updateBusinessWorksProps = { type: GlobalWorksTypes; updateBusinessWorkInput: DESIGN_WORK_PROPS[] }
-
-const QueryResult = `
- id
-work_number
-name_of_vessel
-name_of_work
-rate_usd_currency
-agreement_currency
-name_of_company
-name_of_company_locale
-coef_usd
-work_status
-salary_usd
-travelling_expenses_currency
-outsourcing_approval_expenses_currency
-bakshish_currency
-estimated_working_hours
-agreement_cost_currency
-start_of_work
-end_of_work
-contractor
-invoice_no
-payment_sum
-date_paid
-actual_working_hours
-`
 
 export const businessApi = createApi({
    reducerPath: 'businessApi',
@@ -110,7 +89,7 @@ export const businessApi = createApi({
             document: gql`
                query GetAllBusinessWorkByType($type: String!) {
                   getAllBusinessWorkByType(type: $type) {
-                     ${QueryResult}
+                     ${getFullMultiBusinessByType}
                   }
                }
             `,
@@ -126,9 +105,7 @@ export const businessApi = createApi({
             document: gql`
                mutation UpdateBusinessWorks($type: String!, $updateBusinessWorkInput: [UpdateBusinessWorkInput!]!) {
                   updateBusinessWorks(type: $type, updateBusinessWorkInput: $updateBusinessWorkInput) {
-                     ... on BusinessWorkDesign {
-                        id
-                     }
+                     ${getIDMultiBusinessByType}
                   }
                }
             `,
@@ -165,9 +142,7 @@ export const businessApi = createApi({
             document: gql`
                mutation CreateBusinessWork($type: String!) {
                   createBusinessWork(type: $type) {
-                     ... on BusinessWorkDesign {
-                        id
-                     }
+                     ${getIDMultiBusinessByType}
                   }
                }
             `,
@@ -181,9 +156,7 @@ export const businessApi = createApi({
             document: gql`
                mutation GetBusinessWorksByParameter($type: String!, $parameter: String!, $value: String!) {
                   getBusinessWorksByParameter(type: $type, parameter: $parameter, value: $value) {
-                     ... on BusinessWorkDesign {
-                        ${QueryResult}
-                     }
+                     ${getFullMultiBusinessByType}
                   }
                }
             `,
@@ -197,13 +170,7 @@ export const businessApi = createApi({
             document: gql`
                query GetAllBusinessWorkAllTypes {
                   getAllBusinessWorkAllTypes {
-                     ... on BusinessWorkDesign {
-                        id
-                        work_number
-                        name_of_vessel
-                        name_of_work
-                        work_status
-                     }
+                     ${getPartAMultiBusinessByType}
                   }
                }
             `

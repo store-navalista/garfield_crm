@@ -80,7 +80,10 @@ const ValueTemplate: FC<ValueTemplateProps> = ({ index, wt, options = {}, localW
    }
 
    if (options.type === 'date_picker') {
-      if (wt === 'start_of_work') {
+      const start = ['start_of_work', 'day_started']
+      const finish = ['end_of_work', 'day_finished']
+
+      if (start.includes(wt)) {
          const isStart = ['IN PROGRESS', 'UNDER REVIEW', 'DONE'].includes(localWorks.work_status)
 
          return isStart ? (
@@ -92,7 +95,7 @@ const ValueTemplate: FC<ValueTemplateProps> = ({ index, wt, options = {}, localW
          )
       }
 
-      if (wt === 'end_of_work') {
+      if (finish.includes(wt)) {
          const isEnd = localWorks.work_status === 'DONE'
          return isEnd ? (
             <DatePickerElement {...{ wt, localWorks, setLocalWorks }} />

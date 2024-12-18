@@ -5,8 +5,9 @@ import React, { FC } from 'react'
 import { useIntl } from 'react-intl'
 import css from './Buttons.module.scss'
 import { useSnackbarVariant } from '@/hooks/useSnackbarVariant'
+import { GlobalWorksTypes } from '@/constants/works'
 
-const SaveButton: FC = () => {
+const SaveButton: FC<{ type: GlobalWorksTypes }> = ({ type }) => {
    const intl = useIntl()
    const staticTranslate = (id: string) => intl.formatMessage({ id: id, defaultMessage: id })
    const works = useAppSelector((state) => state.reducer.business).data
@@ -21,7 +22,7 @@ const SaveButton: FC = () => {
    })
 
    const save = async () => {
-      await updateWork({ updateBusinessWorkInput: works, type: 'design' })
+      await updateWork({ updateBusinessWorkInput: works, type: type })
    }
 
    return (

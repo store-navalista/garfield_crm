@@ -1,5 +1,5 @@
 import Loader from '@/components/UI/loader/Loader'
-import { DESIGN_WORK_PROPS } from '@/constants/works'
+import { DESIGN_WORK_PROPS, GlobalWorksTypes } from '@/constants/works'
 import { useAppDispatch } from '@/hooks/redux'
 import { BusinessActions } from '@/store/reducers/businessReducer'
 import React, { FC, Fragment, memo, useEffect } from 'react'
@@ -10,9 +10,10 @@ type RowsProps = {
    type: 'scroll' | 'fixed'
    all_works: DESIGN_WORK_PROPS[]
    isWorksLoading: boolean
+   table_type: GlobalWorksTypes
 }
 
-const Rows: FC<RowsProps> = ({ scroll_row_length, type, all_works, isWorksLoading }) => {
+const Rows: FC<RowsProps> = ({ scroll_row_length, type, all_works, isWorksLoading, table_type }) => {
    const dispatch = useAppDispatch()
 
    useEffect(() => {
@@ -32,7 +33,8 @@ const Rows: FC<RowsProps> = ({ scroll_row_length, type, all_works, isWorksLoadin
                   row_index: index,
                   type,
                   scroll_row_length,
-                  work
+                  work,
+                  table_type
                }}
             />
          </Fragment>

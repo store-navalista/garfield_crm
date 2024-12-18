@@ -1,4 +1,4 @@
-import { COLUMNS_D, DESIGN_WORK_PROPS, DROPDOWN_OPTIONS } from '@/constants/works'
+import { COLUMNS_D, DESIGN_WORK_PROPS, DROPDOWN_OPTIONS, GlobalWorksTypes } from '@/constants/works'
 import { useAppDispatch } from '@/hooks/redux'
 import { BusinessActions } from '@/store/reducers/businessReducer'
 import React, { FC, Fragment, useEffect, useState } from 'react'
@@ -13,6 +13,7 @@ export interface RowProps {
    row_index: number
    scroll_row_length: number
    work: DESIGN_WORK_PROPS
+   table_type: GlobalWorksTypes
 }
 
 export type WTType = keyof DESIGN_WORK_PROPS
@@ -22,7 +23,7 @@ export type WorksStateType = {
    setLocalWorks: React.Dispatch<React.SetStateAction<Partial<DESIGN_WORK_PROPS>>>
 }
 
-const Row: FC<RowProps> = ({ id, type, row_index, scroll_row_length, work }) => {
+const Row: FC<RowProps> = ({ id, type, row_index, scroll_row_length, work, table_type }) => {
    const [localWorks, setLocalWorks] = useState(work)
    const dispatch = useAppDispatch()
 
@@ -38,7 +39,7 @@ const Row: FC<RowProps> = ({ id, type, row_index, scroll_row_length, work }) => 
       }
    }, [work])
 
-   const works_types = type === 'fixed' ? COLUMNS_D.FIXED_VALUES : COLUMNS_D.SCROLL_VALUES
+   const works_types = type === 'fixed' ? COLUMNS_D.FIXED_VALUES : COLUMNS_D.SCROLL_VALUES[table_type]
 
    useEffect(() => {
       if (['PLANNED', 'CANCEL'].includes(localWorks.work_status)) {

@@ -5,14 +5,19 @@ import SaveButton from './SaveButton'
 import Image from 'next/image'
 import translate from '@/i18n/translate'
 import { useAppSelector } from '@/hooks/redux'
+import { GlobalWorksTypes } from '@/constants/works'
 
-const Navigation: FC<{ refetch(): void; isWorksLoading: boolean }> = ({ refetch, isWorksLoading }) => {
+type NavigationProps = {
+   type: GlobalWorksTypes
+}
+
+const Navigation: FC<NavigationProps> = ({ type }) => {
    const message = useAppSelector((state) => state.reducer.business.isError)
 
    return (
       <div className={css.top_block}>
          <div className={css.navigation}>
-            <SaveButton />
+            <SaveButton type={type} />
             {/* <ReloadButton {...{ refetch, isWorksLoading }} /> */}
          </div>
          {message ? (
