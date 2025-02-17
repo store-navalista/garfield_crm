@@ -1,10 +1,15 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import Image from 'next/image'
 import React, { FC } from 'react'
-import { PageSettingState } from '../tabs/Design'
 import Filters from './Filters'
 import css from './Table.module.scss'
 import { DESIGN_WORK_PROPS } from '@/constants/works'
+import { PageSetting } from '../tabs/WorksTable'
+
+type PageSettingState = {
+   pageSetting: PageSetting
+   setPageSetting: React.Dispatch<React.SetStateAction<PageSetting>>
+}
 
 type PaginationProps = {
    works_count: number

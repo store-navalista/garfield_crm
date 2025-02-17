@@ -9,7 +9,7 @@ import Rows from '../components/Rows'
 import css from './Tabs.module.scss'
 import InDevelopment from '@/components/InDevelopment/InDevelopment'
 
-type PageSetting = {
+export type PageSetting = {
    currentPage: number
    count: number
 }

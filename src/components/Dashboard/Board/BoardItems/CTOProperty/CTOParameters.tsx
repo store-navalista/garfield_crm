@@ -6,7 +6,7 @@ import css from './CTOParameters.module.scss'
 
 const fields = ['describe_name', 'mail']
 
-type UpdateData = Omit<IUser, 'describe_role' | 'id' | 'jobs' | 'desc' | 'describe_password'>
+type UpdateData = Omit<IUser, 'describe_role' | 'id' | 'jobs' | 'desc' | 'describe_password' | 'name_of_company_locale'>
 
 const CTOParameters: FC = () => {
    const { data: CTO, refetch } = useGetCTOQuery()
