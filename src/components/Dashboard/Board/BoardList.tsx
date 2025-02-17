@@ -1,24 +1,26 @@
+import { decodeToken } from '@/components/Auth/services'
+import NotDesktop from '@/components/NotDesktop/NotDesktop'
+import Loader from '@/components/UI/loader/Loader'
 import { useAppSelector } from '@/hooks/redux'
 import useUserByID from '@/hooks/useUserByID'
-import React, { FC, useEffect, useMemo, useState } from 'react'
+import { useRefreshMutation } from '@/store/reducers/apiReducer'
+import { useRouter } from 'next/router'
+import React, { FC, useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 import css from './Board.module.scss'
 import Account from './BoardItems/Account'
 import CTOProperty from './BoardItems/CTOProperty/CTOProperty'
 import { Director } from './BoardItems/Director'
+import Business from './BoardItems/Director/Business/Business'
 import Charts from './BoardItems/Director/Charts/Charts'
 import Greating from './BoardItems/Greating/Greating'
 import HolidayCalendar from './BoardItems/HolidayCalendar/HolidayCalendar'
+import PDF from './BoardItems/PDF/PDF'
 import QRCodeGenerator from './BoardItems/QRCodeGenerator/QRCodeGenerator'
 import Radio from './BoardItems/Radio/Radio'
 import RadioNavigate from './BoardItems/Radio/RadioNavigate'
 import Time from './BoardItems/Time/Time'
-import { useGetUsersQuery } from '@/store/reducers/apiReducer'
-import { IUser } from '@/constants/users'
-import PDF from './BoardItems/PDF/PDF'
 import Video from './BoardItems/Video/Video'
-import { useMediaQuery } from 'react-responsive'
-import NotDesktop from '@/components/NotDesktop/NotDesktop'
-import Business from './BoardItems/Director/Business/Business'
 
 export interface BoardTabProps {
    isMobileVersion: boolean
@@ -29,15 +31,56 @@ const BoardList: FC<{ isOpen: boolean }> = ({ isOpen }) => {
    const radioData = useAppSelector((state) => state.reducer.radio)
    const { data: user } = useUserByID()
    const [notNullVolume, setNotNullVolume] = useState(1)
-   const { data: users, error, isLoading } = useGetUsersQuery()
    const W800 = useMediaQuery({ query: '(max-width: 800px)' })
 
-   const period = new Date().toLocaleString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' }).split('/')
+   const router = useRouter()
+   const [accessToken, setAccessToken] = useState<string | null>(null)
+   const [refresh] = useRefreshMutation()
 
-   const birthdays = users?.filter(
-      (u) =>
-         u.describe_date.split('.')[0] === u.describe_date.split('.')[0] && u.describe_date.split('.')[1] === period[1]
-   ) as IUser[]
+   const refreshToken = async () => {
+      try {
+         const refreshResponse = await refresh().unwrap()
+         return refreshResponse?.refresh?.access_token || null
+      } catch (error) {
+         console.error('Token renew error', error)
+         return null
+      }
+   }
+
+   useEffect(() => {
+      const checkToken = async () => {
+         let token = accessToken
+         if (!token) {
+            token = await refreshToken()
+         }
+
+         if (!token) {
+            router.replace('/')
+            return
+         }
+
+         try {
+            const decoded: any = decodeToken(token)
+            if (!decoded || !decoded.exp || decoded.exp < Date.now() / 1000) {
+               token = await refreshToken()
+            }
+
+            if (!token) {
+               router.replace('/')
+               return
+            }
+
+            setAccessToken(token)
+         } catch (error) {
+            console.error(error)
+            router.replace('/')
+         }
+      }
+
+      checkToken()
+   }, [router])
+
+   if (!accessToken || !user) return <Loader />
 
    return (
       <div className={css.wrapper}>

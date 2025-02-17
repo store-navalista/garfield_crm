@@ -21,6 +21,8 @@ export interface IJobDataAction {
       | 'project_number'
       | 'job_description'
       | 'hours_worked'
+      | 'notes'
+      | 'name_of_company_locale'
       | 'order'
       | 'add'
       | 'remove'
@@ -63,7 +65,8 @@ const Time: FC = () => {
       project_number: '',
       hours_worked: new_hours_worked,
       report_period: period,
-      notes: ''
+      notes: '',
+      name_of_company_locale: 'INTERNAL'
    }
 
    const [jobs, updateJobs] = useReducer((state: IJob[], action: IJobDataAction): IJob[] => {
@@ -93,6 +96,12 @@ const Time: FC = () => {
          case 'hours_worked': {
             return updateProperty('hours_worked')
          }
+         case 'notes': {
+            return updateProperty('notes')
+         }
+         case 'name_of_company_locale': {
+            return updateProperty('name_of_company_locale')
+         }
          case 'order': {
             return updateProperty('order')
          }
@@ -101,7 +110,7 @@ const Time: FC = () => {
          }
          case 'add_calculated': {
             if (action.payload) {
-               const { project_number, ship_name, job_description } = action.payload
+               const { project_number, ship_name, job_description, name_of_company_locale } = action.payload
                return [
                   {
                      ...empty_job,
@@ -109,7 +118,8 @@ const Time: FC = () => {
                      ship_name,
                      job_description,
                      notes: 'CALC_JOB',
-                     order: state.length + 1
+                     order: state.length + 1,
+                     name_of_company_locale: name_of_company_locale ?? 'INTERNAL'
                   },
                   ...state
                ]
@@ -202,6 +212,7 @@ const Time: FC = () => {
    const sendReport = async () => {
       const cleaned_from_empty = clearJobs(jobs)
       const updateJobsData = { userId: user?.id, period, jobs: cleaned_from_empty }
+
       const result = await sendData(updateJobsData)
 
       if ('error' in result) return

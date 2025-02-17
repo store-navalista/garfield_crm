@@ -16,7 +16,7 @@ const BoardViewport: FC<{ isOpen: boolean }> = ({ isOpen }) => {
    return (
       <div style={{ ...widthStyle } as CSSProperties} className={css.viewport}>
          <BoardList isOpen={isOpen} />
-         <p className={css.version}>Version: 2.01.27.11.2024</p>
+         <p className={css.version}>Version: 2.03.14.02.2025</p>
       </div>
    )
 }

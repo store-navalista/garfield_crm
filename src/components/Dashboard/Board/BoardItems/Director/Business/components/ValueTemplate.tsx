@@ -4,10 +4,10 @@ import {
    DESIGN_WORK_PROPS,
    DROPDOWN_OPTIONS,
    empty_placeholders,
-   FieldOptionsType
+   FieldOptionsType,
+   WorksTypes
 } from '@/constants/works'
 import { useGetCurrencyRateQuery } from '@/store/reducers/apiReducer'
-import { useGetVesselsQuery } from '@/store/reducers/businessApiReducer'
 import React, { FC, memo, useMemo } from 'react'
 import { Table } from '.'
 import css from '../tabs/Tabs.module.scss'
@@ -16,15 +16,17 @@ import CalculatedInput from './CalculatedInput'
 import DatePickerElement from './DatePickerElement'
 import { WorksStateType } from './Row'
 import StaticInput from './StaticInput'
+import { useGetParticipantsByTypeQuery } from '@/store/reducers/participantApiReducer'
 
 type ValueTemplateProps = {
    index: number
    wt: keyof DESIGN_WORK_PROPS
    options?: FieldOptionsType
+   table_type: (typeof WorksTypes)[number]
 } & WorksStateType
 
-const ValueTemplate: FC<ValueTemplateProps> = ({ index, wt, options = {}, localWorks, setLocalWorks }) => {
-   const { data: vessels } = useGetVesselsQuery()
+const ValueTemplate: FC<ValueTemplateProps> = ({ index, wt, options = {}, localWorks, setLocalWorks, table_type }) => {
+   const { data: vessels } = useGetParticipantsByTypeQuery({ type: 'vessel' })
    const vessels_names = useMemo(() => vessels?.map((v) => v.name_of_vessel), [vessels])
    const { data: rate, isLoading: isRateLoading } = useGetCurrencyRateQuery({
       pair: ['USD', localWorks.agreement_currency]
@@ -66,7 +68,7 @@ const ValueTemplate: FC<ValueTemplateProps> = ({ index, wt, options = {}, localW
    if (CALCVAL.includes(wt as keyof CALC_POSITIONS)) {
       return (
          <div key={index} className={css.input_wrapper}>
-            <CalculatedInput {...{ options, wt, localWorks }} />
+            <CalculatedInput {...{ options, wt, localWorks, table_type }} />
          </div>
       )
    }

@@ -25,5 +25,6 @@ export interface IUser {
    currentTask?: string
    jobs: Job[]
    describe_password: string
+   name_of_company_locale: 'EXTERNAL' | 'INTERNAL'
    mail: string
 }

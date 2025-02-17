@@ -12,6 +12,7 @@ export type IJob = Partial<{
    order: number
    notes: string
    user_id: string
+   name_of_company_locale: string
 }>
 
 export const JC: IJS = {

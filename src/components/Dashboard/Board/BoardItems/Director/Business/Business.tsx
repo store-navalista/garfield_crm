@@ -1,24 +1,23 @@
-import { Tabs } from '@/constants/works'
+import { participants, Tabs } from '@/constants/works'
 import React, { FC, useState } from 'react'
 import css from './Business.module.scss'
 import { Menu } from './components/Menu/Menu'
-import Design from './tabs/Design'
-import Engineering from './tabs/Engineering'
-import Supply from './tabs/Supply'
-import UTM from './tabs/UTM'
-import Vessels from './tabs/Vessels'
+import ParticipantsTable from './tabs/ParticipantsTable'
+import WorksTable from './tabs/WorksTable'
 
 const Business: FC = () => {
-   const [currentTab, setCurrentTab] = useState<(typeof Tabs)[number]>(Tabs[1])
+   const [currentTab, setCurrentTab] = useState<(typeof Tabs)[number]>(Tabs[0])
+   const [currentParticipant, setCurrentParticipant] = useState(participants[0])
+   const tabs = Array.from({ length: participants?.length }, (_, i) => i)
 
    return (
       <div className={css.wrapper}>
          <Menu {...{ currentTab, setCurrentTab }} />
-         {currentTab === 'vessels' ? <Vessels /> : null}
-         {currentTab === 'design' ? <Design /> : null}
-         {currentTab === 'engineering' ? <Engineering /> : null}
-         {currentTab === 'supply' ? <Supply /> : null}
-         {currentTab === 'utm' ? <UTM /> : null}
+         {currentTab === 'participant' ? (
+            <ParticipantsTable {...{ type: currentParticipant, setCurrentParticipant, tabs }} />
+         ) : (
+            <WorksTable table_type={currentTab} />
+         )}
       </div>
    )
 }

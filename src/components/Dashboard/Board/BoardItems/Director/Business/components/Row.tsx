@@ -97,7 +97,9 @@ const Row: FC<RowProps> = ({ id, type, row_index, scroll_row_length, work, table
                const options = COLUMNS_D.OPTIONS[wt]
                return (
                   <Fragment key={index}>
-                     <ValueTemplate {...{ id, index, wt: wt as WTType, options, localWorks, setLocalWorks }} />
+                     <ValueTemplate
+                        {...{ id, index, wt: wt as WTType, options, localWorks, setLocalWorks, table_type }}
+                     />
                   </Fragment>
                )
             }
@@ -108,7 +110,7 @@ const Row: FC<RowProps> = ({ id, type, row_index, scroll_row_length, work, table
 
                return (
                   <Fragment key={index}>
-                     <ValueTemplate {...{ index, wt: wt as WTType, options, localWorks, setLocalWorks }} />
+                     <ValueTemplate {...{ index, wt: wt as WTType, options, localWorks, setLocalWorks, table_type }} />
                   </Fragment>
                )
             })

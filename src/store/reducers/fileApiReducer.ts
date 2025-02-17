@@ -1,7 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query'
 import { gql } from 'graphql-request'
-import Cookies from 'js-cookie'
+import { customBaseQuery } from './helpers/baseQuery'
 
 interface FileResponse {
    fileName: string
@@ -11,19 +10,7 @@ interface FileResponse {
 
 export const fileApi = createApi({
    reducerPath: 'fileApi',
-   baseQuery: graphqlRequestBaseQuery({
-      url: '/graphql',
-      // url: 'http://localhost:8877/graphql',
-      prepareHeaders: (headers) => {
-         const token = Cookies.get('token')
-
-         if (token) {
-            headers.set('authorization', `Bearer ${token}`)
-         }
-
-         return headers
-      }
-   }),
+   baseQuery: customBaseQuery,
    endpoints: (builder) => ({
       getFile: builder.query<FileResponse, { fileName: string; filePath: string }>({
          query: ({ fileName, filePath }) => ({

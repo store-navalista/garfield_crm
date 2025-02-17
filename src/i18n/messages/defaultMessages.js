@@ -209,12 +209,12 @@ export default {
 
    'business.tooltip-lock': { defaultMessage: 'Fix USD rate' },
 
-   'business.messages-011': { defaultMessage: 'Vessel successfully created!' },
-   'business.messages-012': { defaultMessage: 'There were problems creating the vessel. The server may be unavailable!' },
-   'business.messages-013': { defaultMessage: 'Vessel successfully updated!' },
-   'business.messages-014': { defaultMessage: 'There were problems update the vessel. The server may be unavailable!' },
-   'business.messages-015': { defaultMessage: 'Vessel successfully deleted!' },
-   'business.messages-016': { defaultMessage: 'There were problems deleting the vessel. The server may be unavailable!' },
+   'business.messages-011': { defaultMessage: 'Participant successfully created!' },
+   'business.messages-012': { defaultMessage: 'There were problems creating the participant. The server may be unavailable!' },
+   'business.messages-013': { defaultMessage: 'Participant successfully updated!' },
+   'business.messages-014': { defaultMessage: 'There were problems update the participant. The server may be unavailable!' },
+   'business.messages-015': { defaultMessage: 'Participant successfully deleted!' },
+   'business.messages-016': { defaultMessage: 'There were problems deleting the participant. The server may be unavailable!' },
 
    'business.messages-001': { defaultMessage: 'A job with the same number already exists!' },
    'business.messages-002': { defaultMessage: 'Works successfully saved!' },

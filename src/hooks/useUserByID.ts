@@ -1,14 +1,12 @@
 import { useGetUserQuery } from '@/store/reducers/apiReducer'
 
 export default function useUserByID() {
-   let urlParams = null
+   if (typeof window === 'undefined') return { data: null }
 
-   if (typeof window !== 'undefined') {
-      urlParams = new URLSearchParams(window.location.search)
+   const urlParams = new URLSearchParams(window.location.search)
+   const userId = urlParams.get('id')
 
-      const userId = urlParams.get('id')
-      const { data } = useGetUserQuery({ userId })
+   const { data } = useGetUserQuery({ userId }, { skip: !userId })
 
-      return { data }
-   }
+   return { data: data || null }
 }

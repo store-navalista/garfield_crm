@@ -1,14 +1,22 @@
 import { Vessel } from '@/constants/works'
-import { FieldsType } from '../Vessels'
 
-export const getFieldTitle = (field: FieldsType) => {
+export const extractMessageBeforeView = (input) => {
+   const match = input.match(/^[^:]+/)
+   return match ? match[0] : null
+}
+
+export const getFieldTitle = (field: string) => {
    switch (field) {
       case 'name_of_vessel':
          return 'Name of vessel'
-      case 'ID':
-         return '№'
       case 'imo_frozen':
          return 'Freeze IMO'
+      case 'executor_name':
+         return 'Executor'
+      case 'contractor_name':
+         return 'Contractor'
+      case 'description':
+         return 'Description'
       default:
          return 'IMO'
    }

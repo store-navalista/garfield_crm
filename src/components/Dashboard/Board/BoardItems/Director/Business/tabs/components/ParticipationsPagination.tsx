@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC } from 'react'
-import css from '../Vessels.module.scss'
+import css from '../ParticipantTable.module.scss'
 
 type PagProps = {
    pages_count: number
@@ -7,7 +7,7 @@ type PagProps = {
    setCurrentPage: React.Dispatch<React.SetStateAction<number>>
 }
 
-const VesselPagination: FC<PagProps> = ({ pages_count, currentPage, setCurrentPage }) => {
+const ParticipationsPagination: FC<PagProps> = ({ pages_count, currentPage, setCurrentPage }) => {
    const handleCurrentPage = (type: 'increment' | 'decrement') => {
       if (type === 'increment') {
          if (currentPage < pages_count) {
@@ -37,4 +37,4 @@ const VesselPagination: FC<PagProps> = ({ pages_count, currentPage, setCurrentPa
    )
 }
 
-export default VesselPagination
+export default ParticipationsPagination

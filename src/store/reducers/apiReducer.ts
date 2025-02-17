@@ -1,68 +1,77 @@
 import { IJob } from '@/constants/jobs'
 import { IUser } from '@/constants/users'
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query'
 import { gql } from 'graphql-request'
-import Cookies from 'js-cookie'
-
-interface CreateUserData {
-   describe_name: string
-   describe_date?: string
-   describe_specialization?: string
-   describe_position?: string
-   describe_password: string
-   CTO?: boolean
-   mail?: string
-}
-
-type UpdateUserData = Omit<CreateUserData, 'describe_password'>
-
-interface UpdateJobsData {
-   userId: string
-   period: string
-   jobs: IJob[]
-}
+import { apiRequests } from './helpers/apiRequests'
+import { customBaseQuery, setAuthToken } from './helpers/baseQuery'
+import { CreateUserData, RefreshResponse, TokenResponse, UpdateJobsData, UpdateUserData } from './helpers/types'
 
 export const api = createApi({
-   baseQuery: graphqlRequestBaseQuery({
-      url: '/graphql',
-      // url: 'http://localhost:8877/graphql',
-      prepareHeaders: (headers) => {
-         const token = Cookies.get('token')
-
-         if (token) {
-            headers.set('authorization', `Bearer ${token}`)
-         }
-
-         return headers
-      }
-   }),
+   baseQuery: customBaseQuery,
    endpoints: (builder) => ({
+      login: builder.mutation<TokenResponse, { username: string; password: string }>({
+         query: ({ username, password }) => ({
+            document: gql`
+               ${apiRequests.loginRequest}
+            `,
+            variables: { username, password }
+         }),
+         async onQueryStarted(_args, { queryFulfilled }) {
+            try {
+               const { data } = await queryFulfilled
+
+               setAuthToken(data.login.access_token)
+            } catch (error) {
+               console.error('Login failed', error)
+            }
+         }
+      }),
+
+      refresh: builder.mutation<RefreshResponse, void>({
+         query: () => ({
+            document: gql`
+               ${apiRequests.refreshRequest}
+            `
+         }),
+         async onQueryStarted(_args, { queryFulfilled }) {
+            try {
+               const { data } = await queryFulfilled
+               setAuthToken(data.refresh.access_token)
+            } catch (error) {
+               console.error('Refresh token failed', error)
+            }
+         }
+      }),
+
+      checkAuth: builder.query<any, void>({
+         query: () => ({
+            document: gql`
+               ${apiRequests.checkAuthRequest}
+            `
+         }),
+         transformResponse: (response: { checkAuth: { id: string } }) => response.checkAuth.id
+      }),
+
+      logout: builder.mutation<void, void>({
+         query: () => ({
+            document: gql`
+               ${apiRequests.logoutRequest}
+            `
+         }),
+         async onQueryStarted(_args, { queryFulfilled }) {
+            try {
+               await queryFulfilled
+               setAuthToken('')
+            } catch (error) {
+               console.error('Logout failed', error)
+            }
+         }
+      }),
+
       getUser: builder.query<IUser, { userId: string }>({
          query: ({ userId }) => ({
             document: gql`
-               query GetUser($userId: String!) {
-                  getUser(userId: $userId) {
-                     id
-                     describe_name
-                     describe_date
-                     describe_specialization
-                     describe_position
-                     describe_role
-                     currentTask
-                     describe_password
-                     mail
-                     jobs {
-                        ship_name
-                        job_description
-                        project_number
-                        hours_worked
-                        report_period
-                        order
-                        notes
-                     }
-                  }
-               }
+               ${apiRequests.getUserRequest}
             `,
             variables: { userId }
          }),
@@ -72,27 +81,7 @@ export const api = createApi({
       getCTO: builder.query<IUser, void>({
          query: () => ({
             document: gql`
-               query {
-                  getCTO {
-                     id
-                     describe_name
-                     describe_date
-                     describe_specialization
-                     describe_position
-                     describe_role
-                     currentTask
-                     describe_password
-                     mail
-                     jobs {
-                        ship_name
-                        job_description
-                        project_number
-                        hours_worked
-                        report_period
-                        notes
-                     }
-                  }
-               }
+               ${apiRequests.getCTORequest}
             `
          }),
          transformResponse: (response: { getCTO: IUser }) => response.getCTO
@@ -101,27 +90,7 @@ export const api = createApi({
       getUsers: builder.query<IUser[], void>({
          query: () => ({
             document: gql`
-               query {
-                  getUsers {
-                     id
-                     describe_name
-                     describe_date
-                     describe_specialization
-                     describe_position
-                     describe_role
-                     currentTask
-                     describe_password
-                     mail
-                     jobs {
-                        ship_name
-                        job_description
-                        project_number
-                        hours_worked
-                        report_period
-                        notes
-                     }
-                  }
-               }
+               ${apiRequests.getUsersRequest}
             `
          }),
          transformResponse: (response: { getUsers: IUser[] }) => response.getUsers
@@ -130,17 +99,7 @@ export const api = createApi({
       getJobsByUserId: builder.query<IJob, { userId: string }>({
          query: ({ userId }) => ({
             document: gql`
-               query GetJobsByUserIdAndPeriod($userId: String!) {
-                  getJobsByUserIdAndPeriod(userId: $userId, period: $period) {
-                     ship_name
-                     job_description
-                     project_number
-                     hours_worked
-                     report_period
-                     order
-                     notes
-                  }
-               }
+               ${apiRequests.getJobsByUserIdRequest}
             `,
             variables: { userId }
          }),
@@ -150,18 +109,7 @@ export const api = createApi({
       getJobsByUserIdAndPeriod: builder.query<IJob[], { userId: string; period: string }>({
          query: ({ userId, period }) => ({
             document: gql`
-               query GetJobsByUserIdAndPeriod($userId: String!, $period: String!) {
-                  getJobsByUserIdAndPeriod(userId: $userId, period: $period) {
-                     id
-                     ship_name
-                     job_description
-                     project_number
-                     hours_worked
-                     report_period
-                     order
-                     notes
-                  }
-               }
+               ${apiRequests.getJobsByUserIdAndPeriodRequest}
             `,
             variables: { userId, period }
          }),
@@ -171,11 +119,7 @@ export const api = createApi({
       updateJobsByUserIdAndPeriod: builder.mutation<IJob, UpdateJobsData>({
          query: (updateJobsData) => ({
             document: gql`
-               mutation UpdateJobsByUserIdAndPeriod($updateJobsData: UpdateJobsInput!) {
-                  updateJobsByUserIdAndPeriod(updateJobsData: $updateJobsData) {
-                     order
-                  }
-               }
+               ${apiRequests.updateJobsByUserIdAndPeriodRequest}
             `,
             variables: { updateJobsData }
          }),
@@ -192,27 +136,7 @@ export const api = createApi({
             CTO = false
          }) => ({
             document: gql`
-               mutation CreateUser(
-                  $describe_name: String!
-                  $describe_date: String
-                  $describe_specialization: String
-                  $describe_position: String
-                  $describe_password: String!
-                  $CTO: Boolean
-               ) {
-                  createUser(
-                     createUserData: {
-                        describe_name: $describe_name
-                        describe_date: $describe_date
-                        describe_specialization: $describe_specialization
-                        describe_position: $describe_position
-                        describe_password: $describe_password
-                        CTO: $CTO
-                     }
-                  ) {
-                     id
-                  }
-               }
+               ${apiRequests.createUserRequest}
             `,
             variables: {
                describe_name,
@@ -229,9 +153,7 @@ export const api = createApi({
       deleteUser: builder.mutation<IUser['id'], { id: string }>({
          query: ({ id }) => ({
             document: gql`
-               mutation DeleteUser($id: String!) {
-                  deleteUser(id: $id)
-               }
+               ${apiRequests.deleteUserRequest}
             `,
             variables: { id }
          }),
@@ -241,9 +163,7 @@ export const api = createApi({
       updatePassword: builder.mutation<boolean, { id: string; newPassword: string }>({
          query: ({ id, newPassword }) => ({
             document: gql`
-               mutation UpdatePassword($id: String!, $newPassword: String!) {
-                  updatePassword(id: $id, newPassword: $newPassword)
-               }
+               ${apiRequests.updatePasswordRequest}
             `,
             variables: { id, newPassword }
          }),
@@ -253,11 +173,7 @@ export const api = createApi({
       updateUser: builder.mutation<IUser, { id: string; updateUserData: UpdateUserData }>({
          query: ({ id, updateUserData }) => ({
             document: gql`
-               mutation UpdateUser($id: String!, $updateUserData: UpdateUserInput!) {
-                  updateUser(id: $id, updateUserData: $updateUserData) {
-                     id
-                  }
-               }
+               ${apiRequests.updateUserRequest}
             `,
             variables: {
                id,
@@ -267,34 +183,10 @@ export const api = createApi({
          transformResponse: (response: { updateUser: IUser }) => response.updateUser
       }),
 
-      login: builder.mutation<{ token: string; id: string }, { username: string; password: string }>({
-         query: ({ username, password }) => ({
-            document: gql`
-               mutation Login($username: String!, $password: String!) {
-                  login(loginDto: { username: $username, password: $password }) {
-                     token
-                     id
-                  }
-               }
-            `,
-            variables: {
-               username,
-               password
-            }
-         }),
-         transformResponse: (response: { login: { token: string; id: string } }) => response.login
-      }),
-
       getCurrencyRate: builder.query<Record<string, string>, { pair: [string, string] }>({
          query: ({ pair }) => ({
             document: gql`
-               query GetCurrency($pair: [String!]!) {
-                  getCurrency(pair: $pair) {
-                     baseCurrency
-                     quoteCurrency
-                     crossRate
-                  }
-               }
+               ${apiRequests.getCurrencyRateRequest}
             `,
             variables: { pair }
          }),
@@ -315,5 +207,8 @@ export const {
    useUpdateUserMutation,
    useLoginMutation,
    useGetCTOQuery,
-   useGetCurrencyRateQuery
+   useGetCurrencyRateQuery,
+   useLogoutMutation,
+   useRefreshMutation,
+   useCheckAuthQuery
 } = api

@@ -5,7 +5,7 @@ import { COMMON_CELL, NARROW_CELL } from '@/constants/dashboard'
 import Services from '../../../Time/TimeJob/services'
 
 const Job: FC<JobProps> = ({ currentJob, days }) => {
-   const { project_number, ship_name, job_description, hours_worked } = currentJob
+   const { project_number, ship_name, job_description, hours_worked, notes } = currentJob
 
    const getStyles = (val: number) => {
       switch (val) {
@@ -32,7 +32,10 @@ const Job: FC<JobProps> = ({ currentJob, days }) => {
    })()
 
    const sum = hours_worked.reduce((acc, current) => (current > 0 ? acc + current : acc), 0)
-   const comments = new Services({ job_description }).unpackComments()
+   const comments =
+      project_number === COMMON_CELL
+         ? new Services({ notes: job_description }).unpackComments()
+         : new Services({ notes }).unpackComments()
 
    return (
       <div className={css.row}>
@@ -43,18 +46,17 @@ const Job: FC<JobProps> = ({ currentJob, days }) => {
          <div className={css.days}>
             {days.map((d, i) => {
                const { day } = d
-               const haveComment = project_number === COMMON_CELL && comments[i]
 
                return (
                   <span style={getStyles(hours_worked[i]) as CSSProperties} key={day}>
                      {hours_worked[i] >= 1 ? hours_worked[i] : ''}
-                     {haveComment ? (
+                     {comments[i] ? (
                         <div className={css.comments_tip}>
                            <span className={css.triangle} />
                            <p>{comments[i]}</p>
                         </div>
                      ) : null}
-                     {haveComment ? <div className={css.circle} /> : null}
+                     {comments[i] ? <div className={css.circle} /> : null}
                   </span>
                )
             })}

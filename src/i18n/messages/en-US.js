@@ -212,12 +212,12 @@ export default {
       'business.table-navalista_profit_currency': 'NAVALISTA PROFIT CURRENCY',
       'business.table-navalista_profit': 'NAVALISTA PROFIT',
 
-      'business.messages-011': 'Vessel successfully created!',
-      'business.messages-012': 'There were problems creating the vessel. The server may be unavailable!',
-      'business.messages-013': 'Vessel successfully updated!',
-      'business.messages-014': 'There were problems update the vessel. The server may be unavailable!',
-      'business.messages-015': 'Vessel successfully deleted!',
-      'business.messages-016': 'There were problems deleting the vessel. The server may be unavailable!',
+      'business.messages-011': 'Participant successfully created!',
+      'business.messages-012': 'There were problems creating the participant. The server may be unavailable!',
+      'business.messages-013': 'Participant successfully updated!',
+      'business.messages-014': 'There were problems update the participant. The server may be unavailable!',
+      'business.messages-015': 'Participant successfully deleted!',
+      'business.messages-016': 'There were problems deleting the participant. The server may be unavailable!',
 
       'business.tooltip-lock': 'Fix USD rate',
       'business.messages-001': 'A job with the same number already exists!',

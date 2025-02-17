@@ -62,16 +62,19 @@ const WorkedTime: FC<IWorkedTime> = ({ j, i, days, updateJobs, index, setisTimin
 
    const { day, formatDay } = days[i]
 
-   const { job_description } = j
-   const serv = new Services({ job_description })
+   const { job_description, notes } = j
+
+   const serv = j.project_number === COMMON_CELL ? new Services({ notes: job_description }) : new Services({ notes })
    const updateCommentsHandler = (val: string) => {
       const desc_stringify = serv.packComments(val, i)
-      updateJobs({ type: 'job_description', payload: { val: desc_stringify, index } })
+      j.project_number === COMMON_CELL
+         ? updateJobs({ type: 'job_description', payload: { val: desc_stringify, index } })
+         : updateJobs({ type: 'notes', payload: { val: desc_stringify, index } })
    }
 
    useEffect(() => {
       if (serv.unpackComments()[i]) setisComments(true)
-   }, [job_description])
+   }, [job_description, notes])
 
    return (
       <div ref={ref} className={css.time_used}>
@@ -110,7 +113,7 @@ const WorkedTime: FC<IWorkedTime> = ({ j, i, days, updateJobs, index, setisTimin
             ))}
          </div>
          <button onClick={() => setisTimingOpen(false)} className={css.apply} />
-         {j.project_number === COMMON_CELL ? (
+         {
             <>
                <button
                   style={{
@@ -137,7 +140,7 @@ const WorkedTime: FC<IWorkedTime> = ({ j, i, days, updateJobs, index, setisTimin
                   </button>
                ) : null}
             </>
-         ) : null}
+         }
          {isComments ? <Comments i={i} serv={serv} updateCommentsHandler={updateCommentsHandler} /> : null}
       </div>
    )

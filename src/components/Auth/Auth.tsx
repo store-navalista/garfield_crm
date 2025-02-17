@@ -1,15 +1,11 @@
-import Portal from '@/HOC/Portal'
-import Tooltip from '@/components/UI/tooltip/Tooltip'
-import useHover from '@/hooks/useHover'
-import useOutsideClick from '@/hooks/useOutsideClick'
 import translate from '@/i18n/translate'
-import { useGetUserQuery, useLoginMutation } from '@/store/reducers/apiReducer'
+import { useCheckAuthQuery, useLoginMutation } from '@/store/reducers/apiReducer'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { FC, KeyboardEvent, useEffect, useRef, useState } from 'react'
-import { useCookies, Cookies } from 'react-cookie'
 import css from './Auth.module.scss'
+import { decodeToken } from './services'
 
 const Auth: FC = () => {
    const [login, { data, isLoading, error, isError, isSuccess }] = useLoginMutation()
@@ -17,19 +13,23 @@ const Auth: FC = () => {
    const [i18n_error, setI18n_error] = useState('')
    const wrapperRef = useRef(null)
    const keysRef = useRef(null)
-   const hoverRef = useRef(null)
-   const isHovering = useHover(hoverRef)
    const router = useRouter()
-   const [cookies, setCookies] = useCookies(['token', 'user_id', 'saved_username', 'saved_password'])
-   const { data: user } = useGetUserQuery({ userId: new Cookies().get('user_id') })
    const [isHidden, setisHidden] = useState(true)
-   const [isChecked, setIsChecked] = useState(false)
+   const { data: existID } = useCheckAuthQuery()
+   const [userID, setUserID] = useState('')
 
    const handlePressKey = (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
          logIn()
       }
    }
+
+   useEffect(() => {
+      if (data && isSuccess) {
+         setUserID(decodeToken(data.login.access_token).id)
+      }
+   }, [data])
+
    useEffect(() => {
       if (keysRef.current) {
          keysRef.current.addEventListener('keydown', handlePressKey)
@@ -41,16 +41,6 @@ const Auth: FC = () => {
          }
       }
    }, [handlePressKey])
-
-   function exit() {
-      if (!cookies['saved_username'] && !cookies['saved_password']) {
-         setLoginData({ username: '', password: '' })
-         setIsChecked(false)
-      }
-      setI18n_error('')
-   }
-
-   useOutsideClick(wrapperRef, exit)
 
    const isCustomError = () => {
       const { username, password } = loginData
@@ -71,29 +61,23 @@ const Auth: FC = () => {
       if (!invalidate) await login(loginData)
    }
 
-   const routeCabinet = () => {
-      if (user) {
+   useEffect(() => {
+      if (userID || existID) {
          router.push({
             pathname: '/dashboard',
-            query: { id: user.id }
+            query: { id: userID }
          })
       }
-   }
-
-   const enterCabinet = () => {
-      if (cookies['token'] && cookies['user_id']) {
-         return routeCabinet()
-      }
-   }
+   }, [userID])
 
    useEffect(() => {
-      if (isSuccess && user) {
+      if (existID) {
          router.push({
             pathname: '/dashboard',
-            query: { id: user.id }
+            query: { id: existID }
          })
       }
-   }, [isSuccess, user])
+   }, [existID])
 
    useEffect(() => {
       if (isError) {
@@ -108,44 +92,9 @@ const Auth: FC = () => {
       }
    }, [error])
 
-   useEffect(() => {
-      if (data) {
-         setCookies('token', data.token)
-         setCookies('user_id', data.id)
-      }
-      if (isChecked) {
-         setCookies('saved_username', loginData.username, { path: '/', maxAge: 3600 * 24 * 30 }) // 30 days
-         setCookies('saved_password', loginData.password, { path: '/', maxAge: 3600 * 24 * 30 }) // 30 days
-      } else {
-         setCookies('saved_username', '', { path: '/', expires: new Date(0) })
-         setCookies('saved_password', '', { path: '/', expires: new Date(0) })
-      }
-   }, [data, isChecked])
-
-   useEffect(() => {
-      const savedUsername = cookies['saved_username']
-      const savedPassword = cookies['saved_password']
-      if (savedUsername && savedPassword) {
-         setLoginData({ username: savedUsername, password: savedPassword })
-         setIsChecked(true)
-      }
-   }, [])
-
    return (
       <AnimatePresence mode='wait'>
-         <motion.div
-         // initial={{ opacity: 0 }}
-         // animate={{ opacity: 1 }}
-         // exit={{ opacity: 0 }}
-         // transition={{ duration: 1.3 }}
-         // initial={{ opacity: 0, scale: 0.5 }}
-         // animate={{ opacity: 1, scale: 1 }}
-         // transition={{
-         //    duration: 0.8,
-         //    delay: 0.5,
-         //    ease: [0, 0.71, 0.2, 1.01]
-         // }}
-         >
+         <motion.div>
             <div ref={keysRef} className={css.wrapper}>
                <div className={css.bottom_bg} />
                <div ref={wrapperRef} className={css.block}>
@@ -193,15 +142,6 @@ const Auth: FC = () => {
                            alt='loader'
                         />
                      </button>
-                     <div className={css.checkbox}>
-                        <input
-                           id='save_me'
-                           type='checkbox'
-                           checked={isChecked}
-                           onChange={() => setIsChecked(!isChecked)}
-                        />
-                        <label htmlFor='save_me'>{translate('tooltip.header-save-me')}</label>
-                     </div>
                      {i18n_error ? <p className={css.message}>{translate(i18n_error)}</p> : null}
                   </div>
                </div>

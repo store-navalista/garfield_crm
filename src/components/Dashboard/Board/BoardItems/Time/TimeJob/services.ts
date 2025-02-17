@@ -1,11 +1,11 @@
 export default class Services {
    type: number
-   common_description: string
+   notes?: string
    colors = ['#29abe2', '#9dd251', '#eb5757']
 
-   constructor({ type, job_description }: { type?: number; job_description?: string }) {
+   constructor({ type, notes }: { type?: number; notes?: string }) {
       this.type = type
-      this.common_description = job_description
+      this.notes = notes
    }
 
    getColors() {
@@ -38,8 +38,8 @@ export default class Services {
 
    private getModifiedComments() {
       const pattern = /\[\[(\d+)\]\](.*?)/g
-      if (this.common_description) {
-         const splitArr = this.common_description.split(pattern)
+      if (this.notes) {
+         const splitArr = this.notes.split(pattern)
          return splitArr.filter((element) => element.trim() !== '')
       } else {
          return []

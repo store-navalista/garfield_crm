@@ -8,7 +8,7 @@ type TabsType = {
 }
 
 const tips: Record<(typeof Tabs)[number], string> = {
-   vessels: 'Vessels list',
+   participant: 'Participants list',
    design: 'Design works',
    engineering: 'Engineering works',
    supply: 'Supply works',

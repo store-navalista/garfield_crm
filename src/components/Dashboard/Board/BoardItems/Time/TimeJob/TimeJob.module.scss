@@ -3,11 +3,32 @@
    align-items: center;
    justify-content: space-between;
    margin-top: 20px;
+   .work_locale {
+      transform: translateY(-1px);
+      display: flex;
+      align-items: center;
+      padding: 4px;
+      gap: 4px;
+      margin: 0;
+      button {
+         --color: rgb(11, 221, 189);
+         padding: 0;
+         width: 24px;
+         aspect-ratio: 1;
+         border: 1px solid var(--color);
+         box-shadow: var(--shadow-out);
+         cursor: pointer;
+         padding-top: 2px;
+         color: var(--color);
+         border-radius: 4px;
+         transition: color 0.3s, border-color 0.3s;
+      }
+   }
    .desc {
       position: relative;
       display: flex;
       align-items: center;
-      width: 460px;
+      width: 490px;
       button.remove {
          position: relative;
          visibility: hidden;
@@ -26,7 +47,7 @@
          background-size: 50%;
       }
       .inputs {
-         --first-input: 85px;
+         --first-input: 92px;
          --second-input: 96px;
          --third-input: 184px;
          position: absolute;
@@ -89,7 +110,7 @@
          }
       }
       .fill {
-         width: 85%;
+         width: 394px;
       }
       &:hover {
          button.remove {
@@ -107,6 +128,7 @@
       box-sizing: border-box;
       width: var(--width-days);
       gap: var(--gap);
+      margin-left: 12px;
       li {
          box-sizing: border-box;
          width: var(--day-icon-size);

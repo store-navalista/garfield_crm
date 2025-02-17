@@ -5,6 +5,7 @@ import * as React from 'react'
 import css from './Menu.module.scss'
 import { MenuToggle } from './MenuToggle'
 import { Navigation } from './Navigation'
+import _ from 'lodash'
 
 export const Menu: React.FC<{ isOpen: boolean; toggleOpen: () => void }> = ({ isOpen, toggleOpen }) => {
    const { data: user } = useUserByID()

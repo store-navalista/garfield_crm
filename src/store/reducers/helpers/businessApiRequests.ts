@@ -91,66 +91,25 @@ payment_sum
 date_paid
 `
 
-const PartA = `
-id
-work_number
-name_of_vessel
-name_of_work
-work_status
-`
-
-export const getFullMultiBusinessByType = `
-... on BusinessWorkDesign {
-    ${DesignFullQueryResult}
-}
-... on BusinessWorkEngineering {
-    ${EngineeringFullQueryResult}
-}
-... on BusinessWorkSupply {
-    ${SupplyFullQueryResult}
-}
-... on BusinessWorkUTM {
-    ${UTMFullQueryResult}
+const getAllBusinessWorkByTypeRequest = `
+query GetAllBusinessWorkByType($type: String!) {
+    getAllBusinessWorkByType(type: $type) {
+        ... on BusinessWorkDesign {
+            ${DesignFullQueryResult}
+        }
+        ... on BusinessWorkEngineering {
+            ${EngineeringFullQueryResult}
+        }
+        ... on BusinessWorkSupply {
+            ${SupplyFullQueryResult}
+        }
+        ... on BusinessWorkUTM {
+            ${UTMFullQueryResult}
+        }              
+    }
 }
 `
 
-export const getIDMultiBusinessByType = `
-... on BusinessWorkDesign {
-    id
+export const businessApiRequests = {
+   getAllBusinessWorkByTypeRequest
 }
-... on BusinessWorkEngineering {
-    id
-}
-}
-... on BusinessWorkSupply {
-    id
-}
-... on BusinessWorkUTM {
-    id
-`
-
-export const getPartAMultiBusinessByType = `
-... on BusinessWorkDesign {
-    ${PartA}
-}
-... on BusinessWorkEngineering {
-    ${PartA}
-}
-... on BusinessWorkSupply {
-    ${PartA}
-}
-... on BusinessWorkUTM {
-    ${PartA}
-`
-
-export const participantsResponse = `
-... on Vessel {
-    id, IMO, name_of_vessel, imo_frozen
-},
-... on Executor {
-    id, executor_name, description
-},
-... on Contractor {
-    id, contractor_name, description
-}
-`

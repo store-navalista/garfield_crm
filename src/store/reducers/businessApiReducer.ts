@@ -3,95 +3,24 @@ import {
    getIDMultiBusinessByType,
    getPartAMultiBusinessByType
 } from '@/constants/queryBusiness'
-import { ALL_WORKS_PROPS, DESIGN_WORK_PROPS, GlobalWorksTypes, Vessel } from '@/constants/works'
+import { ALL_WORKS_PROPS, DESIGN_WORK_PROPS, GlobalWorksTypes } from '@/constants/works'
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query'
 import { gql } from 'graphql-request'
-import Cookies from 'js-cookie'
+import { customBaseQuery } from './helpers/baseQuery'
+import { businessApiRequests } from './helpers/businessApiRequests'
 
 type FilterByProps = { type: GlobalWorksTypes; parameter: string; value: string | number }
 type updateBusinessWorksProps = { type: GlobalWorksTypes; updateBusinessWorkInput: DESIGN_WORK_PROPS[] }
 
 export const businessApi = createApi({
    reducerPath: 'businessApi',
-   baseQuery: graphqlRequestBaseQuery({
-      url: '/graphql',
-      // url: 'http://localhost:8877/graphql',
-      prepareHeaders: (headers) => {
-         const token = Cookies.get('token')
-
-         if (token) {
-            headers.set('authorization', `Bearer ${token}`)
-         }
-
-         return headers
-      }
-   }),
+   baseQuery: customBaseQuery,
    tagTypes: ['BusinessWork'],
    endpoints: (builder) => ({
-      getVessels: builder.query<Vessel[], void>({
-         query: () => ({
-            document: gql`
-               query GetVessels {
-                  getVessels {
-                     name_of_vessel
-                     IMO
-                     imo_frozen
-                  }
-               }
-            `
-         }),
-         transformResponse: (response: { getVessels: Vessel[] }) => response.getVessels
-      }),
-      deleteVessel: builder.mutation<boolean, { IMO: number }>({
-         query: ({ IMO }) => ({
-            document: gql`
-               query DeleteVessel($IMO: Float!) {
-                  deleteVessel(IMO: $IMO)
-               }
-            `,
-            variables: { IMO }
-         }),
-         transformResponse: (response: boolean) => response
-      }),
-      createVessel: builder.mutation<Vessel, Vessel>({
-         query: (createVesselData) => ({
-            document: gql`
-               mutation CreateVessel($createVesselData: UpdateVesselInput!) {
-                  createVessel(createVesselData: $createVesselData) {
-                     name_of_vessel
-                     IMO
-                     imo_frozen
-                  }
-               }
-            `,
-            variables: { createVesselData }
-         }),
-         transformResponse: (response: { createVessel: Vessel }) => response.createVessel
-      }),
-      updateVessels: builder.mutation<Vessel[], Vessel[]>({
-         query: (updateVesselsData) => ({
-            document: gql`
-               mutation UpdateVessels($updateVesselsData: [UpdateVesselInput!]!) {
-                  updateVessels(updateVesselsData: $updateVesselsData) {
-                     name_of_vessel
-                     IMO
-                     imo_frozen
-                  }
-               }
-            `,
-            variables: { updateVesselsData }
-         }),
-         transformResponse: (response: { createVessel: Vessel[] }) => response.createVessel
-      }),
       getAllBusinessWorkByType: builder.query<DESIGN_WORK_PROPS[], GlobalWorksTypes>({
          query: (type) => ({
             document: gql`
-               query GetAllBusinessWorkByType($type: String!) {
-                  getAllBusinessWorkByType(type: $type) {
-                     ${getFullMultiBusinessByType}
-                  }
-               }
+               ${businessApiRequests.getAllBusinessWorkByTypeRequest}
             `,
             variables: { type }
          }),
@@ -184,10 +113,6 @@ export const businessApi = createApi({
 })
 
 export const {
-   useGetVesselsQuery,
-   useUpdateVesselsMutation,
-   useDeleteVesselMutation,
-   useCreateVesselMutation,
    useGetAllBusinessWorkByTypeQuery,
    useDeleteWorkByTypeAndIdMutation,
    useCreateBusinessWorkMutation,

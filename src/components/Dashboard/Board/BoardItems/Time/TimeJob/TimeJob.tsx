@@ -3,7 +3,7 @@ import { COMMON_CELL, NARROW_CELL } from '@/constants/dashboard'
 import { IJob } from '@/constants/jobs'
 import useHover from '@/hooks/useHover'
 import translate from '@/i18n/translate'
-import React, { CSSProperties, FC, useRef, useState } from 'react'
+import React, { CSSProperties, FC, useEffect, useRef, useState } from 'react'
 import { useIntl } from 'react-intl'
 import TimeService from '../services'
 import css from './TimeJob.module.scss'
@@ -24,9 +24,13 @@ const TimeJob: FC<ITimeJob> = ({ j, days, index, updateJobs, isCommonTasks }) =>
    const staticTranslate = (id: string) => useIntl().formatMessage({ id: id, defaultMessage: id })
    const isCommonJob = j.project_number === COMMON_CELL
 
-   const { hours_worked } = j
+   const { hours_worked, name_of_company_locale } = j
 
    const [isTimingOpen, setisTimingOpen] = useState(undefined)
+
+   // useEffect(() => {
+   //    if (!name_of_company_locale) updateJobs({ type: 'name_of_company_locale', payload: { val: 'INTERNAL', index } })
+   // }, [name_of_company_locale])
 
    const fields = [
       {
@@ -44,7 +48,9 @@ const TimeJob: FC<ITimeJob> = ({ j, days, index, updateJobs, isCommonTasks }) =>
    const sum = j.hours_worked.length ? hours_worked.reduce((acc, current) => (current > 0 ? acc + current : acc), 0) : 0
 
    const margin = index === 0 ? '25px' : index === 0 || (index === 1 && isCommonTasks) ? '30px' : '20px'
-   const comments = isCommonJob ? new Services({ job_description: j.job_description }).unpackComments() : null
+   const comments = isCommonJob
+      ? new Services({ notes: j.job_description }).unpackComments()
+      : new Services({ notes: j.notes }).unpackComments()
 
    const currentField = (project_number: string) => {
       switch (project_number) {
@@ -95,6 +101,15 @@ const TimeJob: FC<ITimeJob> = ({ j, days, index, updateJobs, isCommonTasks }) =>
       }
    }
 
+   const color = name_of_company_locale === 'INTERNAL' ? 'rgb(11, 221, 189)' : 'rgb(192, 41, 1)'
+   const text = name_of_company_locale === 'INTERNAL' ? 'I' : 'E'
+
+   const newLocale = name_of_company_locale === 'INTERNAL' ? 'EXTERNAL' : 'INTERNAL'
+
+   // const changeWorkLocale = () => {
+   //    updateJobs({ type: 'name_of_company_locale', payload: { val: newLocale, index } })
+   // }
+
    return (
       <div className={css.job} style={{ marginTop: margin }}>
          <div className={css.desc}>
@@ -102,6 +117,13 @@ const TimeJob: FC<ITimeJob> = ({ j, days, index, updateJobs, isCommonTasks }) =>
             {currentField(j.project_number)}
             <p>{sum}</p>
          </div>
+         {/* {j.project_number !== NARROW_CELL && j.project_number !== COMMON_CELL ? (
+            <div className={css.work_locale}>
+               <button onClick={changeWorkLocale} style={{ '--color': color } as CSSProperties}>
+                  {text}
+               </button>
+            </div>
+         ) : null} */}
          <ul style={{ opacity: isHover ? 0.3 : 1 }}>
             {days.map((_, i) => {
                const serv = new Services({ type: hours_worked[i] })
@@ -112,9 +134,9 @@ const TimeJob: FC<ITimeJob> = ({ j, days, index, updateJobs, isCommonTasks }) =>
                return (
                   <li style={style as CSSProperties} key={i}>
                      <button onClick={() => setisTimingOpen(i)}>{hours_worked[i] > 0 ? hours_worked[i] : ''}</button>
-                     {isCommonJob && comments[i] ? <span className={css.indicator} /> : null}
+                     {comments[i] ? <span className={css.indicator} /> : null}
                      {isTimingOpen === i ? <WorkedTime {...WorkedTimeProps} /> : null}
-                     {isCommonJob && comments[i] ? (
+                     {comments[i] ? (
                         <div className={css.comments_tip}>
                            <span className={css.triangle} />
                            <p>{comments[i]}</p>

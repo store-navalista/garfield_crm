@@ -8,11 +8,11 @@ interface IComments {
 }
 
 const Comments: FC<IComments> = ({ i, updateCommentsHandler, serv }) => {
-   const unpacked_job_description = serv.unpackComments()[i]
+   const unpacked_notes = serv.unpackComments()[i]
 
    return (
       <div className={css.comments}>
-         <textarea onChange={(e) => updateCommentsHandler(e.target.value)} value={unpacked_job_description} />
+         <textarea onChange={(e) => updateCommentsHandler(e.target.value)} value={unpacked_notes} />
       </div>
    )
 }

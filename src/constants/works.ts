@@ -24,7 +24,9 @@ export interface CALC_POSITIONS {
    navalista_profit_currency: number
    navalista_profit: number
    // Supply
+   expected_profitability: number
    // UTM
+   day_extra_days_started: number
 }
 
 interface FIXED_POSITION {
@@ -65,6 +67,7 @@ type ColumnNamesType = (string | Record<string, string[]>)[]
 export const FIXED_VALUES: ColumnNamesType = ['work_number', 'name_of_vessel', 'IMO', 'name_of_work']
 
 export const CALCVAL: Array<keyof CALC_POSITIONS> = [
+   'IMO',
    'salary_currency',
    'cost_ratio_currency',
    'cost_per_hour_currency',
@@ -74,7 +77,21 @@ export const CALCVAL: Array<keyof CALC_POSITIONS> = [
    'profitability',
    'actual_net_cost_currency',
    'actual_profitability',
-   'IMO'
+
+   // engineering
+   'total_cost_currency',
+   'total_cost_with_expenses_currency',
+   'salary_with_expenses',
+   'navalista_profit_currency',
+   'navalista_profit',
+
+   // supply
+   'expected_profitability',
+
+   // utm
+   'salary_with_expenses',
+   'navalista_profit_currency',
+   'navalista_profit'
 ]
 
 export type GlobalWorksTypes = 'design' | 'engineering' | 'supply' | 'utm'
@@ -135,8 +152,62 @@ export const SCROLL_VALUES: Record<GlobalWorksTypes, ColumnNamesType> = {
       'payment_sum',
       'date_paid'
    ],
-   supply: [],
-   utm: []
+   supply: [
+      'name_of_company',
+      'name_of_company_locale',
+      'agreement_currency',
+      'rate_usd_currency',
+      'coef_usd',
+      'executor',
+      'work_status',
+      'contract_price_currency',
+      'price_for_supplier',
+      'margin',
+      'expected_expenses',
+      'delivery_expenses',
+      'expected_commission',
+      'expected_profitability',
+      'date_started',
+      'advance_payment',
+      'invoice_no',
+      'date_paid',
+      'final_payment',
+      'date_of_delivery'
+   ],
+   utm: [
+      'name_of_company',
+      'name_of_company_locale',
+      'agreement_currency',
+      'executor',
+      'rate_usd_currency',
+      'coef_usd',
+      'work_status',
+      'agreement_cost_utm_currency',
+      'agreement_cost_supervision_currency',
+      'utm_extra_day_cost_currency',
+      'day_utm_started',
+      'day_utm_finished',
+      'day_supervision_started',
+      'day_supervision_finished',
+      'day_extra_days_started',
+      'day_extra_days_finished',
+      'travelling_expenses_currency',
+      'accomodation_expenses_currency',
+      'other_expenses_currency',
+      'bakshish_currency',
+      'supervision_cost_total_currency',
+      'extra_days_cost_total_currency',
+      'total_cost_currency',
+      'total_cost_with_expenses_currency',
+      'salary',
+      'salary_with_expenses',
+      'navalista_profit_currency',
+      'navalista_profit',
+      'contractor',
+      'invoice_no',
+      'payment_sum',
+      'date_paid'
+   ]
 }
 
 export const DROPDOWN_OPTIONS = {
@@ -193,11 +264,41 @@ export const empty_placeholders = {
 }
 
 export const WorksTypes = ['design', 'engineering', 'supply', 'utm'] as const
-export const Tabs = ['vessels', 'design', 'engineering', 'supply', 'utm'] as const
+export const Tabs = ['participant', 'design', 'engineering', 'supply', 'utm'] as const
 
-export interface Vessel {
-   ID?: number
+export type Vessel = Partial<{
+   id: string
    name_of_vessel: string
-   IMO: number | ''
-   imo_frozen?: boolean
+   IMO: number
+   imo_frozen: boolean
+}>
+
+export type Executor = Partial<{
+   id: string
+   executor_name: string
+   description: string
+}>
+
+export type Contractor = Partial<{
+   id: string
+   contractor_name: string
+   description: string
+}>
+
+type ParticipantData = Vessel & Executor & Contractor
+
+export type Participant = Partial<ParticipantData>
+export type ParticipantTypes = 'executor' | 'contractor' | 'vessel'
+export const participants: ParticipantTypes[] = ['vessel', 'executor', 'contractor'] as const
+export type ParticipantOptions = Array<Record<string, [string, number]>>
+export const participantsRows = {
+   vessel: [{ IMO: ['IMO', 110] }, { name_of_vessel: ['Name of vessel', 250] }],
+   executor: [{ executor_name: ['Executor', 200] }, { description: ['Description', 200] }],
+   contractor: [{ contractor_name: ['Contractor', 200] }, { description: ['Description', 200] }]
+} as Record<ParticipantTypes, ParticipantOptions>
+
+export const new_participants: Record<ParticipantTypes, Participant> = {
+   vessel: { IMO: 0, name_of_vessel: '', imo_frozen: false },
+   executor: { executor_name: '', description: '' },
+   contractor: { contractor_name: '', description: '' }
 }
